@@ -2,12 +2,11 @@
 # encoding: utf-8
 from __future__ import unicode_literals
 from fabric.api import *
-from fabric.contrib import django
-django.settings_module('settings')
-from django.conf import settings
 from path import path
+from os.path import dirname,abspath
+HERE = path(dirname(abspath(__file__)))
+PROJ_NAME = HERE.parent.name
 WORKON_HOME = path('/var/www/django')
-PROJ_NAME = settings.PROJ_NAME
 VENV_ROOT = WORKON_HOME/PROJ_NAME
 PROJ_ROOT = VENV_ROOT/PROJ_NAME
 BIN = PROJ_ROOT/'bin'
