@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul>
+    {% for obj in objs %}
+    <li>{{obj.username}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

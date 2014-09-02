@@ -1,0 +1,4 @@
+# Set target deploy type here here: develop or product
+# Rename this file to which.py before using: mv which.py.sample which.py
+SETTINGS = 'product'
+

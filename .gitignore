@@ -1,0 +1,17 @@
+*.log
+*.pot
+*.pyc
+*.swp
+*.db
+*.save
+db.sqlite
+*~
+local.py
+which.py
+media/
+bower/
+conf/
+deploy.sh
+.env
+.project
+node_modules/

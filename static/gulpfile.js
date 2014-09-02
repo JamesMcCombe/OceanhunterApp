@@ -1,0 +1,82 @@
+// Include gulp
+var path = require('path');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var bg = require("gulp-bg");
+// Include Our Plugins
+var jshint = require('gulp-jshint');
+//var sass = require('gulp-ruby-sass');
+var sass = require('gulp-sass');
+var coffee = require('gulp-coffee');
+var rjs = require('gulp-requirejs');
+var uglify = require('gulp-uglify');
+var browserify = require('gulp-browserify');
+
+// Lint Task
+gulp.task('lint', function () {
+    return gulp.src('js/*.js')
+        .pipe(jshint().on('error', gutil.log))
+        .pipe(jshint.reporter('default'));
+});
+
+// Compile Our Sass
+gulp.task('sass', function () {
+    return gulp.src('scss/**/*.scss')
+        .pipe(sass({style: 'compressed', sourcemapPath: '../scss/'}))
+        .on('error', gutil.log)
+        .pipe(gulp.dest('css'));
+});
+
+//coffee
+
+gulp.task('coffee', function () {
+    gulp.src('js/*.coffee')
+        .pipe(coffee({bare: true}).on('error', gutil.log))
+        .pipe(gulp.dest('js/'));
+});
+
+
+// Watch Files For Changes
+gulp.task('watch', function () {
+    gulp.watch('js/*.js', ['lint']);
+    //gulp.watch('js/*.js', ['lint', 'rjs']);
+    //gulp.watch('game/*.js', ['browserify']);
+    //gulp.watch('game/*/*.js', ['browserify']);
+    gulp.watch('scss/*.scss', ['sass']);
+    gulp.watch('scss/*/*.scss', ['sass']);
+    gulp.watch('js/*.coffee', ['coffee']);
+});
+
+
+//r.js
+//gulp.task('rjs', function () {
+    //rjs({
+        //baseUrl: "./js/",
+        //out: "app.js",
+        //mainConfigFile: "./js/main.js",
+        //name: 'main',
+        //removeCombined: true
+    //}).on('error', gutil.log).pipe(uglify())
+        //.pipe(gulp.dest('./deploy/'));
+//});
+
+
+//build Game
+//gulp.task('browserify', function () {
+    //return gulp.src('game/main.js')
+        //.pipe(browserify())
+        //.pipe(uglify())
+        //.pipe(gulp.dest('./deploy/'));
+        //});
+parent = path.resolve(process.cwd(), '..');
+manage = path.join(parent, "manage.py");
+
+gulp.task("server",bg("python", manage, "runserver", "0.0.0.0:8000"));
+
+// Default Task
+gulp.task('default', ['sass', 'coffee', 'watch', 'server']);
+
+
+
+
+

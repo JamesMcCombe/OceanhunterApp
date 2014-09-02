@@ -1,0 +1,12 @@
+EMAIL_HOST_PASSWORD=''
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'app_name',
+        'USER': 'mysql',
+        'PASSWORD': 'password',
+        'HOST': '',
+        'PORT': '',
+    }
+}
