@@ -9,8 +9,7 @@ PROJ_NAME = HERE.parent.name
 WORKON_HOME = path('/var/www/django')
 VENV_ROOT = WORKON_HOME/PROJ_NAME
 PROJ_ROOT = VENV_ROOT/PROJ_NAME
-BIN = PROJ_ROOT/'bin'
-ACTIVATE = BIN/'activate'
+ACTIVATE = VENV_ROOT/'bin'/'activate'
 
 env.use_ssh_config = True
 env.hosts = ['nodedev']
