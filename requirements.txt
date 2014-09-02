@@ -6,3 +6,4 @@ South
 django-annoying
 django-extensions
 MySQL-python
+django-sekizai
