@@ -29,9 +29,15 @@ INSTALLED_APPS = (
     'annoying',
     'django_extensions',
 
-    'deploy',
     'accounts',
 )
+
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -70,8 +76,6 @@ TEMPLATE_DIRS = (
 FIXTURE_DIRS = (
     PROJ_ROOT/"fixtures",
 )
-
-AUTH_USER_MODEL = 'accounts.User'
 
 EMAIL_HOST='smtp.gmail.com'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL = EMAIL_HOST_USER = 'node@node.co.nz'

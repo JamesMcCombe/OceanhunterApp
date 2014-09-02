@@ -6,6 +6,8 @@ APP_ROOT = path(dirname(abspath(__file__)))
 APP_NAME = APP_ROOT.name
 
 urlpatterns = patterns('%s.views' % APP_NAME,
-    url(r'^index/$', 'index', name='index'),
+    url(r'^signup$', 'signup', name='signup'),
+    url(r'^login$', 'login', name='login'),
+    url(r'^logout$', 'logout', name='logout'),
 )
 

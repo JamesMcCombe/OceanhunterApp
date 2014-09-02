@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
-class User(AbstractUser):
-    dob = models.DateField(blank=True,null=True)
-    #TODO: add your fields here...
+class Profile(models.Model):
+    user = models.ForeignKey(User)
+    avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
+    # add more fileds here...
