@@ -1,7 +1,13 @@
-# from django.contrib import admin
-# from . import models as m
+from django.contrib import admin
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+from . import models as m
 
-# class UserAdmin(admin.ModelAdmin):
-#     list_display = ('username',)
+class ProfileInline(admin.StackedInline):
+    model = m.Profile
 
-# admin.site.register(m.User,UserAdmin)
+class UserAdmin(UserAdmin):
+        inlines = (ProfileInline, )
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
