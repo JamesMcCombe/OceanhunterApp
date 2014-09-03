@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'sekizai',
 
     'accounts',
+    'main',
 )
 
 
