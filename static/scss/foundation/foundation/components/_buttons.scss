@@ -139,6 +139,10 @@ $button-disabled-cursor: $cursor-default-value !default;
   // We control which background styles are used,
   // these can be removed by setting $bg:false
   @if $bg {
+    $bg-gradient-light: $bg;
+    $bg-gradient-dark: scale-color($bg, $lightness: $button-function-factor);
+    $bg-gradient-light-hover: scale-color($bg-gradient-light, $lightness: $button-function-factor);
+    $bg-gradient-dark-hover: scale-color($bg-gradient-dark, $lightness: $button-function-factor);
 
     @if $bg-hover == null {
       $bg-hover: if($bg == $button-bg-color, $button-bg-hover, scale-color($bg, $lightness: $button-function-factor));
@@ -154,11 +158,23 @@ $button-disabled-cursor: $cursor-default-value !default;
 
     background-color: $bg;
     border-color: $border-color;
+    background-repeat: repeat-x;
+    background-image: -webkit-linear-gradient($bg-gradient-light, $bg-gradient-dark);
+    background-image: linear-gradient($bg-gradient-light, $bg-gradient-dark);
     &:hover,
-    &:focus { background-color: $bg-hover; }
+    &:focus {
+        background-color: $bg-hover;
+        background-position: 0 -1rem;
+        @include single-transition(background-position, 100ms, linear);
+        // background-image: -webkit-linear-gradient($bg-gradient-light-hover, $bg-gradient-dark-hover);
+        // background-image: linear-gradient($bg-gradient-light-hover, $bg-gradient-dark-hover);
+    }
 
     // We control the text color for you based on the background color.
     color: if($bg-lightness > 70%, $button-font-color-alt, $button-font-color);
+
+    // Added by Chuangbo: It's hard to modify on _settings.scss, so just put it here
+    text-shadow: -1px -1px scale-color($bg, $lightness: $button-function-factor);
 
     &:hover,
     &:focus {
@@ -201,7 +217,7 @@ $button-disabled-cursor: $cursor-default-value !default;
   @include button-style($bg, $radius, $disabled, $bg-hover, $border-color);
 
   @if $transition {
-    @include single-transition(background-color);
+    @include single-transition(background-position);
   }
 }
 
@@ -215,7 +231,7 @@ $button-disabled-cursor: $cursor-default-value !default;
       @include button-size;
       @include button-style;
 
-      @include single-transition(background-color);
+      // @include single-transition(background-position);
 
       &.secondary { @include button-style($bg:$secondary-color, $bg-hover:$secondary-button-bg-hover, $border-color:$secondary-button-border-color); }
       &.success   { @include button-style($bg:$success-color, $bg-hover:$success-button-bg-hover, $border-color:$success-button-border-color); }

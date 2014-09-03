@@ -97,8 +97,8 @@ $include-html-global-classes: $include-html-classes;
 // $font-weight-bold: bold !default;
 
 // We use these to control various global styles
-// $body-bg: $white;
-// $body-font-color: $jet;
+$body-bg: #111;
+$body-font-color: #ededed;
 // $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
@@ -112,8 +112,11 @@ $include-html-global-classes: $include-html-classes;
 // $default-float: left;
 // $last-child-float: $opposite-direction;
 
+$blue: #0185ac;
+$orange: #ee6822;
+
 // We use these as default colors throughout
-// $primary-color: #008CBA;
+$primary-color: $blue;
 // $secondary-color: #e7e7e7;
 // $alert-color: #f04124;
 // $success-color: #43AC6A;
@@ -199,7 +202,7 @@ $include-html-global-classes: $include-html-classes;
 // $header-font-family: $body-font-family;
 // $header-font-weight: $font-weight-normal;
 // $header-font-style: normal;
-// $header-font-color: $jet;
+$header-font-color: $primary-color;
 // $header-line-height: 1.4;
 // $header-top-margin: .2rem;
 // $header-bottom-margin: .5rem;
@@ -207,7 +210,7 @@ $include-html-global-classes: $include-html-classes;
 
 // We use these to control header font sizes
 // $h1-font-size: rem-calc(44);
-// $h2-font-size: rem-calc(37);
+$h2-font-size: rem-calc(30);
 // $h3-font-size: rem-calc(27);
 // $h4-font-size: rem-calc(23);
 // $h5-font-size: rem-calc(18);
@@ -424,10 +427,10 @@ $include-html-global-classes: $include-html-classes;
 // $include-html-button-classes: $include-html-classes;
 
 // We use these to build padding for buttons.
-// $button-tny: rem-calc(10);
-// $button-sml: rem-calc(14);
-// $button-med: rem-calc(16);
-// $button-lrg: rem-calc(18);
+$button-tny: rem-calc(6);
+$button-sml: rem-calc(8);
+$button-med: rem-calc(9);
+$button-lrg: rem-calc(10);
 
 // We use this to control the display property.
 // $button-display: inline-block;
@@ -440,7 +443,7 @@ $include-html-global-classes: $include-html-classes;
 // $button-font-tny: rem-calc(11);
 // $button-font-sml: rem-calc(13);
 // $button-font-med: rem-calc(16);
-// $button-font-lrg: rem-calc(20);
+$button-font-lrg: rem-calc(24);
 // $button-font-weight: $font-weight-normal;
 // $button-font-align: center;
 
