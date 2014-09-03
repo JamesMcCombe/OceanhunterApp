@@ -1,4 +1,5 @@
 
+// Add new buttons here
 button, .button {
     $orange-button-bg-hover: scale-color($orange, $lightness: $button-function-factor);
     &.orange {
@@ -7,5 +8,12 @@ button, .button {
 
     &.disabled, &[disabled]  {
         @include button-style($bg:$orange, $disabled:true, $bg-hover:$orange-button-bg-hover);
+    }
+}
+
+input {
+    .invalid & {
+        color: $alert-color;
+        border-color: $alert-color;
     }
 }

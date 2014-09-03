@@ -55,3 +55,15 @@ footer {
         margin-top: rem-calc(-8px);
     }
 }
+
+// Page signup
+.page-signup {
+    form { padding-top: rem-calc(20); }
+
+    .page-2, .submit { display: none; }
+
+    &.step-2 {
+        .page-1, .next { display: none; }
+        .page-2, .submit { display: block; }
+    }
+}
