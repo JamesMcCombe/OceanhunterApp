@@ -35,9 +35,26 @@
 		<link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 	</head>
 
-	<body>
+	<body class="{% render_block 'body-class' %}">
+
+    {% block header %}
+    <header>
+        <a class="logo" href="/"><img src="{% static 'img/logo.png' %}" alt="Ocean Hunter"/></a>
+        {% block header_h2 %}{% endblock %}
+    </header>
+    {% endblock %}
 
     {% block content %}{% endblock %}
+
+    <div class="fixed-to-bottom-wrapper">
+    {% render_block 'fixed-to-bottom' %}
+    {% block footer %}
+    <footer>
+        <a href="">Terms & conditions</a> | <a href="">Privacy Policy</a>
+    </footer>
+    {% endblock %}
+    </div>
+
 
     {% if debug %}
     <script src="{% static 'jquery/jquery.js' %}"></script>

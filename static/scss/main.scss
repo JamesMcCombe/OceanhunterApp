@@ -1,3 +1,57 @@
 @import "foundation/normalize";
 @import "settings";
+// TODO: just import necessary components, not whole foundation
 @import "foundation/foundation";
+
+// XXX: some addons to foundation
+@import "foundation_customization";
+
+header {
+    text-align: center;
+    .logo {
+        display: block;
+        width: rem-calc(167px);
+        margin: 0 auto;
+        padding-top: rem-calc(30px);
+        padding-bottom: rem-calc(12px);
+
+        .small-header & {
+            width: rem-calc(127px);
+            padding-top: rem-calc(17px);
+            padding-bottom: rem-calc(5px);
+        }
+    }
+}
+
+footer {
+    margin-bottom: rem-calc(24px);
+    text-align: center;
+    font-size: rem-calc(10px);
+    a { color: $white; }
+}
+
+// XXX: ... with footer are attached to the bottom
+.fixed-to-bottom-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    .bottom-btns {
+        padding-bottom: 10px;
+    }
+}
+
+// Page home
+.page-home {
+    .intro p {
+        margin-top: rem-calc(30px);
+    }
+}
+
+// Page go
+.page-go {
+    .or {
+        margin-bottom: rem-calc(10px);
+        margin-top: rem-calc(-8px);
+    }
+}

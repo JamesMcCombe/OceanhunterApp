@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles sekizai_tags %}
+
+{% block header_h2 %}
+    <h2>Competitition</h2>
+{% endblock %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-home {% endaddtoblock %}
+
+<section class="intro">
+    <div class="row">
+        <div class="columns small-10 small-centered">
+            <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat.</p>
+        </div>
+    </div>
+</section>
+
+{% addtoblock 'fixed-to-bottom' %}
+<div class="row">
+    <div class="column small-centered small-11">
+        <a class="button large expand" href="{% url 'go' %}">Let’s go!</a>
+    </div>
+</div>
+{% endaddtoblock %}
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles sekizai_tags %}
+
+{% block header_h2 %}
+  <h2>Competitition</h2>
+{% endblock %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-go {% endaddtoblock %}
+
+{% addtoblock 'fixed-to-bottom' %}
+<section class="bottom-btns">
+  <div class="row">
+    <div class="column small-centered small-11">
+      <a class="button large expand" href="{% url 'signup' %}">Register</a>
+    </div>
+    <div class="column small-centered small-11">
+      <p class="text-center or">OR</p>
+    </div>
+    <div class="column small-centered small-11">
+      <a class="button large expand orange" href="{% url 'login' %}">Login</a>
+    </div>
+  </div>
+</section>
+{% endaddtoblock %}
+
+{% endblock %}
