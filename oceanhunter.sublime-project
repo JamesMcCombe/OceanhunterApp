@@ -1,0 +1,10 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+      "follow_symlinks": true,
+      "folder_exclude_patterns": [".sass-cache", "node_modules"]
+		}
+	]
+}
