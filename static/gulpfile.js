@@ -52,8 +52,7 @@ gulp.task('watch', function () {
     //gulp.watch('js/*.js', ['lint', 'rjs']);
     //gulp.watch('game/*.js', ['browserify']);
     //gulp.watch('game/*/*.js', ['browserify']);
-    gulp.watch('scss/*.scss', ['sass']);
-    gulp.watch('scss/*/*.scss', ['sass']);
+    gulp.watch('scss/**/*.scss', ['sass']);
     gulp.watch('js/*.coffee', ['coffee']);
 });
 
