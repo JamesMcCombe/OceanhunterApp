@@ -1,0 +1,36 @@
+[
+{
+    "pk": 1, 
+    "model": "pages.page", 
+    "fields": {
+        "status": "published", 
+        "title": "About", 
+        "create": "2014-09-04T03:25:31.519Z", 
+        "update": "2014-09-04T03:59:35.448Z", 
+        "publish": "2014-09-04T03:24:44Z", 
+        "slug": "about", 
+        "content": "<h2>about page</h2>", 
+        "user": 1, 
+        "template": "pages/page.html", 
+        "touch": "2014-09-04T03:24:44Z", 
+        "order": 1000
+    }
+},
+{
+    "pk": 2, 
+    "model": "pages.page", 
+    "fields": {
+        "status": "draft", 
+        "title": "Contact", 
+        "create": "2014-09-04T03:50:48.935Z", 
+        "update": "2014-09-04T03:50:48.935Z", 
+        "publish": "2014-09-04T03:49:18Z", 
+        "slug": "contact", 
+        "content": "Contact us: foo@example.com", 
+        "user": 1, 
+        "template": "pages/page.html", 
+        "touch": "2014-09-04T03:49:18Z", 
+        "order": 1000
+    }
+}
+]
