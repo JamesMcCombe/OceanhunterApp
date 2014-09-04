@@ -6,6 +6,9 @@
 // XXX: some addons to foundation
 @import "foundation_customization";
 
+.text-orange { color: $orange; }
+.text-facebook { color: $facebook-blue; }
+
 header {
     text-align: center;
     .logo {
@@ -51,8 +54,8 @@ footer {
 // Page go
 .page-go {
     .or {
-        margin-bottom: rem-calc(10px);
         margin-top: rem-calc(-8px);
+        margin-bottom: rem-calc(10px);
     }
 }
 
@@ -65,5 +68,15 @@ footer {
     &.step-2 {
         .page-1, .next { display: none; }
         .page-2, .submit { display: block; }
+    }
+}
+
+// Page login
+.page-login {
+    form { padding-top: rem-calc(20); }
+
+    .or {
+        margin-top: rem-calc(13px);
+        margin-bottom: rem-calc(33px);
     }
 }
