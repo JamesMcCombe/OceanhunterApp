@@ -10,6 +10,7 @@ var jshint = require('gulp-jshint');
 var coffee = require('gulp-coffee');
 var rjs = require('gulp-requirejs');
 var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
 var browserify = require('gulp-browserify');
 
 // Lint Task
@@ -24,7 +25,7 @@ gulp.task('lint', function () {
 //    return gulp.src('scss/**/*.scss')
 //        .pipe(sass({style: 'compressed', sourcemapPath: '../scss/'}))
 //        .on('error', gutil.log)
-//        .pipe(gulp.dest('css'));
+//        .pipe(gulp.dest('build/css'));
 //});
 // node-sass have a bug will crash when with sourcemap enabled,
 // So just run a node-sass command
@@ -33,7 +34,7 @@ gulp.task("sass",
     '--output-style', 'compressed',
     "--source-comments", 'map',
     'scss/main.scss',
-    'css/main.css'
+    'build/css/main.css'
   )
 );
 
@@ -41,8 +42,10 @@ gulp.task("sass",
 
 gulp.task('coffee', function () {
     gulp.src('coffee/*.coffee')
+        .pipe(sourcemaps.init())
         .pipe(coffee({bare: true}).on('error', gutil.log))
-        .pipe(gulp.dest('js/'));
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('build/js'));
 });
 
 

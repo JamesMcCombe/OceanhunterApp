@@ -17,3 +17,4 @@ deploy.sh
 node_modules/
 .idea
 .sass-cache
+build
