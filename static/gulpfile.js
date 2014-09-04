@@ -40,7 +40,7 @@ gulp.task("sass",
 //coffee
 
 gulp.task('coffee', function () {
-    gulp.src('js/*.coffee')
+    gulp.src('coffee/*.coffee')
         .pipe(coffee({bare: true}).on('error', gutil.log))
         .pipe(gulp.dest('js/'));
 });
@@ -53,7 +53,7 @@ gulp.task('watch', function () {
     //gulp.watch('game/*.js', ['browserify']);
     //gulp.watch('game/*/*.js', ['browserify']);
     gulp.watch('scss/**/*.scss', ['sass']);
-    gulp.watch('js/*.coffee', ['coffee']);
+    gulp.watch('coffee/*.coffee', ['coffee']);
 });
 
 

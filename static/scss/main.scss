@@ -34,7 +34,13 @@ footer {
 }
 
 // XXX: ... with footer are attached to the bottom
+body {
+    height: auto;
+    min-height: 100%;
+}
 .fixed-to-bottom-wrapper {
+    opacity: 0;
+    @include single-transition(opacity, 0.15s);
     position: absolute;
     bottom: 0;
     width: 100%;
