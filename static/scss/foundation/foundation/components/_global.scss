@@ -252,6 +252,9 @@ $black         : #000000 !default;
 $font-weight-normal: normal !default;
 $font-weight-bold: bold !default;
 
+// XXX add letter spacing
+$font-letter-spacing: normal !default;
+
 // We use these to control various global styles
 $body-bg: #fff !default;
 $body-font-color: #222 !default;

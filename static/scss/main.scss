@@ -9,6 +9,11 @@
 .text-orange { color: $orange; }
 .text-facebook { color: $facebook-blue; }
 
+@mixin font-weight-lighter {
+    font-weight: $font-weight-lighter;
+    letter-spacing: rem-calc(0.5px);
+}
+
 header {
     text-align: center;
     .logo {
@@ -30,7 +35,6 @@ footer {
     margin-bottom: rem-calc(24px);
     text-align: center;
     font-size: rem-calc(10px);
-    a { color: $white; }
 }
 
 // XXX: ... with footer are attached to the bottom
@@ -80,6 +84,11 @@ body {
 // Page login
 .page-login {
     form { padding-top: rem-calc(20); }
+    .forgot {
+        margin-top: rem-calc(-4);
+        font-size: rem-calc(12);
+        @include font-weight-lighter;
+    }
 
     .or {
         margin-top: rem-calc(13px);

@@ -130,7 +130,7 @@ $white       : #FFFFFF;
 // $snow        : #F9F9F9;
 // $vapor       : #F6F6F6;
 // $white-smoke : #F5F5F5;
-// $silver      : #EFEFEF;
+$silver      : #EFEFEF;
 // $smoke       : #EEEEEE;
 // $gainsboro   : #DDDDDD;
 // $iron        : #CCCCCC;
@@ -262,8 +262,8 @@ $small-font-weight: $font-weight-lighter;
 // We use these to style anchors
 // $anchor-text-decoration: none;
 // $anchor-text-decoration-hover: none;
-// $anchor-font-color: $primary-color;
-// $anchor-font-color-hover: scale-color($primary-color, $lightness: -14%);
+$anchor-font-color: $silver;
+$anchor-font-color-hover: scale-color($primary-color, $lightness: 14%);
 
 // We use these to style the <hr> element
 // $hr-border-width: 1px;
@@ -446,7 +446,7 @@ $button-lrg: rem-calc(10);
 // $button-font-tny: rem-calc(11);
 // $button-font-sml: rem-calc(13);
 // $button-font-med: rem-calc(16);
-$button-font-lrg: rem-calc(24);
+$button-font-lrg: rem-calc(22.5);
 // $button-font-weight: $font-weight-normal;
 // $button-font-align: center;
 
@@ -622,7 +622,8 @@ $form-spacing: rem-calc(12);
 // We use these to style the labels in different ways
 // $form-label-pointer: pointer;
 // $form-label-font-size: rem-calc(14);
-// $form-label-font-weight: $font-weight-normal;
+$form-label-font-weight: $font-weight-lighter;
+$form-label-letter-spacing: rem-calc(0.5);
 // $form-label-line-height: 1.5;
 $form-label-font-color: scale-color($white, $lightness: 30%);
 // $form-label-small-transform: capitalize;
