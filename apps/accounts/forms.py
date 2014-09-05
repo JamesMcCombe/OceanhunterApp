@@ -3,17 +3,19 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from . import models as m
 
-class LoginForm(forms.Form):
-     email = forms.EmailField()
-     password = forms.CharField(widget=forms.PasswordInput)
 
-     def clean_email(self):
-         email = self.cleaned_data['email']
-         try:
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        try:
             m.User.objects.get(email=email)
-         except Exception, e:
+        except Exception, e:
             raise forms.ValidationError(str(e))
-         return email
+        return email
+
 
 class SignupForm(forms.ModelForm):
     error_css_class = 'error'
@@ -29,12 +31,10 @@ class SignupForm(forms.ModelForm):
     last_name = forms.CharField(label="Last name")
 
     # other fields
-    #address = forms.CharField(label="Address")
+    # address = forms.CharField(label="Address")
     #suburb = forms.CharField(label="Surburb")
-    GENDER_CHOICES = (('female', 'Female',), ('male', 'Male',))
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
-    ISLAND_CHOICES = (('north', 'North',), ('south', 'South',))
-    island = forms.ChoiceField(widget=forms.RadioSelect, choices=ISLAND_CHOICES)
+    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=m.GENDER_CHOICES)
+    area = forms.ChoiceField(widget=forms.RadioSelect, choices=m.AREA_CHOICES)
     city = forms.CharField(label="City")
     dob = forms.DateField(label="Date of Birth")
     #postcode = forms.CharField(label="Postcode")
@@ -70,9 +70,11 @@ class SignupForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(SignupForm, self).save(commit=False)
         data = self.cleaned_data
-        user.username = data['email'] # use email as username also
+        user.username = data['email']  # use email as username also
         user.set_password(data['password1'])
         if commit:
+            user.first_name = data['first_name']
+            user.last_name = data['last_name']
             user.save()
             p = user.profile
             # other fields here
@@ -81,5 +83,9 @@ class SignupForm(forms.ModelForm):
             #p.city = data['city']
             #p.postcode = data['postcode']
             #p.phone = data['phone']
+            p.gender = data['gender']
+            p.area = data['area']
+            p.city = data['city']
+            p.dob = data['dob']
             p.save()
         return user

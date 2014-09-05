@@ -17,6 +17,7 @@ $form-spacing: rem-calc(16) !default;
 $form-label-pointer: pointer !default;
 $form-label-font-size: rem-calc(14) !default;
 $form-label-font-weight: $font-weight-normal !default;
+$form-label-letter-spacing: $letter-spacing-normal !default;
 $form-label-line-height: 1.5 !default;
 $form-label-font-color: scale-color($black, $lightness: 30%) !default;
 $form-label-small-transform: capitalize !default;
@@ -160,6 +161,7 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
     cursor: $form-label-pointer;
     display: block;
     font-weight: $form-label-font-weight;
+    letter-spacing: $form-label-letter-spacing;
     line-height: $form-label-line-height;
     margin-bottom: $form-label-bottom-margin;
   }

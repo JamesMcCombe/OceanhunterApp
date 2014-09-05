@@ -65,9 +65,9 @@
 
         <div class="row">
           <div class="columns">
-            {{ form.island.errors }}
-            {% for radio in form.island %}
-              <input type="radio" name="{{ radio.name }}" id="{{form.island.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.island.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
+            {{ form.area.errors }}
+            {% for radio in form.area %}
+              <input type="radio" name="{{ radio.name }}" id="{{form.area.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.area.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
             {% endfor %}
           </div>
         </div>

@@ -20,7 +20,7 @@
   {# {{form}} #}
   <div class="row">
     <div class="columns small-centered small-11">
-      <a class="button large expand facebook">Sign in with Facebook</a>
+      <a class="button large expand facebook" href="{% url 'social:begin' 'facebook' %}">Sign in with Facebook</a>
     </div>
   </div>
 
@@ -42,7 +42,7 @@
   </div>
   <div class="row">
     <div class="columns small-centered small-11">
-      <p><a href="#">Forgot your password?</a></p>
+      <p class="forgot"><a href="#">Forgot your password?</a></p>
     </div>
   </div>
 </form>
@@ -64,9 +64,6 @@
 
     $('.submit').click(function() {
       $('form').submit();
-    });
-    $('.facebook').on('click', function(){
-      FBLogin();
     });
 
     $(document).on('change, blur', 'input', function(e) {
