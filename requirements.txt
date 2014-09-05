@@ -7,3 +7,4 @@ django-annoying
 django-extensions
 MySQL-python
 django-sekizai
+python-social-auth

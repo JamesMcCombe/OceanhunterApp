@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     'annoying',
     'django_extensions',
     'sekizai',
+    'social.apps.django_app.default',
 
     'accounts',
     'main',
@@ -38,6 +39,7 @@ INSTALLED_APPS = (
 
 AUTHENTICATION_BACKENDS = (
     'accounts.backends.EmailAuthBackend',
+    'social.backends.facebook.Facebook2OAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -60,7 +62,19 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'sekizai.context_processors.sekizai',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
 )
+
+SOCIAL_AUTH_USER_MODEL = 'auth.User'
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['email', 'first_name', 'last_name']
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1492664544305345'
+SOCIAL_AUTH_FACEBOOK_SECRET = '93a9494c3e3cfbe0e2a3ae952d51a2e6'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+#SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/TODO'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 ROOT_URLCONF = 'urls'
 
