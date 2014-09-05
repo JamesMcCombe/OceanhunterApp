@@ -53,9 +53,9 @@
         </div>
         <div class="row">
           <div class="columns">
-            {{ form.sex.errors }}
-            {% for radio in form.sex %}
-              <input type="radio" name="{{ radio.name }}" id="{{form.sex.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.sex.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
+            {{ form.gender.errors }}
+            {% for radio in form.gender %}
+              <input type="radio" name="{{ radio.name }}" id="{{form.gender.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.gender.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
             {% endfor %}
           </div>
         </div>

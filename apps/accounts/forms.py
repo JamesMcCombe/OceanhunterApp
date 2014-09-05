@@ -31,8 +31,8 @@ class SignupForm(forms.ModelForm):
     # other fields
     #address = forms.CharField(label="Address")
     #suburb = forms.CharField(label="Surburb")
-    SEX_CHOICES = (('female', 'Female',), ('male', 'Male',))
-    sex = forms.ChoiceField(widget=forms.RadioSelect, choices=SEX_CHOICES)
+    GENDER_CHOICES = (('female', 'Female',), ('male', 'Male',))
+    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
     ISLAND_CHOICES = (('north', 'North',), ('south', 'South',))
     island = forms.ChoiceField(widget=forms.RadioSelect, choices=ISLAND_CHOICES)
     city = forms.CharField(label="City")
