@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load staticfiles sekizai_tags %}
+
+{% block header_h2 %}
+    <h2>Invite friends</h2>
+{% endblock %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-invite small-header {% endaddtoblock %}
+
+{% addtoblock 'fixed-to-bottom' %}
+<section class="bottom-btns">
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <h3><small>Invite your team mates</small></h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <a class="button large expand facebook" href="#">Facebook</a>
+    </div>
+  </div>
+  <div class="column small-centered small-11">
+    <p class="text-center or">OR</p>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <a class="button large expand orange" href="{% url 'invite_email' %}">Email</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <p> </p>
+      <h3><small>You cannot create a group later!</small></h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <a class="button large expand secondary" href="#">Just me</a>
+    </div>
+  </div>
+</section>
+{% endaddtoblock %}
+
+
+{% addtoblock 'js' %}
+<script>
+  $(function() {
+
+    $('.submit').click(function() {
+      $('form').submit();
+    });
+    $('.facebook').on('click', function(){
+      FBLogin();
+    });
+
+    $(document).on('change, blur', 'input', function(e) {
+      if( $(e.target).is(':invalid') ){
+        $(e.target).parent().addClass('invalid');
+      } else {
+        $(e.target).parent().removeClass('invalid');
+      }
+    });
+
+  });
+</script>
+{% endaddtoblock %}
+
+
+
+{% endblock %}

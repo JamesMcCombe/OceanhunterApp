@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load staticfiles sekizai_tags %}
+
+{% block header_h2 %}
+    <h2>Invite friends</h2>
+{% endblock %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-invite page-invite-email small-header {% endaddtoblock %}
+
+<form action="" method="post">
+  <input type="submit" class="hide">
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <h3><small>Name your team</small></h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <input type="text">
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <p></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <input type="email" placeholder="Email" autocorrect="off" autocapitalize="off">
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <input type="email" placeholder="Email" autocorrect="off" autocapitalize="off">
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <input type="email" placeholder="Email" autocorrect="off" autocapitalize="off">
+    </div>
+  </div>
+</form>
+
+{% addtoblock 'fixed-to-bottom' %}
+<section class="bottom-btns">
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <button class="button large expand submit">Submit</button>
+    </div>
+  </div>
+</section>
+{% endaddtoblock %}
+
+
+{% addtoblock 'js' %}
+<script>
+  $(function() {
+
+    $('.submit').click(function() {
+      $('form').submit();
+    });
+
+    $(document).on('change, blur', 'input', function(e) {
+      if( $(e.target).is(':invalid') ){
+        $(e.target).parent().addClass('invalid');
+      } else {
+        $(e.target).parent().removeClass('invalid');
+      }
+    });
+
+  });
+</script>
+{% endaddtoblock %}
+
+
+
+{% endblock %}
