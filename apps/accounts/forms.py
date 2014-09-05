@@ -25,19 +25,24 @@ class SignupForm(forms.ModelForm):
         'email_exists': _("Email address already exists."),
     }
 
-    first_name = forms.CharField(label="First Name")
-    last_name = forms.CharField(label="Last Name")
-    
+    first_name = forms.CharField(label="First name")
+    last_name = forms.CharField(label="Last name")
+
     # other fields
     #address = forms.CharField(label="Address")
     #suburb = forms.CharField(label="Surburb")
-    #city = forms.CharField(label="City")
+    SEX_CHOICES = (('female', 'Female',), ('male', 'Male',))
+    sex = forms.ChoiceField(widget=forms.RadioSelect, choices=SEX_CHOICES)
+    ISLAND_CHOICES = (('north', 'North',), ('south', 'South',))
+    island = forms.ChoiceField(widget=forms.RadioSelect, choices=ISLAND_CHOICES)
+    city = forms.CharField(label="City")
+    dob = forms.DateField(label="Date of Birth")
     #postcode = forms.CharField(label="Postcode")
     #phone = forms.CharField(label="Phone Number")
 
-    email = forms.EmailField(label="Email Address")
-    password1 = forms.CharField(label="New Password", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput)
+    email = forms.EmailField(label="Email address")
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput, required=False)
 
     class Meta:
         model = User
@@ -52,15 +57,15 @@ class SignupForm(forms.ModelForm):
             )
         return email
 
-    def clean_password2(self):
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError(
-                self.error_messages['password_mismatch'],
-                code='password_mismatch',
-            )
-        return password2
+    # def clean_password2(self):
+    #     password1 = self.cleaned_data.get("password1")
+    #     password2 = self.cleaned_data.get("password2")
+    #     if password1 and password2 and password1 != password2:
+    #         raise forms.ValidationError(
+    #             self.error_messages['password_mismatch'],
+    #             code='password_mismatch',
+    #         )
+    #     return password2
 
     def save(self, commit=True):
         user = super(SignupForm, self).save(commit=False)

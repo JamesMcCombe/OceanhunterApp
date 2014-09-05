@@ -31,6 +31,8 @@ INSTALLED_APPS = (
     'sekizai',
 
     'accounts',
+    'main',
+    'pages',
 )
 
 
@@ -69,7 +71,7 @@ LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 
 TIME_ZONE = 'Pacific/Auckland'
-USE_TZ = False
+USE_TZ = True
 
 USE_I18N = True
 USE_L10N = True

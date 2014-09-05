@@ -1,0 +1,88 @@
+@import "foundation/normalize";
+@import "settings";
+// TODO: just import necessary components, not whole foundation
+@import "foundation/foundation";
+
+// XXX: some addons to foundation
+@import "foundation_customization";
+
+.text-orange { color: $orange; }
+.text-facebook { color: $facebook-blue; }
+
+header {
+    text-align: center;
+    .logo {
+        display: block;
+        width: rem-calc(167px);
+        margin: 0 auto;
+        padding-top: rem-calc(30px);
+        padding-bottom: rem-calc(12px);
+
+        .small-header & {
+            width: rem-calc(127px);
+            padding-top: rem-calc(17px);
+            padding-bottom: rem-calc(5px);
+        }
+    }
+}
+
+footer {
+    margin-bottom: rem-calc(24px);
+    text-align: center;
+    font-size: rem-calc(10px);
+    a { color: $white; }
+}
+
+// XXX: ... with footer are attached to the bottom
+body {
+    height: auto;
+    min-height: 100%;
+}
+.fixed-to-bottom-wrapper {
+    opacity: 0;
+    @include single-transition(opacity, 0.15s);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    .bottom-btns {
+        padding-bottom: 10px;
+    }
+}
+
+// Page home
+.page-home {
+    .intro p {
+        margin-top: rem-calc(30px);
+    }
+}
+
+// Page go
+.page-go {
+    .or {
+        margin-top: rem-calc(-8px);
+        margin-bottom: rem-calc(10px);
+    }
+}
+
+// Page signup
+.page-signup {
+    form { padding-top: rem-calc(20); }
+
+    .page-2, .submit { display: none; }
+
+    &.step-2 {
+        .page-1, .next { display: none; }
+        .page-2, .submit { display: block; }
+    }
+}
+
+// Page login
+.page-login {
+    form { padding-top: rem-calc(20); }
+
+    .or {
+        margin-top: rem-calc(13px);
+        margin-bottom: rem-calc(33px);
+    }
+}

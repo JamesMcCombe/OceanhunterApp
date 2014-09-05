@@ -35,7 +35,7 @@ def pull():
 def static():
     with cd(env.deploy_dir):
         coffee()
-        run("sass static/sass/main.scss:static/css/main.css --style compressed")
+        run("sass static/sass/main.scss:static/build/css/main.css --style compressed")
         with virtualenv():
             run('python manage.py collectstatic --noinput')
 

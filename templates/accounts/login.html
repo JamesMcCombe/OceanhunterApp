@@ -1,9 +1,86 @@
 {% extends 'base.html' %}
+{% load staticfiles sekizai_tags %}
+
+{% block header_h2 %}
+    <h2 class="text-orange">Login</h2>
+{% endblock %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
 
 {% block content %}
+
+{% addtoblock 'body-class' %} page-login small-header {% endaddtoblock %}
+
 <form action="" method="post">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit">Submit</button>
+  {{ form.non_field_errors }}
+  {% csrf_token %}
+  <input type="submit" class="hide">
+  {# {{form}} #}
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <a class="button large expand facebook">Facebook</a>
+    </div>
+  </div>
+
+  <div class="column small-centered small-11">
+    <p class="text-center or">OR</p>
+  </div>
+
+  <div class="row">
+    <div class="columns small-centered small-11">
+      {{ form.email.errors }}
+      <input type="email" name="{{ form.email.html_name }}" placeholder="{{ form.email.label }}" value="{{ form.email.value|default_if_none:"" }}" autocorrect="off" autocapitalize="off" required="">
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      {{ form.password.errors }}
+      <input type="password" name="{{ form.password.html_name }}" placeholder="{{ form.password.label }}" value="{{ form.password.value|default_if_none:"" }}" autocorrect="off" autocapitalize="off" required="">
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <p><a href="#">Forgot your password?</a></p>
+    </div>
+  </div>
 </form>
+
+{% addtoblock 'fixed-to-bottom' %}
+<section class="bottom-btns">
+  <div class="row">
+    <div class="columns small-centered small-11">
+      <button class="button large expand orange submit">Login</button>
+    </div>
+  </div>
+</section>
+{% endaddtoblock %}
+
+
+{% addtoblock 'js' %}
+<script>
+  $(function() {
+
+    $('.submit').click(function() {
+      $('form').submit();
+    });
+    $('.facebook').on('click', function(){
+      FBLogin();
+    });
+
+    $(document).on('change, blur', 'input', function(e) {
+      if( $(e.target).is(':invalid') ){
+        $(e.target).parent().addClass('invalid');
+      } else {
+        $(e.target).parent().removeClass('invalid');
+      }
+    });
+
+  });
+</script>
+{% endaddtoblock %}
+
+
+
 {% endblock %}
