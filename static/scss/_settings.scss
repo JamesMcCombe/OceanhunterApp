@@ -93,7 +93,7 @@ $include-html-global-classes: $include-html-classes;
 // Global
 
 // We use these to define default font weights
-// $font-weight-lighter: lighter;
+$font-weight-lighter: lighter;
 $font-weight-normal: 300 !default;
 // $font-weight-bold: bold !default;
 
@@ -235,6 +235,7 @@ $h2-font-size: rem-calc(30);
 
 // A general <small> styling
 // $small-font-size: 60%;
+$small-font-weight: $font-weight-lighter;
 // $small-font-color: scale-color($header-font-color, $lightness: 35%);
 
 // We use these to style paragraphs

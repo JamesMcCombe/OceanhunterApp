@@ -41,6 +41,7 @@ $subheader-bottom-margin: .5rem !default;
 
 // A general <small> styling
 $small-font-size: 60% !default;
+$small-font-weight: $font-weight-normal !default;
 $small-font-color: scale-color($header-font-color, $lightness: 35%) !default;
 
 // We use these to style paragraphs
@@ -261,6 +262,7 @@ $align-class-breakpoints:
 
       small {
         font-size: $small-font-size;
+        font-weight: $small-font-weight;
         color: $small-font-color;
         line-height: 0;
       }
@@ -298,6 +300,7 @@ $align-class-breakpoints:
 
     small {
       font-size: $small-font-size;
+      font-weight: $small-font-weight;
       line-height: inherit;
     }
 
