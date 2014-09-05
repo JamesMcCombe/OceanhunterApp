@@ -8,6 +8,7 @@ WWW_ROOT  = PROJ_ROOT/'public-www'
 STATIC_ROOT = WWW_ROOT/'static'
 MEDIA_ROOT = WWW_ROOT/'media'
 
+INTERNAL_IPS = ('127.0.0.1',)
 
 DATABASES = {
     'default': {
