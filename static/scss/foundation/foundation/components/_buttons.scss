@@ -174,7 +174,11 @@ $button-disabled-cursor: $cursor-default-value !default;
     color: if($bg-lightness > 70%, $button-font-color-alt, $button-font-color);
 
     // Added by Chuangbo: It's hard to modify on _settings.scss, so just put it here
-    text-shadow: -1px -1px scale-color($bg, $lightness: $button-function-factor);
+    @if $bg-lightness < 70% {
+        text-shadow: -1px -1px scale-color($bg, $lightness: $button-function-factor);
+    } @else {
+        text-shadow: none;
+    }
 
     &:hover,
     &:focus {
