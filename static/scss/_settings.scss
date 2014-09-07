@@ -621,11 +621,11 @@ $form-spacing: rem-calc(12);
 
 // We use these to style the labels in different ways
 // $form-label-pointer: pointer;
-// $form-label-font-size: rem-calc(14);
+$form-label-font-size: rem-calc(18);
 $form-label-font-weight: $font-weight-lighter;
 $form-label-letter-spacing: rem-calc(0.5);
-// $form-label-line-height: 1.5;
-$form-label-font-color: scale-color($white, $lightness: 30%);
+$form-label-line-height: 2;
+$form-label-font-color: scale-color($white, $lightness: -40%);
 // $form-label-small-transform: capitalize;
 // $form-label-bottom-margin: 0;
 // $input-font-family: inherit;

@@ -19,3 +19,7 @@ input {
         border-color: $alert-color;
     }
 }
+
+label {
+    &.small { font-size: 90%; }
+}

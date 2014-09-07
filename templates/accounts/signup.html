@@ -48,14 +48,14 @@
         </div>
         <div class="row">
           <div class="columns">
-            <input type="checkbox" name="showPassword" id="showPassword"><label for="showPassword">Show password</label>
+            <input type="checkbox" name="showPassword" id="showPassword"><label for="showPassword" class="small">Show password</label>
           </div>
         </div>
         <div class="row">
           <div class="columns">
             {{ form.gender.errors }}
             {% for radio in form.gender %}
-              <input type="radio" name="{{ radio.name }}" id="{{form.gender.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.gender.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
+              <input type="radio" name="{{ radio.name }}" id="{{form.gender.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.gender.auto_id }}_{{ radio.index }}" class="small">{{ radio.choice_label }}</label>
             {% endfor %}
           </div>
         </div>
