@@ -26,7 +26,7 @@ class Team(models.Model):
     kind = models.CharField(max_length=10, choices=TEAM_KINDS)
 
     # creater is default admin, but can transfer to some one else
-    admin = models.ForeignKey(User, related_name='+') 
+    admin = models.ForeignKey(User, related_name='+')
     users = models.ManyToManyField(User, related_name='+')
     points = models.IntegerField(default=0)
     text = models.TextField(blank=True)
