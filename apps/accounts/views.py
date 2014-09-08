@@ -27,6 +27,10 @@ def signup(request):
         form = F(data=request.POST)
         if form.is_valid():
             form.save()
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
+            user = authenticate(email=email, password=password)
+            auth_login(request, user)
             return redirect('invite')
     ctx = {'form': form}
     return ctx
