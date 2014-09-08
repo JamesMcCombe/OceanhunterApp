@@ -19,13 +19,22 @@ def home(request):
 def go(request):
     return {}
 
+
 @login_required
 @render_to('invite.html')
 def invite(request):
     return {}
 
+
 @login_required
 @render_to('invite_email.html')
 def invite_email(request):
     return {}
+
+
+@login_required
+@render_to('myfish_new.html')
+def myfish_new(request):
+    species = m.Species.objects.all()
+    return {'species': species}
 

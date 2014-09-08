@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load staticfiles sekizai_tags %}
+
+{% block header %}
+  {# remove footer #}
+{% endblock header %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-myfish page-myfish-new {% endaddtoblock %}
+
+<form action="" method="post">
+  <input type="submit" class="hide">
+  <div class="row">
+    <div class="columns small-centered small-12">
+      <label>Fish type</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-12">
+      <div class="swiper-container">
+        <a class="arrow-left" href="#"></a>
+        <a class="arrow-right" href="#"></a>
+        <div class="swiper-wrapper">
+          {% for s in species %}
+          <div class="swiper-slide">
+            <div class="species">
+              <div class="logo">
+                <img src="{{ s.logo.url }}">
+              </div>
+              <div class="name text-center">{{ s.name }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-12">
+      <p></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="columns small-centered small-12">
+      <label>Weight
+        <input type="number" step="0.001" min="0.001" name="weight" placeholder="Kgs" required>
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-12">
+      <label>Witness
+        <input type="text" name="witness" placeholder="Enter name" required>
+      </label>
+    </div>
+  </div>
+</form>
+
+{% addtoblock 'fixed-to-bottom' %}
+<section class="bottom-btns">
+  <div class="row">
+    <div class="columns small-centered small-12">
+      <button class="button large expand next">Next</button>
+    </div>
+  </div>
+</section>
+{% endaddtoblock %}
+
+
+{% addtoblock 'js' %}
+<script>
+  $(function() {
+    var mySwiper = $('.swiper-container').swiper({
+      mode: 'horizontal',
+      centeredSlides: true,
+      slidesPerView: 3,
+      calculateHeight: true,
+      cssWidthAndHeight: false,
+      loop: true,
+      watchActiveIndex: true,
+      mousewheelControl: true,
+      mousewheelControlForceToAxis: true,
+      roundLengths: true,
+      grabCursor: true,
+      onSlideClick: function onSlideClick(swiper) {
+        swiper.swipeTo(swiper.clickedSlideLoopIndex);
+      }
+    });
+
+
+    $('.submit').click(function() {
+      $('form').submit();
+    });
+
+    $(document).on('change, blur', 'input', function(e) {
+      if( $(e.target).is(':invalid') ){
+        $(e.target).parent().addClass('invalid');
+      } else {
+        $(e.target).parent().removeClass('invalid');
+      }
+    });
+
+  });
+</script>
+{% endaddtoblock %}
+
+
+
+{% endblock %}
