@@ -27,11 +27,11 @@
         <div class="row">
           <div class="columns small-6">
             {{ form.first_name.errors }}
-            <input type="text" name="{{ form.first_name.html_name }}" placeholder="{{ form.first_name.label }}" value="{{ form.first_name.value|default_if_none:"" }}" autocorrect="off" autocapitalize="off" required="">
+            <input type="text" name="{{ form.first_name.html_name }}" placeholder="{{ form.first_name.label }}" value="{{ form.first_name.value|default_if_none:"" }}" required="">
           </div>
           <div class="columns small-6">
             {{ form.last_name.errors }}
-            <input type="text" name="{{ form.last_name.html_name }}" placeholder="{{ form.last_name.label }}" value="{{ form.last_name.value|default_if_none:"" }}" autocorrect="off" autocapitalize="off" required="">
+            <input type="text" name="{{ form.last_name.html_name }}" placeholder="{{ form.last_name.label }}" value="{{ form.last_name.value|default_if_none:"" }}" required="">
           </div>
         </div>
         <div class="row">
