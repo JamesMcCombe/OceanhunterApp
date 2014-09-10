@@ -116,7 +116,7 @@
   <div class="row">
     <div class="columns small-centered small-12">
       <button class="button large expand next">Next</button>
-      <button class="button large expand orange submit">Okay</button>
+      <button class="button large expand orange submit" disabled>Okay</button>
     </div>
   </div>
 </section>
@@ -175,6 +175,7 @@
       loadImage(e.target.files[0], function(img) {
         $(img).addClass('image');
         $('.cover').addClass('image-attached').append(img);
+        $('.submit').attr('disabled', false);
       }, {maxWidth: 640});
     });
 
@@ -183,6 +184,7 @@
       $('[name="image"]').val('');
       $('.cover .image').remove();
       $('.cover').removeClass('image-attached');
+      $('.submit').attr('disabled', true);
     });
 
     $('.submit').click(function() {
