@@ -11,7 +11,7 @@ class Profile(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     area = models.CharField(max_length=50, choices=AREA_CHOICES)
     city = models.CharField(max_length=50)
-    dob = models.DateField()
+    dob = models.DateField(null=True)
     points = models.IntegerField(default=0)
 
 
