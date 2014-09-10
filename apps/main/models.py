@@ -21,3 +21,5 @@ class Fish(models.Model):
     witness = models.CharField(max_length=50)
     species = models.ForeignKey(Species)
     image = models.ImageField(upload_to="fish")
+
+    create = models.DateTimeField(auto_now_add=True)

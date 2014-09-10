@@ -31,6 +31,8 @@ class Team(models.Model):
     points = models.IntegerField(default=0)
     text = models.TextField(blank=True)
 
+    create = models.DateTimeField(auto_now_add=True)
+
     def __unicode__(self):
         return self.name
 
