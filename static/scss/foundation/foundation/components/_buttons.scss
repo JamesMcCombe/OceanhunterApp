@@ -191,8 +191,9 @@ $button-disabled-cursor: $cursor-default-value !default;
     cursor: $button-disabled-cursor;
     opacity: $button-disabled-opacity;
     box-shadow: none;
+    text-shadow: none;
     &:hover,
-    &:focus { background-color: $bg; }
+    &:focus { background-color: $bg; background-position: 0 0; }
   }
 
   // We can control how much button radius is used.
