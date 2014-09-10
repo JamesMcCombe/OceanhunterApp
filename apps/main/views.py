@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from annoying.decorators import render_to, ajax_request
 
 from . import models as m
+from . import forms as f
 
 APP_NAME = 'main'
 
@@ -35,6 +37,19 @@ def invite_email(request):
 @login_required
 @render_to('myfish_new.html')
 def myfish_new(request):
-    species = m.Species.objects.all()
-    return {'species': species}
+    u = request.user
+    F = f.FishForm
+    if request.method == 'GET':
+        form = F()
+    else:
+        print request.POST, request.FILES
+        form = F(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            fish = form.save(commit=False)
+            fish.user = u
+            fish.save()
+            return redirect('home')
+    ctx = {'form': form}
+
+    return ctx
 
