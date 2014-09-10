@@ -215,7 +215,11 @@ body {
 
         $round-padding: 10px;
 
-        dt { line-height: 2; }
+        dt {
+            padding: rem-calc(2);
+            img { height: 12px; margin-right: rem-calc(5); display: inline-block; }
+            span { display: inline-block; vertical-align: middle; }
+        }
         dd {
             padding: rem-calc($round-padding) rem-calc($round-padding) rem-calc(20);
 
@@ -234,7 +238,7 @@ body {
                 padding: 25% 20%;
                 font-size: rem-calc(25);
 
-                img.species { margin-top: -25%; }
+                .logo { margin-top: -25%; }
 
                 small {
                     position: absolute;

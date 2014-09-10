@@ -80,33 +80,33 @@
 <section class="bottom-btns">
   <div class="row collapse summaries">
     <div class="columns small-4 species">
-      <dt>Fish type</dt>
+      <dt><img src="{% static 'img/icon-species.png' %}"><span>Fish type</span></dt>
       <dd>
         <div class="round-bg">
           <div class="content">
-            <img class="species" src="/media/species/trumpeter.png">
-            <small>King Fish</small>
+            <img class="logo" src="/media/species/trumpeter.png">
+            <small class="name">King Fish</small>
           </div>
         </div>
       </dd>
     </div>
     <div class="columns small-4 weight">
-      <dt>Weight</dt>
+      <dt><img src="{% static 'img/icon-weight.png' %}"><span>Weight</span></dt>
       <dd>
         <div class="round-bg">
           <div class="content">
-            <span>26.2</span>
+            <span class="value">26.2</span>
             <small>Kilogram</small>
           </div>
         </div>
       </dd>
     </div>
     <div class="columns small-4 points">
-      <dt>Points</dt>
+      <dt><img src="{% static 'img/icon-points.png' %}"><span>Points</span></dt>
       <dd>
         <div class="round-bg">
           <div class="content">
-            <span>80</span>
+            <span class="value">80</span>
             <small>Points</small>
           </div>
         </div>
@@ -144,18 +144,21 @@
       }
     });
 
+    // For debug directly to step 2
+    // $('body').addClass('step-2');
+
     $('.next').click(function(e) {
       // fill in summaries
       var activeSlide = $(mySwiper.activeSlide());
-      $('.summaries img.species').attr('src', activeSlide.find('img').attr('src'));
-      $('.summaries .species dd small').text(activeSlide.find('.name').text());
+      $('.summaries .species .logo').attr('src', activeSlide.find('.logo img').attr('src'));
+      $('.summaries .species .name').text(activeSlide.find('.name').text());
 
       var weight = $('[name="weight"]').val();
-      $('.summaries .weight dd span').text(weight);
+      $('.summaries .weight .value').text(weight);
 
       var k = activeSlide.data('k');
       var points = Math.round(k * weight);
-      $('.summaries .points dd span').text(points);
+      $('.summaries .points .value').text(points);
 
       $('body').addClass('step-2');
       oh.reAdjustFixedBottom();
