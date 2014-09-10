@@ -49,9 +49,10 @@ def login(request):
             user = authenticate(email=email, password=password)
             if user and user.is_active:
                 auth_login(request, user)
-                return redirect('home')
+                return redirect(request.POST['next'])
     ctx = {'form': form}
     ctx['public'] = 'public'
+    ctx['next'] = request.GET.get('next', 'home')
     return ctx
 
 
