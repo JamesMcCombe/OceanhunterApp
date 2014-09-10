@@ -13,10 +13,6 @@ def virtualenv():
         yield
 
 
-def coffee():
-    pass
-
-
 def pull():
     local('git push')
     with cd(env.deploy_dir):
@@ -24,10 +20,11 @@ def pull():
 
 def static():
     with cd(env.deploy_dir):
-        coffee()
-        run("sass static/scss/main.scss:static/build/css/main.css --style compressed")
+        with cd('static'):
+            run('mkdir -p build/js build/css')
+            run('gulp sass coffee')
         with virtualenv():
-            run('python manage.py collectstatic --noinput')
+            run('python manage.py collectstatic --noinput -i node_modules')
 
 def touch():
     with cd(env.deploy_dir):
