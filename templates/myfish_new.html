@@ -147,7 +147,7 @@
     $('.next').click(function(e) {
       // fill in summaries
       var activeSlide = $(mySwiper.activeSlide());
-      $('.summaries img.species').src = activeSlide.find('img').attr('src');
+      $('.summaries img.species').attr('src', activeSlide.find('img').attr('src'));
       $('.summaries .species dd small').text(activeSlide.find('.name').text());
 
       var weight = $('[name="weight"]').val();
