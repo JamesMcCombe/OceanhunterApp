@@ -31,7 +31,7 @@ def static():
 
 def touch():
     with cd(env.deploy_dir):
-        run("touch *.ini")
+        run("touch deploy/*.ini")
 
 def all():
     pull()
