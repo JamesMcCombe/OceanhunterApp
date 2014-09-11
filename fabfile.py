@@ -4,7 +4,7 @@ from fabric.api import *
 from path import path
 from os.path import dirname,abspath
 HERE = path(dirname(abspath(__file__)))
-PROJ_NAME = HERE.parent.name
+PROJ_NAME = HERE.name
 WORKON_HOME = path('/var/www/django')
 VENV_ROOT = WORKON_HOME/PROJ_NAME
 PROJ_ROOT = VENV_ROOT/PROJ_NAME
@@ -40,6 +40,7 @@ def static():
 def touch():
     with cd(env.deploy_dir):
         run("touch deploy/*.ini")
+    tail()
 
 def tail():
     run("tail -f /var/log/uwsgi/%s.log" % PROJ_NAME)
@@ -47,3 +48,4 @@ def tail():
 def all():
     pull()
     static()
+    touch()
