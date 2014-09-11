@@ -1,0 +1,13 @@
+// Page invite
+.page-invite {
+    h3 small {
+        font-size: rem-calc(15px);
+        letter-spacing: rem-calc(0.5px);
+        color: $white;
+    }
+
+    .or {
+        margin-top: rem-calc(-8px);
+        margin-bottom: rem-calc(13px);
+    }
+}
