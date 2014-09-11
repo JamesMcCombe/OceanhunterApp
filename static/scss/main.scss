@@ -83,6 +83,7 @@ body {
         opacity: 0;
         -webkit-transition: opacity 300ms ease;
         transition: opacity 300ms ease;
+        @media #{$medium-up} { opacity: 1; }
     }
 
     &.expanded {
