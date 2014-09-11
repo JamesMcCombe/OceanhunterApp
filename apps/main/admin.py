@@ -7,6 +7,6 @@ class SpeciesAdmin(admin.ModelAdmin):
 admin.site.register(m.Species, SpeciesAdmin)
 
 class FishAdmin(admin.ModelAdmin):
-    list_display = ('user', 'species', 'weight', 'witness', 'create')
+    list_display = ('user', 'species', 'weight', 'witness', 'points', 'create')
 
 admin.site.register(m.Fish, FishAdmin)
