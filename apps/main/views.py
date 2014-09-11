@@ -48,6 +48,7 @@ def myfish_new(request):
             fish = form.save(commit=False)
             fish.user = u
             fish.save()
+            u.profile.recalculate_points()
             return redirect('home')
     ctx = {'form': form}
 

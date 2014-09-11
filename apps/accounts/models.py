@@ -14,6 +14,9 @@ class Profile(models.Model):
     dob = models.DateField(null=True)
     points = models.IntegerField(default=0)
 
+    def recalculate_points(self):
+        self.points = sum(f.points for f in self.user.fish_set.all())
+        self.save()
 
 TEAM_KINDS = (
     ('open', 'Open'),
