@@ -1,10 +1,21 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from fabric.api import *
+from path import path
+from os.path import dirname,abspath
+HERE = path(dirname(abspath(__file__)))
+PROJ_NAME = HERE.parent.name
+WORKON_HOME = path('/var/www/django')
+VENV_ROOT = WORKON_HOME/PROJ_NAME
+PROJ_ROOT = VENV_ROOT/PROJ_NAME
+BIN = VENV_ROOT/'bin'
+ACTIVATE = BIN/'activate'
+
 env.use_ssh_config = True
 env.hosts = ['nodeweb']
-env.activate = 'source /var/www/django/oceanhunter/bin/activate'
-env.deploy_dir = '/var/www/django/oceanhunter/oceanhunter'
+PROJ_NAME = 'oceanhunter'
+env.activate = 'source %s' % ACTIVATE
+env.deploy_dir = PROJ_ROOT
 from contextlib import contextmanager
 
 @contextmanager
@@ -29,6 +40,9 @@ def static():
 def touch():
     with cd(env.deploy_dir):
         run("touch deploy/*.ini")
+
+def tail():
+    run("tail -f /var/log/uwsgi/%s.log" % PROJ_NAME)
 
 def all():
     pull()
