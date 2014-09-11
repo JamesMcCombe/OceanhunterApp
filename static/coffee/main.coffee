@@ -2,6 +2,7 @@ class OceanHunter
   constructor: ->
     $('input, textarea').placeholder()
     FastClick.attach(document.body)
+    $(document).foundation()
 
   # after you change the content in the fixed-to-bottom-wrapper,
   # you have to call this again

@@ -37,6 +37,32 @@
 
 	<body class="{% render_block 'body-class' %}">
 
+    {% block nav %}
+        <div class="fixed">
+            <nav class="top-bar oc-top-bar" data-topbar role="navigation">
+              <ul class="title-area">
+                <li class="name">
+                  <h1>{% block nav_title %}<a href="#">Ocean Hunter</a>{% endblock nav_title %}</h1>
+                </li>
+                 <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+              </ul>
+
+              <section class="top-bar-section">
+                <div class="logo">
+                    <img src="{% static 'img/logo.png' %}">
+                </div>
+                <!-- Left Nav Section -->
+                <ul class="">
+                  <li><a href="{% url 'myfish_new' %}"><i class="icon-myfish-new"></i>Enter my fish</a></li>
+                  <li><a href="{% url 'home' %}"><i class="icon-myfish"></i>My fish</a></li>
+                  <li><a href="#"><i class="icon-leaderboard"></i>Leader board</a></li>
+                </ul>
+              </section>
+            </nav>
+        </div>
+    {% endblock nav %}
+
     {% block header %}
     <header>
         <a class="logo" href="/"><img src="{% static 'img/logo.png' %}" alt="Ocean Hunter"/></a>
@@ -64,7 +90,7 @@
     {% endif %}
     <script src="{% static 'js/libs/fastclick.js' %}"></script>
     <script src="{% static 'js/libs/placeholder.js' %}"></script>
-    <!--<script src="{% static 'js/libs/foundation.min.js' %}"></script>-->
+    <script src="{% static 'js/libs/foundation.min.js' %}"></script>
     <script src="{% static 'build/js/settings.js' %}"></script>
     <script src="{% static 'build/js/FacebookAuth.js' %}"></script>
     <script src="{% static 'js/loadFacebook.js' %}"></script>

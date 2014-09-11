@@ -37,6 +37,7 @@ footer {
     margin-bottom: rem-calc(24px);
     text-align: center;
     font-size: rem-calc(10px);
+    @include font-weight-lighter;
 }
 
 // XXX: ... with footer are attached to the bottom
@@ -44,6 +45,7 @@ body {
     height: auto;
     min-height: 100%;
 }
+
 .fixed-to-bottom-wrapper {
     opacity: 0;
     @include single-transition(opacity, 0.15s);
@@ -53,6 +55,68 @@ body {
 
     .bottom-btns {
         padding-bottom: 10px;
+    }
+}
+
+// I use foundation top-bar as a menu
+.oc-top-bar {
+
+    .name {
+        -webkit-transition: opacity 100ms ease;
+        transition: opacity 100ms ease;
+    }
+    .logo { display: none; }
+    .top-bar-section {
+        ul li > a {
+            i {
+                display: inline-block;
+                vertical-align: middle;
+                width: 25px; height: 25px; background-size: 25px; margin-right: rem-calc(10);
+                background-position: center;
+                &.icon-myfish-new { background-image: url('../../img/icon-myfish-new.png'); }
+                &.icon-myfish { background-image: url('../../img/icon-myfish.png'); }
+                &.icon-leaderboard { background-image: url('../../img/icon-leaderboard.png'); }
+            }
+            &:hover i {
+                &.icon-myfish-new { background-image: url('../../img/icon-myfish-new-hover.png'); }
+                &.icon-myfish { background-image: url('../../img/icon-myfish-hover.png'); }
+                &.icon-leaderboard { background-image: url('../../img/icon-leaderboard-hover.png'); }
+            }
+        }
+        opacity: 0;
+        -webkit-transition: opacity 300ms ease;
+        transition: opacity 300ms ease;
+    }
+
+    &.expanded {
+        position: absolute;
+        bottom: 0;
+        background: $black;
+        .name { opacity: 0; }
+
+        .top-bar-section {
+            opacity: 1;
+            .logo {
+                display: block;
+                margin: 0 auto;
+                width: rem-calc(127);
+                padding-bottom: rem-calc(40);
+            }
+            ul li {
+                border-top: 1px solid scale-color($black, $lightness: 10%);
+                &:last-child { border-bottom: 1px solid scale-color($black, $lightness: 10%); }
+
+                @include grid-column(12);
+
+                > a {
+                    @include font-weight-lighter;
+                    text-transform: uppercase;
+                    font-size: rem-calc(24);
+                    i { width: 65px; height: 65px; background-size: 65px; margin-right: rem-calc(15); }
+                }
+            }
+        }
+
     }
 }
 
