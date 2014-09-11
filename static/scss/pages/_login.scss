@@ -1,0 +1,14 @@
+// Page login
+.page-login {
+    form { padding-top: rem-calc(20); }
+    .forgot {
+        margin-top: rem-calc(-4);
+        font-size: rem-calc(12);
+        @include font-weight-lighter;
+    }
+
+    .or {
+        margin-top: rem-calc(13px);
+        margin-bottom: rem-calc(33px);
+    }
+}

@@ -1,0 +1,154 @@
+// Page my fish
+.page-myfish-new {
+
+    .page-2, .summaries, .submit { display: none; }
+
+    &.step-2 {
+        .page-1, .next { display: none; }
+        .page-2, .summaries, .submit { display: block; }
+    }
+
+    .swiper-container {
+        .swiper-slide {
+            width: 33.33333%;
+
+            .logo {
+                padding: rem-calc(8);
+                border: 1px solid $jumbo;
+                border-radius: 50%;
+                background-color: scale-color($primary-color, $lightness: -70%);
+
+                -webkit-transition: all 300ms ease;
+                transition: all 300ms ease;
+                -webkit-transform: scale3d(0.75, 0.75, 0.75);
+                -ms-transform: scale3d(0.75, 0.75, 0.75);
+                transform: scale3d(0.75, 0.75, 0.75);
+
+                img {
+                    width: 100%;
+                    opacity: 0.5;
+                    -webkit-transition: opacity 300ms ease;
+                    transition: opacity 300ms ease;
+                }
+            }
+
+            .name {
+                margin-top: rem-calc(10);
+                @include font-weight-lighter;
+                color: $white;
+                opacity: 0.3;
+                -webkit-transition: opacity 300ms ease;
+                transition: opacity 300ms ease;
+            }
+
+            &.swiper-slide-active {
+                .logo {
+
+                    -webkit-transform: scale3d(1, 1, 1);
+                    -ms-transform: scale3d(1, 1, 1);
+                    transform: scale3d(1, 1, 1);
+
+                    img {
+                        opacity: 1;
+                    }
+                }
+
+                .name { opacity: 1; }
+            }
+
+        }
+    }
+
+    [type="file"] { visibility: hidden; position: absolute; top: 0; left: 0; height: 0; width: 0; }
+
+    .cover {
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        cursor: pointer;
+        text-align: center;
+
+        .add-image {
+            margin-top: 25%;
+            img { width: 55px; }
+
+            p { @include font-weight-lighter; margin-top: rem-calc(10); }
+        }
+
+        .close {
+            position: absolute;
+            top: rem-calc(30);
+            right: rem-calc(30);
+            font-size: rem-calc(36);
+            line-height: 0.2;
+            color: $silver;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+        }
+
+        &.image-attached {
+            cursor: default;
+            .add-image { display: none; }
+            .close { display: block; }
+        }
+    }
+
+    .summaries {
+        @include font-weight-lighter;
+        text-align: center;
+        background-color: $primary-color;
+        opacity: 0.7;
+        margin-bottom: rem-calc(15);
+
+        $round-padding: 10px;
+
+        dt {
+            padding: rem-calc(2);
+            img { height: 12px; margin-right: rem-calc(5); display: inline-block; }
+            span { display: inline-block; vertical-align: middle; }
+        }
+        dd {
+            padding: rem-calc($round-padding) rem-calc($round-padding) rem-calc(20);
+
+            .round-bg {
+                width: 100%;
+                padding-bottom: 100%;
+                position: relative;
+                background-color: scale-color($primary-color, $lightness:-40%);
+                border-radius: 50%;
+            }
+
+            .content {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                padding: 25% 20%;
+                font-size: rem-calc(25);
+
+                .logo { margin-top: -25%; }
+
+                small {
+                    position: absolute;
+                    display: block;
+                    width: 100%;
+                    top: 60%;
+                    line-height: 1; // for multiline name
+                    left: 0;
+                }
+            }
+
+        }
+
+        .weight {
+            $border-width: 1px;
+            border-left: $border-width solid scale-color($primary-color, $lightness: 5%);
+            border-right: $border-width solid scale-color($primary-color, $lightness: 5%);
+
+            // fixed the border 1px
+            dd {
+                padding-left: rem-calc($round-padding - $border-width);
+                padding-right: rem-calc($round-padding - $border-width);
+            }
+        }
+    }
+}
