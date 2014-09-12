@@ -8,6 +8,8 @@
 
 @import "idangerous.swiper";
 
+a:focus { outline: none; }
+
 .text-orange { color: $orange; }
 .text-facebook { color: $facebook-blue; }
 
