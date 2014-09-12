@@ -6,7 +6,7 @@ from . import models as m
 class FishForm(forms.ModelForm):
     class Meta:
         model = m.Fish
-        fields = ('species', 'weight', 'witness', 'image', 'points')
+        fields = ('species', 'weight', 'witness', 'image')
         labels = {
             'species': 'Fish type',
         }
