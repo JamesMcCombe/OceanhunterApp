@@ -7,6 +7,7 @@ urlpatterns = patterns('main.views',
     url(r'^invite/$', 'invite', name='invite'),
     url(r'^invite/email/$', 'invite_email', name='invite_email'),
 
-    url(r'^myfish/new/$', 'myfish_new', name='myfish_new'),
+    url(r'^fish/$', 'myfish', name='myfish'),
+    url(r'^fish/new/$', 'myfish_new', name='myfish_new'),
 )
 

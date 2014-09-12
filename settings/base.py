@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'sekizai',
     'social.apps.django_app.default',
     'south',
+    'sorl.thumbnail',
 
     'accounts',
     'main',
