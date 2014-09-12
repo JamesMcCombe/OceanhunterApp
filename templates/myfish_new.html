@@ -11,7 +11,7 @@
 
 {% block content %}
 
-{% addtoblock 'body-class' %} page-myfish page-myfish-new {% endaddtoblock %}
+{% addtoblock 'body-class' %} page-myfish-new {% endaddtoblock %}
 
 <form action="{% url 'myfish_new' %}" method="post" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
   {% csrf_token %}
@@ -23,7 +23,6 @@
       </div>
     </div>
     <input type="hidden" name="{{ form.species.html_name }}" value="{{ form.species.value|default_if_none:"" }}">
-    <input type="hidden" name="{{ form.points.html_name }}" value="{{ form.points.value|default_if_none:"" }}">
     <div class="row">
       <div class="columns small-centered small-12">
         <div class="swiper-container">
@@ -161,7 +160,6 @@
       var k = activeSlide.data('k');
       var points = Math.round(k * weight);
       $('.summaries .points .value').text(points);
-      $('input[name="points"]').val(points);
 
       $('body').addClass('step-2');
       oh.reAdjustFixedBottom();

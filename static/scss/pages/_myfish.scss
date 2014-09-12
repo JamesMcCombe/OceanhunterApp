@@ -1,4 +1,4 @@
-// Page my fish
+// Page my fish new
 .page-myfish-new {
 
     .page-2, .summaries, .submit { display: none; }
@@ -174,6 +174,45 @@
             dd {
                 padding-left: rem-calc($round-padding - $border-width);
                 padding-right: rem-calc($round-padding - $border-width);
+            }
+        }
+    }
+}
+
+// Page my fish
+.page-myfish {
+    .tabs {
+        $border-style: 1px solid scale-color($black, $lightness: 15%);
+        border-top: $border-style;
+        border-bottom: $border-style;
+        .tab-title {
+            border-right: $border-style;
+            &:last-child { border-right: none; }
+        }
+    }
+    .species-list {
+        margin-top: rem-calc(20);
+        list-style: none;
+        h3 {
+            margin-top: 0;
+            // margin-bottom: rem-calc(20);
+            @include font-weight-lighter();
+            font-size: rem-calc(15);
+            color: $white;
+        }
+        .fishes {
+            list-style: none;
+            .fish {
+                display: block;
+                position: relative;
+                .fish-image { opacity: 0.5; }
+                .icon {
+                    width: 17px;
+                    height: 17px;
+                    position: absolute;
+                    top: 10%;
+                    left: 10%;
+                }
             }
         }
     }

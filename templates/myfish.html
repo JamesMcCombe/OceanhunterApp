@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load staticfiles sekizai_tags thumbnail %}
+
+{% block header %}
+  {# remove footer #}
+{% endblock header %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
+
+{% block nav_title %}
+  <a href="">{{ user.first_name }} {{ user.last_name }} &nbsp;|&nbsp; {{ user.profile.points }} Pts</a>
+{% endblock nav_title %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-myfish {% endaddtoblock %}
+
+<ul class="tabs" data-tab="" role="tablist">
+  <li class="tab-title small-6 text-center active" role="presentational"><a href="#panel1-1" role="tab" tabindex="0" aria-selected="true" controls="panel1-1">My fish</a></li>
+  <li class="tab-title small-6 text-center" role="presentational"><a href="#panel1-2" role="tab" tabindex="0" aria-selected="false" controls="panel1-2">My team</a></li>
+</ul>
+
+<ul class="row species-list">
+{% for species, fishes in species_list.items %}
+  <li class="column small-12">
+    <h3>{{ species.name }} &nbsp;|&nbsp; {{ species.points }} Pts</h3>
+    <ul class="small-block-grid-3 fishes">
+      {% for fish in fishes %}
+        <li class="">
+          <a class="fish" href="#">
+          {% thumbnail fish.image "200x200" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+          <img class="icon" src="{% static 'img/icon-search.png' %}">
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </li>
+{% endfor %}
+</ul>
+
+{% endblock content %}

@@ -24,3 +24,8 @@ class Fish(models.Model):
     image = models.ImageField(upload_to="fish")
 
     create = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *a, **kw):
+        self.points = int(round(self.weight * self.species.k))
+        super(Fish, self).save(*a, **kw)
+

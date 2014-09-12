@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from annoying.decorators import render_to, ajax_request
@@ -53,4 +55,19 @@ def myfish_new(request):
     ctx = {'form': form}
 
     return ctx
+
+
+@login_required
+@render_to('myfish.html')
+def myfish(request):
+    u = request.user
+    species_list = OrderedDict()
+    for fish in u.fish_set.order_by('-create'):
+        species_list.setdefault(fish.species, [])
+        species_list[fish.species].append(fish)
+
+    for species, fishes in species_list.items():
+        species.points = sum(f.points for f in fishes)
+
+    return {'user': u, 'species_list':species_list}
 
