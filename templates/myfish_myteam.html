@@ -19,26 +19,29 @@
 {% addtoblock 'body-class' %} page-myfish {% endaddtoblock %}
 
 <ul class="tabs" role="tablist">
-  <li class="tab-title small-6 text-center active" role="presentational"><a href="#" role="tab" tabindex="0" aria-selected="true" controls="panel1-1">My fish</a></li>
-  <li class="tab-title small-6 text-center" role="presentational"><a href="{% url 'myteam' %}" role="tab" tabindex="0" aria-selected="false" controls="panel1-2">My team</a></li>
+  <li class="tab-title small-6 text-center" role="presentational"><a href="{% url 'myfish' %}" role="tab" tabindex="0" aria-selected="true" controls="panel1-1">My fish</a></li>
+  <li class="tab-title small-6 text-center active" role="presentational"><a href="#" role="tab" tabindex="0" aria-selected="false" controls="panel1-2">My team</a></li>
 </ul>
 
 <ul class="row species-list">
-{% for species, fishes in species_list.items %}
   <li class="column small-12">
-    <h3>{{ species.name }} &nbsp;|&nbsp; {{ species.points }} Pts</h3>
-    <ul class="small-block-grid-3 fishes">
-      {% for fish in fishes %}
+    <ul class="small-block-grid-2 fishes">
+      {# XXX don't have a team now so just placeholder #}
+      {% for fish in user.fish_set.all|slice:":4" %}
         <li class="">
           <a class="image-wrapper" href="#">
             {% thumbnail fish.image "200x200" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
             <img class="icon-enlarge" src="{% static 'img/icon-search.png' %}">
+            <div class="annotation">
+              <p>{{ user.first_name }} {{ user.last_name }}</p>
+              <p>{{ user.profile.city }}</p>
+            </div>
           </a>
+          <p class="pts">{{ user.profile.points }} Points</p>
         </li>
       {% endfor %}
     </ul>
   </li>
-{% endfor %}
 </ul>
 
 {% endblock content %}
