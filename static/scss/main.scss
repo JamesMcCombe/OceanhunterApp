@@ -76,6 +76,7 @@ body {
                 vertical-align: middle;
                 width: $icon-height; height: $icon-height; background-size: $icon-height; margin-right: rem-calc(10);
                 background-position: top left;
+                &.icon-home { background-image: url('../../img/icon-home.png'); }
                 &.icon-myfish-new { background-image: url('../../img/icon-myfish-new.png'); }
                 &.icon-myfish { background-image: url('../../img/icon-myfish.png'); }
                 &.icon-leaderboard { background-image: url('../../img/icon-leaderboard.png'); }
@@ -111,9 +112,9 @@ body {
                 > a {
                     @include font-weight-lighter;
                     text-transform: uppercase;
-                    font-size: rem-calc(24);
+                    font-size: rem-calc(20);
 
-                    $icon-height: 65px;
+                    $icon-height: 45px;
                     i { width: $icon-height; height: $icon-height; background-size: $icon-height; margin-right: rem-calc(15); }
                     &:hover i { background-position-y: $icon-height; }
                 }
