@@ -44,7 +44,6 @@ def myfish_new(request):
     if request.method == 'GET':
         form = F()
     else:
-        print request.POST, request.FILES
         form = F(data=request.POST, files=request.FILES)
         if form.is_valid():
             fish = form.save(commit=False)
@@ -69,5 +68,11 @@ def myfish(request):
     for species, fishes in species_list.items():
         species.points = sum(f.points for f in fishes)
 
-    return {'user': u, 'species_list':species_list}
+    return {'species_list':species_list}
 
+
+@login_required
+@render_to('myfish_myteam.html')
+def myteam(request):
+    u = request.user
+    return {}
