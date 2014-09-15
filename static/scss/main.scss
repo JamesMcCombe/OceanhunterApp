@@ -8,10 +8,17 @@
 
 @import "idangerous.swiper";
 
+.fix-for-grid-block-overflow { overflow-x: hidden; }
+
 a:focus { outline: none; }
 
 .text-orange { color: $orange; }
 .text-facebook { color: $facebook-blue; }
+
+@mixin anchor-primary-color {
+    color: $primary-color;
+    &:hover { color: $anchor-font-color-hover; }
+}
 
 @mixin font-weight-lighter {
     font-weight: $font-weight-lighter;
@@ -130,3 +137,4 @@ body {
 @import "pages/login";
 @import "pages/invite";
 @import "pages/myfish";
+@import "pages/feed";

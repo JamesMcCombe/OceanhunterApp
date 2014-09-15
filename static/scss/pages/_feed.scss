@@ -1,0 +1,55 @@
+// Page feed
+.page-feed {
+    .feeds {
+        // @media #{$small-up} {
+            // @include block-grid($per-row:2, $include-spacing: false);
+            // @include block-grid-html-classes($size:small,$include-spacing:false);
+        // }
+
+        .feed {
+            &:not(:first-child) {
+                padding-bottom: rem-calc(25);
+            }
+            h3 {
+                font-size: rem-calc(18);
+                font-weight: bolder;
+
+                a { @include anchor-primary-color; }
+            }
+            .image-wrapper {
+                display: block;
+                position: relative;
+                color: $white;
+                .summaries {
+                    @include font-weight-lighter;
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    background-color: $primary-color;
+                    opacity: 0.7;
+                    font-size: rem-calc(18);
+
+                    .columns {
+                        padding: rem-calc(8) 0;
+                        $border-width: 1px;
+                        border-right: $border-width solid scale-color($primary-color, $lightness: 5%);
+
+                        &:last-child { border-right: none; }
+                    }
+                }
+            }
+            .comments {
+                list-style: none;
+                margin-top: rem-calc(8);
+                margin-left: 0;
+                font-size: rem-calc(14);
+                .comment { @include font-weight-lighter; }
+                .name {
+                    @include anchor-primary-color;
+                    font-weight: bolder;
+                }
+                .expand {  }
+            }
+        }
+    } // .feeds
+}

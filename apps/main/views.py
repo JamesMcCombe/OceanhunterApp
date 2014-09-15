@@ -14,9 +14,17 @@ def T(t, ext='html'):
     return '{}/{}.{}'.format(APP_NAME, t, ext)
 
 
-@render_to('home.html')
+@render_to()
 def home(request):
-    return {}
+    ctx = {}
+    if not request.user.is_authenticated():
+        ctx['TEMPLATE'] = 'home.html'
+    else:
+        # XXX Currently no feeds actually coz there is only one type of feed: fish
+        # so dont need to add a news feed model right now.
+        ctx['feeds'] = m.Fish.objects.order_by('-create')
+        ctx['TEMPLATE'] = 'feed.html'
+    return ctx
 
 
 @render_to('go.html')

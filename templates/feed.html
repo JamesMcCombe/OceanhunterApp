@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load staticfiles sekizai_tags thumbnail %}
+
+{% block header %}
+  {# remove footer #}
+{% endblock header %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
+
+{% block nav_title %}{% endblock nav_title %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-feed {% endaddtoblock %}
+
+<ul class="small-block-grid-1 feeds">
+  {% for f in feeds %}
+    <li class="feed row">
+      <h3 class="columns small-12 small-centered"><a href="#">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
+      <a class="image-wrapper" href="#">
+        {% thumbnail f.image "640x640" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+        <div class="row collapse summaries">
+          <div class="columns small-6 text-center">{{ f.species.name }}</div>
+          <div class="columns small-3 text-center">{{ f.weight }} Kg</div>
+          <div class="columns small-3 text-center">{{ f.points }} Pts</div>
+        </div>
+      </a>
+      <ul class="comments columns small-12 small-centered">
+        <li class="comment">
+          <a class="name" href="#">Judit C.</a> | What a big fish! Well done!
+        </li>
+        <li class="comment">
+          <a class="name" href="#">Victorio</a> | AWESOME # Hector Rebollo
+        </li>
+        <li>
+          <a href="#" class="expand">See all 12 comments</a>
+        </li>
+      </ul>
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock content %}
