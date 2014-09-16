@@ -152,11 +152,13 @@ body {
         border-top: $border-style;
     }
     .action {
-        padding-top: rem-calc(12);
-        padding-bottom: rem-calc(12);
+        $icon-size: rem-calc(30);
+        $spacing: rem-calc(12);
+        height: $icon-size + $spacing*2;
+        padding-top: $spacing;
+        padding-bottom: $spacing;
         cursor: pointer;
         // Icon
-        $icon-size: 30px;
         &:before {
             content: "";
             width: $icon-size;
