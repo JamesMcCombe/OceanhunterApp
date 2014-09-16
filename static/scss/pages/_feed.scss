@@ -49,7 +49,12 @@
                     font-weight: bolder;
                 }
                 .expand {  }
-                .more { float: right; letter-spacing: rem-calc(2); }
+                .more {
+                    display: inline-block;
+                    padding: rem-calc(3) rem-calc(12);
+                    float: right;
+                    letter-spacing: rem-calc(2);
+                }
             }
         }
     } // .feeds
