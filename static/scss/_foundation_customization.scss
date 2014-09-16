@@ -23,3 +23,8 @@ input {
 label {
     &.small { font-size: 90%; }
 }
+
+// Fix the cross close button not in the middle
+.reveal-modal .close-reveal-modal {
+    line-height: 0.6;
+}

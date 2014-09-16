@@ -37,10 +37,27 @@
         </li>
         <li>
           <a href="#" class="expand">See all 12 comments</a>
+          <a href="#" class="more" data-reveal-id="feedModal"> <small>&#8226;&#8226;&#8226;</small> </a>
         </li>
       </ul>
     </li>
   {% endfor %}
 </ul>
+
+
+<div id="feedModal" class="reveal-modal oc-reveal-modal feed-reveal-modal collapse" data-reveal data-options="animation:fade" data-css-top="100">
+  <div class="row">
+    <div class="columns small-12">
+      <h2 data-title-origin="More">More</h2>
+    </div>
+  </div>
+  <div class="row actions">
+    <div class="columns small-4 text-center action comment" data-action data-title="Comment"></div>
+    <div class="columns small-4 text-center action delete" data-action data-title="Delete"></div>
+    {# <div class="columns small-4 text-center action edit" data-action data-title="Edit"></div> #}
+    <div class="columns small-4 text-center action share" data-action data-title="Share"></div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
 
 {% endblock content %}

@@ -4,6 +4,8 @@ class OceanHunter
     FastClick.attach(document.body)
     $(document).foundation()
 
+    @bindRevealAction()
+
   # after you change the content in the fixed-to-bottom-wrapper,
   # you have to call this again
   reAdjustFixedBottom: ->
@@ -14,6 +16,18 @@ class OceanHunter
     $('.fixed-to-bottom-wrapper')
       .css 'opacity', 1
 
+  bindRevealAction: ->
+    $('body').on 'mouseover', '[data-action]', (e) ->
+      elm = $ e.target
+      title = elm.data 'title'
+      if title?
+        title_wrap = elm.closest('.reveal-modal').find('h2')
+        title_wrap.text title
+    .on 'mouseout', '[data-action]', (e) ->
+      elm = $ e.target
+      title_wrap = elm.closest('.reveal-modal').find('h2')
+      title = title_wrap.data 'title-origin'
+      title_wrap.text title
 
 $ ->
   window.oh = new OceanHunter

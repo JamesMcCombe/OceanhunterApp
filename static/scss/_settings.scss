@@ -1098,7 +1098,7 @@ $input-border-color: scale-color($white, $lightness: -65%);
 // $reveal-overlay-bg-old: $black;
 
 // We use these to control the style of the modal itself.
-// $reveal-modal-bg: $white;
+$reveal-modal-bg: $black;
 // $reveal-position-top: rem-calc(100);
 // $reveal-default-width: 80%;
 // $reveal-modal-padding: rem-calc(20);
@@ -1109,7 +1109,7 @@ $input-border-color: scale-color($white, $lightness: -65%);
 // $reveal-close-top: rem-calc(8);
 // $reveal-close-side: rem-calc(11);
 // $reveal-close-color: $base;
-// $reveal-close-weight: $font-weight-bold;
+$reveal-close-weight: $font-weight-lighter;
 
 // We use this to set the default radius used throughout the core.
 // $reveal-radius: $global-radius;
@@ -1117,7 +1117,7 @@ $input-border-color: scale-color($white, $lightness: -65%);
 
 // We use these to control the modal border
 // $reveal-border-style: solid;
-// $reveal-border-width: 1px;
+$reveal-border-width: 0;
 // $reveal-border-color: $steel;
 
 // $reveal-modal-class: "reveal-modal";

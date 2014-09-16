@@ -132,6 +132,55 @@ body {
     }
 }
 
+.oc-reveal-modal {
+    // remove default whole page reveal on small screen
+    min-height: 0;
+    width: 85%;
+    // top: rem-calc(100);
+    left: 0;
+    right: 0;
+    // center
+    margin: 0 auto;
+
+    h2 {
+        color: $orange;
+        margin-top: rem-calc(12);
+    }
+
+    $border-style: 1px solid scale-color($black, $lightness: 10%);
+    .actions {
+        border-top: $border-style;
+    }
+    .action {
+        padding-top: rem-calc(12);
+        padding-bottom: rem-calc(12);
+        cursor: pointer;
+        // Icon
+        $icon-size: 30px;
+        &:before {
+            content: "";
+            width: $icon-size;
+            height: $icon-size;
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            background-size: $icon-size;
+            display: inline-block;
+
+        }
+        &:hover:before { background-position-y: -$icon-size; }
+        &.edit:before { background-image: url('../../img/icon-edit.png'); }
+        &.comment:before { background-image: url('../../img/icon-comment.png'); }
+        &.share:before { background-image: url('../../img/icon-share.png'); }
+        &.delete:before { background-image: url('../../img/icon-delete.png'); }
+
+        &:not(:last-child) {
+            border-right: $border-style;
+        }
+
+    }
+}
+
+
 @import "pages/home";
 @import "pages/go";
 @import "pages/signup";
