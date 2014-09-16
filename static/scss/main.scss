@@ -154,7 +154,7 @@ body {
     .action {
         $icon-size: rem-calc(30);
         $spacing: rem-calc(12);
-        height: $icon-size + $spacing*2;
+        line-height: 0;
         padding-top: $spacing;
         padding-bottom: $spacing;
         cursor: pointer;
