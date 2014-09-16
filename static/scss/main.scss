@@ -147,7 +147,7 @@ body {
         margin-top: rem-calc(12);
     }
 
-    $border-style: 1px solid scale-color($black, $lightness: 10%);
+    $border-style: 1px solid $oil;
     .actions {
         border-top: $border-style;
     }
