@@ -14,3 +14,8 @@ class FishForm(forms.ModelForm):
             'weight': 'Kgs',
             'witness': 'Enter name',
         }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = m.Comment
+        fields = ('fish', 'content')

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Species(models.Model):
     class Meta:
         verbose_name_plural = 'Species'
@@ -11,6 +12,7 @@ class Species(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Fish(models.Model):
     class Meta:
@@ -29,3 +31,10 @@ class Fish(models.Model):
         self.points = int(round(self.weight * self.species.k))
         super(Fish, self).save(*a, **kw)
 
+
+class Comment(models.Model):
+    user = models.ForeignKey(User)
+    fish = models.ForeignKey(Fish)
+    content = models.CharField(max_length=2000)
+
+    create = models.DateTimeField(auto_now_add=True)

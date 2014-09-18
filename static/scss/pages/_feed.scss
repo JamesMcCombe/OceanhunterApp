@@ -15,6 +15,12 @@
                 display: block;
                 position: relative;
                 color: $white;
+
+                .fish-image {
+                    // now just for iPhone
+                    height: 320px;
+                }
+
                 .summaries {
                     position: absolute;
                     bottom: 0;
@@ -45,9 +51,41 @@
                 .expand {  }
                 .more {
                     display: inline-block;
-                    padding: rem-calc(3) rem-calc(12);
+                    padding: 0 rem-calc(12);
                     float: right;
                     letter-spacing: rem-calc(2);
+                }
+                .new-comment {
+                    display: none;
+                    $height: rem-calc(40);
+                    $font-size: rem-calc(16);
+                    [name="content"] {
+                        height: $height;
+                        background-color: $white;
+                        /* border-color: white; */
+                        border-color: $white;
+                        /* margin-right: 20px; */
+                        color: $black;
+                        font-size: $font-size;
+                        padding: 0 0.5rem;
+                    }
+                    .button {
+                        background-color: $white;
+                        background-image: none;
+                        color: $primary-color;
+                        text-shadow: none;
+                        font-size: $font-size;
+                        font-weight: $font-weight-normal;
+                        // line-height: 2.3;
+                        margin: 0;
+                        height: $height;
+                        line-height: $height;
+
+                        &:hover {
+                            background-color: $primary-color;
+                            color: $white;
+                        }
+                    }
                 }
             }
         }

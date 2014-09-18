@@ -35,6 +35,13 @@
 		<link rel="stylesheet" href="{% static 'build/css/main.css' %}"/>
 	</head>
 
+    <script>
+        var OC = OC || {};
+        OC.user = OC.user || {};
+        OC.user.first_name = "{{ user.first_name }}";
+        OC.user.last_name = "{{ user.last_name }}";
+    </script>
+
 	<body class="{% render_block 'body-class' %}">
 
     {% block nav %}

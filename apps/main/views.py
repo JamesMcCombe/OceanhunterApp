@@ -84,3 +84,19 @@ def myfish(request):
 def myteam(request):
     u = request.user
     return {}
+
+
+@login_required
+@ajax_request
+def ajax_new_comment(request):
+    u = request.user
+    F = f.CommentForm
+    if request.method == 'POST':
+        form = F(data=request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = u
+            comment.save()
+            return {'status': 'success'}
+        else:
+            return {'status': 'error', 'errors': form.errors}
