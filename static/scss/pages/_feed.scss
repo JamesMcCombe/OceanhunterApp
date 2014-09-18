@@ -14,7 +14,6 @@
             .image-wrapper {
                 display: block;
                 position: relative;
-                color: $white;
 
                 .fish-image {
                     // now just for iPhone
@@ -22,6 +21,7 @@
                 }
 
                 .summaries {
+                    color: $white;
                     position: absolute;
                     bottom: 0;
                     width: 100%;

@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from annoying.decorators import render_to, ajax_request
 
 from . import models as m
@@ -24,6 +24,15 @@ def home(request):
         # so dont need to add a news feed model right now.
         ctx['feeds'] = m.Fish.objects.order_by('-create')
         ctx['TEMPLATE'] = 'feed.html'
+    return ctx
+
+
+@login_required
+@render_to('feed.html')
+def fish_enlarge(request, fish_id):
+    ctx = {}
+    ctx['enlarge'] = True
+    ctx['feeds'] = [get_object_or_404(m.Fish, pk=fish_id)]
     return ctx
 
 

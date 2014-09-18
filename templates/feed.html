@@ -20,14 +20,18 @@
   {% for f in feeds %}
     <li class="feed row fish-{{ f.id }}">
       <h3 class="columns small-12 small-centered"><a href="#">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
-      <a class="image-wrapper" href="#">
+
+      <div class="image-wrapper">
+        {# enlarge mode only display one fish, do not need link to myself #}
+        {% if not enlarge %}<a href="{% url 'fish_enlarge' f.id %}">{% endif %}
         {% thumbnail f.image "640x640" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
         <div class="row collapse summaries">
           <div class="columns small-6 text-center">{{ f.species.name }}</div>
           <div class="columns small-3 text-center">{{ f.weight }} Kg</div>
           <div class="columns small-3 text-center">{{ f.points }} Pts</div>
         </div>
-      </a>
+        {% if not enlarge %}</a>{% endif %}
+      </div>
       <ul class="comments columns small-12 small-centered">
         {% for c in f.comment_set.all %}
           <li class="comment">
