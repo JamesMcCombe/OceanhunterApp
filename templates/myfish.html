@@ -11,7 +11,7 @@
 {% endblock footer %}
 
 {% block nav_title %}
-  <a href="#">{{ user.first_name }} {{ user.last_name }} &nbsp;|&nbsp; {{ user.profile.points }} Pts</a>
+  <a href="#">{{ u.first_name }} {{ u.last_name }} &nbsp;|&nbsp; {{ u.profile.points }} Pts</a>
 {% endblock nav_title %}
 
 {% block content %}
@@ -19,8 +19,8 @@
 {% addtoblock 'body-class' %} page-myfish {% endaddtoblock %}
 
 <ul class="tabs" role="tablist">
-  <li class="tab-title small-6 text-center active" role="presentational"><a href="#" role="tab" tabindex="0" aria-selected="true" controls="panel1-1">My fish</a></li>
-  <li class="tab-title small-6 text-center" role="presentational"><a href="{% url 'myteam' %}" role="tab" tabindex="0" aria-selected="false" controls="panel1-2">My team</a></li>
+  <li class="tab-title small-6 text-center active" role="presentational"><a href="#" role="tab" tabindex="0" aria-selected="true" controls="panel1-1">{{ possessive }} fish</a></li>
+  <li class="tab-title small-6 text-center" role="presentational"><a href="{% url 'userteam' u.id %}" role="tab" tabindex="0" aria-selected="false" controls="panel1-2">{{ possessive }} team</a></li>
 </ul>
 
 <ul class="row species-list">

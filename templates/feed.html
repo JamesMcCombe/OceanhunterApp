@@ -19,7 +19,7 @@
 <ul class="small-block-grid-1 feeds">
   {% for f in feeds %}
     <li class="feed row fish-{{ f.id }}">
-      <h3 class="columns small-12 small-centered"><a href="#">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
+      <h3 class="columns small-12 small-centered"><a href="{% url 'userfish' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
 
       <div class="image-wrapper">
         {# enlarge mode only display one fish, do not need link to myself #}
@@ -35,7 +35,7 @@
       <ul class="comments columns small-12 small-centered">
         {% for c in f.comment_set.all %}
           <li class="comment">
-            <a class="name" href="#">{{ c.user.first_name }} {{ c.user.last_name }}</a> | <span class="content">{{ c.content }}</span>
+            <a class="name" href="{% url 'userfish' c.user.id %}">{{ c.user.first_name }} {{ c.user.last_name }}</a> | <span class="content">{{ c.content }}</span>
           </li>
         {% endfor %}
         <li class="actions">

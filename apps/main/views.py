@@ -75,8 +75,14 @@ def myfish_new(request):
 
 @login_required
 @render_to('myfish.html')
-def myfish(request):
-    u = request.user
+def myfish(request, user_id):
+    if user_id == 'me' or int(user_id) == request.user.id:
+        u = request.user
+        possessive = 'My'
+    else:
+        u = get_object_or_404(m.User, pk=user_id)
+        possessive = u.profile.gender == 'male' and 'His' or 'Her'
+
     species_list = OrderedDict()
     for fish in u.fish_set.order_by('-create'):
         species_list.setdefault(fish.species, [])
@@ -85,14 +91,26 @@ def myfish(request):
     for species, fishes in species_list.items():
         species.points = sum(f.points for f in fishes)
 
-    return {'species_list':species_list}
+    return {
+        'u': u,
+        'species_list':species_list,
+        'possessive': possessive,
+    }
 
 
 @login_required
 @render_to('myfish_myteam.html')
-def myteam(request):
-    u = request.user
-    return {}
+def myteam(request, user_id):
+    if user_id == 'me' or int(user_id) == request.user.id:
+        u = request.user
+        possessive = 'My'
+    else:
+        u = get_object_or_404(m.User, pk=user_id)
+        possessive = u.profile.gender == 'male' and 'His' or 'Her'
+    return {
+        'u': u,
+        'possessive': possessive,
+    }
 
 
 @login_required
