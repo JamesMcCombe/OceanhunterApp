@@ -30,7 +30,7 @@
     <ul class="small-block-grid-3 fishes">
       {% for fish in fishes %}
         <li class="">
-          <a class="image-wrapper" href="#">
+          <a class="image-wrapper" href="{% url 'fish_enlarge' fish.id %}">
             {% thumbnail fish.image "200x200" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
             <img class="icon-enlarge" src="{% static 'img/icon-search.png' %}">
           </a>
