@@ -333,7 +333,7 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
 
   background-repeat: no-repeat;
   border: $input-border-width $input-border-style $input-border-color;
-  padding: $form-spacing / 2;
+  padding: $form-spacing;
   font-size: $input-font-size;
   color: $input-font-color;
   line-height: normal;
@@ -471,7 +471,7 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
     /* Add height value for select elements to match text input height */
     select {
       @include form-select;
-      height: ($input-font-size + ($form-spacing * 1.5) - rem-calc(1));
+      height: ($input-font-size + ($form-spacing * 2.5) - rem-calc(1));
     }
 
     /* Adjust margin for form elements below */
