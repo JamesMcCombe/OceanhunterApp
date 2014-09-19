@@ -53,6 +53,7 @@
   $(function() {
 
     $('.submit').click(function() {
+      $(this).attr('disabled', true);
       $('form').submit();
     });
     $('.facebook').on('click', function(){
