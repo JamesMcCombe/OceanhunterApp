@@ -2,17 +2,51 @@ from django.db import models
 from django.contrib.auth.models import User
 from annoying.fields import AutoOneToOneField
 
-AREA_CHOICES = (('north', 'North',), ('south', 'South',))
+AREA_CHOICES = (('North Island', 'North Island',), ('South Island', 'South Island',))
 GENDER_CHOICES = (('female', 'Female',), ('male', 'Male',))
+CITY_CHOICES = (
+    ('North Island', (
+        ('Northland', 'Northland'),
+        ('Auckland', 'Auckland'),
+        ('Waikato', 'Waikato'),
+        ('Bay of Plenty', 'Bay of Plenty'),
+        ('Gisborne', 'Gisborne'),
+        ("Hawke's Bay", "Hawke's Bay"),
+        ('Taranaki', 'Taranaki'),
+        ('Wanganui', 'Wanganui'),
+        ('Manawatu', 'Manawatu'),
+        ('Wairarapa', 'Wairarapa'),
+        ('Wellington', 'Wellington'),
+    )),
+    ('South Island', (
+        ('Nelson Bays', 'Nelson Bays'),
+        ('Marlborough', 'Marlborough'),
+        ('West Coast', 'West Coast'),
+        ('Canterbury', 'Canterbury'),
+        ('Timaru/Oamaru', 'Timaru/Oamaru'),
+        ('Otago', 'Otago'),
+        ('Southland', 'Southland'),
+    )),
+)
 
 class Profile(models.Model):
     user = AutoOneToOneField(User)
     avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     area = models.CharField(max_length=50, choices=AREA_CHOICES)
-    city = models.CharField(max_length=50)
+    city = models.CharField(max_length=50, choices=CITY_CHOICES)
     dob = models.DateField(null=True)
     points = models.IntegerField(default=0)
+
+    def save(self, *a, **kw):
+        # get area of city
+        for area, cities in CITY_CHOICES:
+            for city in cities:
+                if self.city == city[0]:
+                    break
+
+        self.area = area
+        super(Profile, self).save(*a, **kw)
 
     def recalculate_points(self):
         self.points = sum(f.points for f in self.user.fish_set.all())

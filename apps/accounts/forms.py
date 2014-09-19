@@ -34,8 +34,8 @@ class SignupForm(forms.ModelForm):
     # address = forms.CharField(label="Address")
     #suburb = forms.CharField(label="Surburb")
     gender = forms.ChoiceField(widget=forms.RadioSelect, choices=m.GENDER_CHOICES)
-    area = forms.ChoiceField(widget=forms.RadioSelect, choices=m.AREA_CHOICES)
-    city = forms.CharField(label="City")
+    # area = forms.ChoiceField(widget=forms.RadioSelect, choices=m.AREA_CHOICES)
+    city = forms.ChoiceField(label="City", choices=m.CITY_CHOICES)
     dob = forms.DateField(label="Date of Birth")
     #postcode = forms.CharField(label="Postcode")
     #phone = forms.CharField(label="Phone Number")
@@ -84,7 +84,7 @@ class SignupForm(forms.ModelForm):
             #p.postcode = data['postcode']
             #p.phone = data['phone']
             p.gender = data['gender']
-            p.area = data['area']
+            # p.area = data['area']
             p.city = data['city']
             p.dob = data['dob']
             p.save()
