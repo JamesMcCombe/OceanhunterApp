@@ -15,5 +15,8 @@ urlpatterns = patterns('main.views',
     url(r'^fish/(?P<fish_id>\d+)/$', 'fish_enlarge', name='fish_enlarge'),
 
     url(r'^ajax/newcomment/$', 'ajax_new_comment', name='ajax_new_comment'),
+
+    url(r'^leaderboard/$', 'leaderboard', name='leaderboard'),
+
 )
 

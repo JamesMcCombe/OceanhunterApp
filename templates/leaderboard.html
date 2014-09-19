@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load staticfiles sekizai_tags thumbnail humanize %}
+
+{% block header %}
+  {# remove footer #}
+{% endblock header %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
+
+{% block nav_title %}
+<li class="filter-button"><img src="{% static 'img/icon-filter.png' %}"></li>
+<li class="name">
+   <h1><a href="#">Leader board</a></h1>
+</li>
+{% endblock nav_title %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-leaderboard {% endaddtoblock %}
+
+<div class="row">
+  <ul class="columns small-12 filters">
+    <li class="filter">King Fish <sup><a class="close">&#215;</a></sup></li>
+    <li class="filter">Auckland <sup><a class="close">&#215;</a></sup></li>
+    <li class="filter">Team <sup><a class="close">&#215;</a></sup></li>
+    <li class="filter">Junior <sup><a class="close">&#215;</a></sup></li>
+    <li class="filter">Male <sup><a class="close">&#215;</a></sup></li>
+    <li class="filter">Open Team <sup><a class="close">&#215;</a></sup></li>
+  </ul>
+</div>
+<ul class="solos">
+  {% for u in page.object_list %}
+  <li class="solo">
+    <div class="row">
+      <div class="columns small-12">
+        <div class="row collapse">
+          <div class="columns small-4">
+            {% thumbnail u.profile.biggest_fish.image "200x200" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+          </div>
+          <div class="columns small-8 content">
+            <div class="name">{{ forloop.counter|add:start|ordinal }} | <a href="{% url 'userfish' u.id %}">{{ u.first_name }} {{ u.last_name }}</a></div>
+            <div class="city">{{ u.profile.city }}</div>
+            <div class="points">{{ u.profile.points }} Points</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+
+
+{% addtoblock 'js' %}
+<script>
+  $(function() {
+
+  });
+</script>
+{% endaddtoblock %}
+
+{% endblock content %}

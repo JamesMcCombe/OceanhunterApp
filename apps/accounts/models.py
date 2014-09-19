@@ -53,6 +53,10 @@ class Profile(models.Model):
         self.points = sum(f.points for f in self.user.fish_set.all())
         self.save()
 
+    def biggest_fish(self):
+        return self.user.fish_set.order_by('-points').first()
+
+
 TEAM_KINDS = (
     ('open', 'Open'),
     ('family', 'Family'),

@@ -2,6 +2,7 @@ from collections import OrderedDict
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
+from django.core.paginator import Paginator
 from annoying.decorators import render_to, ajax_request
 
 from . import models as m
@@ -127,3 +128,16 @@ def ajax_new_comment(request):
             return {'status': 'success'}
         else:
             return {'status': 'error', 'errors': form.errors}
+
+
+@render_to('leaderboard.html')
+def leaderboard(request):
+    PERPAGE = 15
+    p = request.GET.get('p', 1)
+
+    solos = m.User.objects.exclude(profile__points=0).order_by('-profile__points')
+    paginator = Paginator(solos, PERPAGE)
+
+    page = paginator.page(p)
+    start = PERPAGE * (p - 1)
+    return {'page': page, 'start': start}

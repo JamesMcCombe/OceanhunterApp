@@ -11,7 +11,9 @@
 {% endblock footer %}
 
 {% block nav_title %}
-  <a href="#">{{ u.first_name }} {{ u.last_name }} &nbsp;|&nbsp; {{ u.profile.points }} Pts</a>
+<li class="name">
+  <h1><a href="#">{{ u.first_name }} {{ u.last_name }} &nbsp;|&nbsp; {{ u.profile.points }} Pts</a></h1>
+</li>
 {% endblock nav_title %}
 
 {% block content %}
