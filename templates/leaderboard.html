@@ -38,7 +38,9 @@
       <div class="columns small-12">
         <div class="row collapse">
           <div class="columns small-4">
-            {% thumbnail u.profile.biggest_fish.image "200x200" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+            <a href="{% url 'userfish' u.id %}">
+              {% thumbnail u.profile.biggest_fish.image "200x200" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+            </a>
           </div>
           <div class="columns small-8 content">
             <div class="name">{{ forloop.counter|add:start|ordinal }} | <a href="{% url 'userfish' u.id %}">{{ u.first_name }} {{ u.last_name }}</a></div>
