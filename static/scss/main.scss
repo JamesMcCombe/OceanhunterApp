@@ -71,7 +71,7 @@ body {
 // XXX Maybe use a reveal?
 .oc-top-bar {
 
-    .name {
+    .hide-on-menu-expanded, .name {
         -webkit-transition: opacity 100ms ease;
         transition: opacity 100ms ease;
     }
@@ -101,7 +101,7 @@ body {
         position: absolute;
         bottom: 0;
         background: $black;
-        .name { opacity: 0; }
+        .hide-on-menu-expanded, .name { opacity: 0; }
 
         .top-bar-section {
             opacity: 1;
