@@ -71,7 +71,7 @@
         </div>
         <div class="row">
           <div class="columns">
-            <input type="text" onfocus="this.type='date'" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">
+            <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">
           </div>
         </div>
         <div class="row">
@@ -107,6 +107,12 @@
 
     $('#showPassword').change(function(e) {
       $('[name^="password"]').attr('type', this.checked ? 'text' : 'password');
+    });
+
+    $('[name="dob"]').focus(function(e) {
+      if ($(this).attr('type') != 'date') {
+        $(this).blur().attr('type', 'date').focus();
+      }
     });
 
     $('.next').click(function(e) {
