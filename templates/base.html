@@ -31,7 +31,7 @@
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-    <script src="{% static 'js/libs/modernizr.js' %}"></script>
+    <script src="{% static 'js/libs/modernizr.build.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'build/css/main.css' %}"/>
 	</head>
 
@@ -43,6 +43,9 @@
     </script>
 
 	<body class="{% render_block 'body-class' %}">
+
+    {# this page wrap is for transparent blur modal #}
+    <div class="page-wrap">
 
     {% block nav %}
         <div class="fixed">
@@ -81,19 +84,19 @@
     </header>
     {% endblock %}
 
-    <div class="fix-for-grid-block-overflow">
     {% block content %}{% endblock %}
 
     <div class="fixed-to-bottom-wrapper">
-    {% render_block 'fixed-to-bottom' %}
-    {% block footer %}
-    <footer>
-        <a href="">Terms & conditions</a> |
-        <a href="">Privacy Policy</a>
-    </footer>
-    {% endblock %}
+        {% render_block 'fixed-to-bottom' %}
+        {% block footer %}
+        <footer>
+            <a href="">Terms & conditions</a> |
+            <a href="">Privacy Policy</a>
+        </footer>
+        {% endblock %}
     </div>
 
+    </div> {# end of .page-wrap #}
 
     {% if debug %}
     <script src="{% static 'js/libs/jquery-1.11.0.min.js' %}"></script>

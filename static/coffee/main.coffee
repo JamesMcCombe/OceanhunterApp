@@ -5,6 +5,7 @@ class OceanHunter
     $(document).foundation()
 
     @bindRevealAction()
+    @bindRevealBlur()
 
   # after you change the content in the fixed-to-bottom-wrapper,
   # you have to call this again
@@ -28,6 +29,12 @@ class OceanHunter
       title_wrap = elm.closest('.reveal-modal').find('h2')
       title = title_wrap.data 'title-origin'
       title_wrap.text title
+
+  bindRevealBlur: ->
+    $('body').on 'open.fndtn.reveal', '.oc-reveal-modal-blur', (e) ->
+      $('.page-wrap').addClass 'blur'
+    $('body').on 'close.fndtn.reveal', '.oc-reveal-modal-blur', (e) ->
+      $('.page-wrap').removeClass 'blur'
 
 $ ->
   window.oh = new OceanHunter
