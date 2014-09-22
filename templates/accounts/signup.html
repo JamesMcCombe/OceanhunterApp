@@ -118,6 +118,8 @@
     $('.next').click(function(e) {
       $('body').addClass('step-2');
       oh.reAdjustFixedBottom();
+      // focus to region because two step switch too fast no body realize what to do
+      $('[name="city"]').focus();
     });
 
     $('.submit').click(function() {
