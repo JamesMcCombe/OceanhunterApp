@@ -5,7 +5,7 @@ from annoying.fields import AutoOneToOneField
 AREA_CHOICES = (('North Island', 'North Island',), ('South Island', 'South Island',))
 GENDER_CHOICES = (('female', 'Female',), ('male', 'Male',))
 CITY_CHOICES = (
-    ('Region', 'Region'), # as a placeholder
+    ('', 'Region'), # as a placeholder
     ('North Island', (
         ('Northland', 'Northland'),
         ('Auckland', 'Auckland'),

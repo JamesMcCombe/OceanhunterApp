@@ -3,8 +3,10 @@
     .filter-button {
         position: absolute;
         left: 0;
-        line-height: $topbar-height;
-        img { height: 16px; }
+        i {
+            line-height: $topbar-height;
+            font-size: 20px;
+        }
         padding-left: 15px;
         cursor: pointer;
     }
@@ -40,5 +42,43 @@
             .city { margin-bottom: $spacing; color: scale-color($white, $lightness:-50%); }
             .points {}
         }
+    }
+
+    .filter-reveal-modal {
+        form { padding-top: rem-calc(15); }
+        [type="radio"] {
+            display: none;
+
+            & ~ label {
+                @include form-element;
+                line-height: 1.1;
+                padding-left: 0;
+                padding-right: 0;
+                background-color: rgba(0, 0, 0, 0.3);
+                text-align: center;
+
+                &:hover {
+                    background-color: $black;
+                    color: $primary-color;
+                }
+            }
+
+            &:hover ~ label, &:checked ~ label {
+                background-color: $black;
+                color: $primary-color;
+            }
+
+        }
+
+        .close, .submit {
+            width: 100%;
+            text-align: center;
+            font-size: rem-calc(30);
+            background-color: transparent;
+            background-image: none;
+            text-shadow: none;
+        }
+        .close { color: $red; &:hover { color: scale-color($red, $lightness: 20%); } }
+        .submit { color: $green; &:hover { color: scale-color($green, $lightness: 20%); } }
     }
 }

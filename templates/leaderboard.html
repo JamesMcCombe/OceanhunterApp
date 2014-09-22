@@ -11,7 +11,7 @@
 {% endblock footer %}
 
 {% block nav_title %}
-<li class="filter-button hide-on-menu-expanded"><img src="{% static 'img/icon-filter.png' %}"></li>
+<li class="filter-button hide-on-menu-expanded" data-reveal-id="filterModal"><i class="icomoon-filter"></i></li>
 <li class="name">
    <h1><a href="#">Leader board</a></h1>
 </li>
@@ -55,10 +55,41 @@
 </ul>
 
 
+<div id="filterModal" class="reveal-modal oc-reveal-modal oc-reveal-modal-full oc-reveal-modal-blur filter-reveal-modal collapse" data-reveal data-options="animation:fade">
+  <form method="get">
+    <div class="row">
+      <div class="columns small-6"><label>{{ form.city.label }}{{ form.city }}</label></div>
+      <div class="columns small-6"><label>{{ form.species.label }}{{ form.species }}</label></div>
+    </div>
+    {% for field in radios %}
+      <div class="row">
+        {% for radio in field %}
+          <div class="columns small-6">
+            <input type="radio" name="{{ radio.name }}" id="{{field.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} >
+            <label for="{{ field.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <div class="row">
+      <div class="columns small-6"><button class="close"><i class="icomoon-cross"></i></button></div>
+      <div class="columns small-6"><button class="submit"><i class="icomoon-check"></i></button></div>
+    </div>
+  </form>
+</div>
+
+
 {% addtoblock 'js' %}
 <script>
   $(function() {
+    // for debug
+    // $('#filterModal').foundation('reveal', 'open');
 
+    // close modal
+    $('.close').click(function(e) {
+      e.preventDefault();
+      $('#filterModal').foundation('reveal', 'close');
+    });
   });
 </script>
 {% endaddtoblock %}

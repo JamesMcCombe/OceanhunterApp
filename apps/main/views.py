@@ -134,10 +134,14 @@ def ajax_new_comment(request):
 def leaderboard(request):
     PERPAGE = 15
     p = request.GET.get('p', 1)
+    F = f.FilterForm
+    form = F(request.GET or None)
 
     solos = m.User.objects.exclude(profile__points=0).order_by('-profile__points')
     paginator = Paginator(solos, PERPAGE)
 
     page = paginator.page(p)
     start = PERPAGE * (p - 1)
-    return {'page': page, 'start': start}
+
+    radios = (form[name] for name in ['area', 'unit', 'team', 'age', 'gender'])
+    return {'page': page, 'start': start, 'form': form, 'radios': radios}
