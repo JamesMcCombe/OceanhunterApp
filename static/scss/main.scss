@@ -9,9 +9,13 @@
 
 @import "idangerous.swiper";
 
-// 1. for .fix-for-grid-block-overflow,
-// 2. for transparent blur modal
-.page-wrap { overflow-x: hidden; }
+.page-wrap {
+    // 1. for .fix-for-grid-block-overflow,
+    overflow-x: hidden;
+    // 2. for transparent blur modal
+    transition: filter 600ms ease;
+    -webkit-transition: -webkit-filter 600ms ease;
+}
 
 .cssfilters .blur {
     -webkit-filter: blur(5px);
