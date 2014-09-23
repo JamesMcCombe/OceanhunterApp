@@ -13,8 +13,8 @@
     // 1. for .fix-for-grid-block-overflow,
     overflow-x: hidden;
     // 2. for transparent blur modal
-    transition: filter 600ms ease;
-    -webkit-transition: -webkit-filter 600ms ease;
+    transition: filter 250ms ease-out;
+    -webkit-transition: -webkit-filter 250ms ease-out;
 }
 
 .cssfilters .blur {
