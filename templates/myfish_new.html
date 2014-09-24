@@ -212,7 +212,7 @@
 
     $('.submit').click(function() {
       // get the species from the slider and fill into the input
-      var species_id = $('swiper-slide-active').data('id');
+      var species_id = $('.swiper-slide-active').data('id');
       $('input[name="species"]').val(species_id);
       $(this).attr('disabled', true);
       $('form').submit();
