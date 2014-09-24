@@ -9,6 +9,10 @@
 
 @import "idangerous.swiper";
 
+// Thanks to foundation and rem, so easy to control the size
+// of everything even the size of the picture
+@media #{$medium-up} { html, body { font-size: 125%; } }
+
 .page-wrap {
     // 1. for .fix-for-grid-block-overflow,
     overflow-x: hidden;
@@ -76,7 +80,7 @@ body {
     width: 100%;
 
     .bottom-btns {
-        padding-bottom: 10px;
+        padding-bottom: rem-calc(10);
     }
 }
 

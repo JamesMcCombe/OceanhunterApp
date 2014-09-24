@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load staticfiles sekizai_tags %}
 
+{% block nav %}
+  {# remove the nav #}
+{% endblock nav %}
 
 {% block header_h2 %}
     <h2>Registration</h2>
@@ -15,7 +18,7 @@
 {% addtoblock 'body-class' %} page-signup small-header {% endaddtoblock %}
 
 <div class="row">
-  <div class="columns small-centered small-11">
+  <div class="columns small-centered small-11 medium-5">
     {# {{ form }} #}
 
     <form action="" method="post">
@@ -90,10 +93,10 @@
 {% addtoblock 'fixed-to-bottom' %}
 <section class="bottom-btns">
   <div class="row">
-    <div class="column small-centered small-11">
+    <div class="column small-centered small-11 medium-5">
       <button class="button large expand next">Next</button>
     </div>
-    <div class="column small-centered small-11">
+    <div class="column small-centered small-11 medium-5">
       <button class="button large expand submit">Register</button>
     </div>
   </div>

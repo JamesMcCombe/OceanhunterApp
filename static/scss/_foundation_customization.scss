@@ -1,17 +1,19 @@
-$green: #009640;
-$red: #ff1515;
 
 // Add new buttons here
 button, .button {
     $orange-button-bg-hover: scale-color($orange, $lightness: $button-function-factor);
     $facebook-button-bg-hover: scale-color($facebook-blue, $lightness: $button-function-factor);
+    $secondary2-button-bg: $black;
+    $secondary2-button-bg-hover: $black;
 
     &.orange { @include button-style($bg:$orange, $bg-hover:$orange-button-bg-hover); }
     &.facebook { @include button-style($bg:$facebook-blue, $bg-hover:$facebook-button-bg-hover); }
+    &.secondary2 { @include button-style($bg:$secondary2-button-bg, $bg-hover:$secondary2-button-bg-hover); }
 
     &.disabled, &[disabled]  {
         &.orange { @include button-style($bg:$orange, $disabled:true, $bg-hover:$orange-button-bg-hover); }
         &.facebook { @include button-style($bg:$facebook-blue, $disabled:true, $bg-hover:$facebook-button-bg-hover); }
+        &.secondary2 { @include button-style($bg:$secondary2-button-bg, $disabled:true, $bg-hover:$secondary2-button-bg-hover); }
     }
 }
 

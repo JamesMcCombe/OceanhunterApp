@@ -2,7 +2,7 @@
 {% load staticfiles sekizai_tags %}
 
 {% block header %}
-  {# remove footer #}
+  {# remove header #}
 {% endblock header %}
 
 {% block footer %}
@@ -13,28 +13,32 @@
 
 {% addtoblock 'body-class' %} page-myfish-new {% endaddtoblock %}
 
+{# wrap for the width #}
+<div class="row"><div class="columns small-12 medium-11 medium-centered">
 <form action="{% url 'myfish_new' %}" method="post" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
   {% csrf_token %}
   {# {{ form }} #}
   <div class="page-1">
     <div class="row">
-      <div class="columns small-centered small-12">
+      <div class="columns small-12 medium-12">
         <label>{{ form.species.label }}</label>
       </div>
     </div>
     <input type="hidden" name="{{ form.species.html_name }}" value="{{ form.species.value|default_if_none:"" }}">
     <div class="row">
-      <div class="columns small-centered small-12">
+      <div class="columns small-12 medium-12">
         <div class="swiper-container">
-          <a class="arrow-left" href="#"></a>
-          <a class="arrow-right" href="#"></a>
+          {# <a class="arrow-left" href="#"></a> #}
+          {# <a class="arrow-right" href="#"></a> #}
           <div class="swiper-wrapper">
             {% for s in form.species.field.queryset %}
             <div class="swiper-slide" data-id="{{ s.id }}" data-k="{{ s.k }}">
               <div class="species">
-                <div class="logo">
-                  <img src="{{ s.logo.url }}">
-                  <sup class="k"><span>{{ s.k }}</span></sup>
+                <div class="logo-wrap">
+                  <div class="logo">
+                    <img src="{{ s.logo.url }}">
+                    <sup class="k"><span>{{ s.k }}</span></sup>
+                  </div>
                 </div>
                 <div class="name text-center">{{ s.name }}</div>
               </div>
@@ -45,20 +49,18 @@
       </div>
     </div>
     <div class="row">
-      <div class="columns small-centered small-12">
+      <div class="columns small-12 medium-12">
         <p></p>
       </div>
     </div>
 
     <div class="row">
-      <div class="columns small-centered small-12">
+      <div class="columns small-12 medium-6">
         <label>{{ form.weight.label }}
           <input type="number" step="0.001" min="0.001" name="{{ form.weight.html_name }}" value="{{ form.weight.value|default_if_none:"" }}" placeholder="{{ form.weight.help_text }}" required>
         </label>
       </div>
-    </div>
-    <div class="row">
-      <div class="columns small-centered small-12">
+      <div class="columns small-12 medium-6">
         <label>{{ form.witness.label }}
           <input type="text" name="{{ form.witness.html_name }}" value="{{ form.witness.value|default_if_none:"" }}" placeholder="{{ form.witness.help_text }}" required>
         </label>
@@ -76,6 +78,8 @@
     </div>
   </div>
 </form>
+{# wrap for the width #}
+</div></div>
 
 {% addtoblock 'fixed-to-bottom' %}
 <section class="bottom-btns">
@@ -115,8 +119,15 @@
     </div>
   </div>
   <div class="row">
-    <div class="columns small-centered small-12">
-      <button class="button large expand next">Next</button>
+    <div class="columns small-centered small-12 medium-11">
+      <div class="row">
+        <div class="columns small-12 medium-6 show-for-medium-up">
+          <a href="{% url 'home' %}" class="button large expand secondary2 cancel icomoon-cross"> Cancel</a>
+        </div>
+        <div class="columns small-12 medium-6">
+          <button class="button large expand next">Next</button>
+        </div>
+      </div>
       <button class="button large expand orange submit" disabled>Okay</button>
     </div>
   </div>
@@ -127,30 +138,38 @@
 {% addtoblock 'js' %}
 <script>
   $(function() {
-    var mySwiper = $('.swiper-container').swiper({
-      mode: 'horizontal',
-      centeredSlides: true,
-      slidesPerView: 3,
-      calculateHeight: true,
-      cssWidthAndHeight: false,
-      loop: true,
-      watchActiveIndex: true,
-      mousewheelControl: true,
-      mousewheelControlForceToAxis: true,
-      roundLengths: true,
-      grabCursor: true,
-      loopAdditionalSlides: 2,
-      onSlideClick: function onSlideClick(swiper) {
-        swiper.swipeTo(swiper.clickedSlideLoopIndex);
-      }
-    });
+    // only scroll on small screen
+    if ($(window).width() <= 640) {
+      var mySwiper = $('.swiper-container').swiper({
+        mode: 'horizontal',
+        centeredSlides: true,
+        slidesPerView: 3,
+        calculateHeight: true,
+        cssWidthAndHeight: false,
+        loop: true,
+        watchActiveIndex: true,
+        mousewheelControl: true,
+        mousewheelControlForceToAxis: true,
+        roundLengths: true,
+        grabCursor: true,
+        loopAdditionalSlides: 2,
+        onSlideClick: function onSlideClick(swiper) {
+          swiper.swipeTo(swiper.clickedSlideLoopIndex);
+        }
+      });
+    } else {
+      $('.swiper-slide').on('click', function(e) {
+        $('.swiper-slide-active').removeClass('swiper-slide-active');
+        $(this).addClass('swiper-slide-active');
+      });
+    }
 
     // For debug directly to step 2
     // $('body').addClass('step-2');
 
     $('.next').click(function(e) {
       // fill in summaries
-      var activeSlide = $(mySwiper.activeSlide());
+      var activeSlide = $('.swiper-slide-active');
       $('.summaries .species .logo').attr('src', activeSlide.find('.logo img').attr('src'));
       $('.summaries .species .name').text(activeSlide.find('.name').text());
 
@@ -193,7 +212,7 @@
 
     $('.submit').click(function() {
       // get the species from the slider and fill into the input
-      var species_id = $(mySwiper.activeSlide()).data('id');
+      var species_id = $('swiper-slide-active').data('id');
       $('input[name="species"]').val(species_id);
       $(this).attr('disabled', true);
       $('form').submit();
