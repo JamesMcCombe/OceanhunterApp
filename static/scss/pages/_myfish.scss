@@ -119,8 +119,10 @@
     [type="file"] { visibility: hidden; position: absolute; top: 0; left: 0; height: 0; width: 0; }
 
     .cover {
-        position: absolute;
-        top: 0; left: 0; bottom: 0; right: 0;
+        @media #{$small-only} {
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+        }
         cursor: pointer;
         text-align: center;
 
@@ -130,6 +132,8 @@
 
             p { @include font-weight-lighter; margin-top: rem-calc(10); }
         }
+
+        .image { width: 100%; }
 
         .close {
             position: absolute;
@@ -150,61 +154,117 @@
         }
     }
 
-    .summaries {
-        @include font-weight-lighter;
-        text-align: center;
-        background-color: $primary-color;
-        opacity: 0.7;
-        margin-bottom: rem-calc(15);
+    @media #{$small-only} {
+        .summaries {
+            @include font-weight-lighter;
+            text-align: center;
+            background-color: $primary-color;
+            opacity: 0.7;
+            margin-bottom: rem-calc(15);
 
-        $round-padding: 10px;
+            $round-padding: 10px;
 
-        dt {
-            padding: rem-calc(2);
-            img { height: 12px; margin-right: rem-calc(5); display: inline-block; }
-            span { display: inline-block; vertical-align: middle; }
-        }
-        dd {
-            padding: rem-calc($round-padding) rem-calc($round-padding) rem-calc(20);
+            dt {
+                padding: rem-calc(2);
+                img { height: 12px; margin-right: rem-calc(5); display: inline-block; }
+                span { display: inline-block; vertical-align: middle; }
+            }
+            dd {
+                padding: rem-calc($round-padding) rem-calc($round-padding) rem-calc(20);
 
-            .round-bg {
-                width: 100%;
-                padding-bottom: 100%;
-                position: relative;
-                background-color: scale-color($primary-color, $lightness:-40%);
-                border-radius: 50%;
+                .round-bg {
+                    width: 100%;
+                    padding-bottom: 100%;
+                    position: relative;
+                    background-color: scale-color($primary-color, $lightness:-40%);
+                    border-radius: 50%;
+                }
+
+                .content {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    padding: 25% 20%;
+                    font-size: rem-calc(25);
+
+                    .logo { margin-top: -25%; }
+
+                    small {
+                        position: absolute;
+                        display: block;
+                        width: 100%;
+                        top: 60%;
+                        line-height: 1; // for multiline name
+                        left: 0;
+                    }
+                }
+
             }
 
-            .content {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                padding: 25% 20%;
-                font-size: rem-calc(25);
+            .weight {
+                $border-width: 1px;
+                border-left: $border-width solid scale-color($primary-color, $lightness: 5%);
+                border-right: $border-width solid scale-color($primary-color, $lightness: 5%);
 
-                .logo { margin-top: -25%; }
+                // fixed the border 1px
+                dd {
+                    padding-left: rem-calc($round-padding - $border-width);
+                    padding-right: rem-calc($round-padding - $border-width);
+                }
+            }
+        }
+    }
 
-                small {
-                    position: absolute;
-                    display: block;
-                    width: 100%;
-                    top: 60%;
-                    line-height: 1; // for multiline name
-                    left: 0;
+    // for ipad and pc
+    @media #{$medium-up} {
+        .page-2 {
+            padding-top: rem-calc(50);
+        }
+        .cover {
+            position: relative;
+
+            .add-image {
+                img { width: 78px; }
+                p { margin-top: rem-calc(20); font-size: rem-calc(20); }
+            }
+
+            .image { border: rem-calc(10) solid scale-color($primary-color, $lightness: -70%); }
+        }
+        .summaries {
+            $spacing: rem-calc(15);
+            $icon-spacing: rem-calc(16);
+            $icon-size: rem-calc(39);
+            $margin: $icon-size + $icon-spacing*2 + $spacing;
+
+            padding-left: $spacing;
+            padding-right: $spacing*4;
+
+            .row {
+                padding: rem-calc(14) 0;
+                &:first-child { padding-top: 0; }
+            }
+            .species, .weight { border-bottom: 1px solid scale-color($black, $lightness: 15%); }
+
+            dt  {
+                color: scale-color($primary-color, $lightness: -60%);
+                margin-left: $margin;
+                .icon-wrap {
+                    float: left;
+                    margin-left: -$margin;
+                    background-color: scale-color($primary-color, $lightness: -60%);
+                    border-radius: 50%;
+                    padding: $icon-spacing;
+                    img { height: $icon-size; opacity: 0.7; }
                 }
             }
 
-        }
-
-        .weight {
-            $border-width: 1px;
-            border-left: $border-width solid scale-color($primary-color, $lightness: 5%);
-            border-right: $border-width solid scale-color($primary-color, $lightness: 5%);
-
-            // fixed the border 1px
             dd {
-                padding-left: rem-calc($round-padding - $border-width);
-                padding-right: rem-calc($round-padding - $border-width);
+                margin-top: $spacing/2;
+                margin-left: $margin;
+                .content {
+                    @include font-weight-lighter;
+                    font-size: rem-calc(32);
+                }
             }
         }
     }
@@ -227,7 +287,7 @@
         h3 {
             margin-top: 0;
             // margin-bottom: rem-calc(20);
-            @include font-weight-lighter();
+            @include font-weight-lighter;
             font-size: rem-calc(15);
             color: $white;
         }

@@ -36,6 +36,17 @@ class OceanHunter
     $('body').on 'close.fndtn.reveal', '.oc-reveal-modal-blur', (e) ->
       $('.page-wrap').removeClass 'blur'
 
+  isSmallScreen: ->
+    $(window).width() <= 640
+
+  isHighDensity: ->
+    if window.matchMedia?
+      window.matchMedia('only screen and (min-resolution: 124dpi), only screen and (min-resolution: 1.3dppx), only screen and (min-resolution: 48.8dpcm)').matches \
+      or window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (min-device-pixel-ratio: 1.3)').matches
+    else if window.devicePixelRatio?
+      window.devicePixelRatio > 1.3
+
+
 $ ->
   window.oh = new OceanHunter
   oh.reAdjustFixedBottom()

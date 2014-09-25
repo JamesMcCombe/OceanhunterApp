@@ -67,15 +67,73 @@
       </div>
     </div>
   </div>
+  <input name="{{ form.image.html_name }}" type="file" accept="image/*">
+  {# Page 2: For iPhone #}
   <div class="page-2">
-    <input name="{{ form.image.html_name }}" type="file" accept="image/*">
-    <div class="cover">
-      <div class="add-image">
-        <img class="needsclick" src="{% static 'img/add.png' %}">
-        <p class="needsclick">Please add a picture</p>
+    <div class="show-for-small-only">
+      <div class="cover">
+        <div class="add-image">
+          <img class="needsclick" src="{% static 'img/add.png' %}">
+          <p class="needsclick">Please add a picture</p>
+        </div>
+        <div class="close">&#215;</div>
       </div>
-      <div class="close">&#215;</div>
     </div>
+
+    {# Page 2: For iPad and PC #}
+    <div class="show-for-medium-up">
+      <div class="row">
+        <div class="columns medium-6">
+          <div class="cover">
+            <div class="add-image">
+              <img class="needsclick" src="{% static 'img/add.png' %}">
+              <p class="needsclick">Please add a picture</p>
+            </div>
+            <div class="close">&#215;</div>
+          </div>
+        </div>
+        <div class="columns medium-6">
+          <div class="summaries">
+            <div class="row species">
+              <dt><div class="icon-wrap"><img src="{% static 'img/icon-species.png' %}"></div><span>Fish type</span></dt>
+              <dd>
+                <div class="round-bg">
+                  <div class="content">
+                    <span class="name">King Fish</span>
+                  </div>
+                </div>
+              </dd>
+            </div>
+            <div class="row weight">
+              <dt><div class="icon-wrap"><img src="{% static 'img/icon-weight.png' %}"></div><span>Weight</span></dt>
+              <dd>
+                <div class="round-bg">
+                  <div class="content">
+                    <span class="value">26.2</span>
+                    <span>Kg</span>
+                  </div>
+                </div>
+              </dd>
+            </div>
+            <div class="row points">
+              <dt><div class="icon-wrap"><img src="{% static 'img/icon-points.png' %}"></div><span>Points</span></dt>
+              <dd>
+                <div class="round-bg">
+                  <div class="content">
+                    <span class="value">80</span>
+                    <span>Pts</span>
+                  </div>
+                </div>
+              </dd>
+            </div>
+            <div class="row">
+              <button class="button large expand orange submit" disabled>Okay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {# End of Page 2 for iPad and PC #}
   </div>
 </form>
 {# wrap for the width #}
@@ -83,7 +141,7 @@
 
 {% addtoblock 'fixed-to-bottom' %}
 <section class="bottom-btns">
-  <div class="row collapse summaries">
+  <div class="row collapse summaries show-for-small-only">
     <div class="columns small-4 species">
       <dt><img src="{% static 'img/icon-species.png' %}"><span>Fish type</span></dt>
       <dd>
@@ -122,13 +180,13 @@
     <div class="columns small-centered small-12 medium-11">
       <div class="row">
         <div class="columns small-12 medium-6 show-for-medium-up">
-          <a href="{% url 'home' %}" class="button large expand secondary2 cancel icomoon-cross"> Cancel</a>
+          <a href="{% url 'home' %}" class="button large expand secondary2 cancel">Cancel</a>
         </div>
         <div class="columns small-12 medium-6">
           <button class="button large expand next">Next</button>
         </div>
       </div>
-      <button class="button large expand orange submit" disabled>Okay</button>
+      <button class="button large expand orange submit show-for-small-only" disabled>Okay</button>
     </div>
   </div>
 </section>
@@ -139,7 +197,7 @@
 <script>
   $(function() {
     // only scroll on small screen
-    if ($(window).width() <= 640) {
+    if (oh.isSmallScreen()) {
       var mySwiper = $('.swiper-container').swiper({
         mode: 'horizontal',
         centeredSlides: true,
@@ -165,7 +223,8 @@
     }
 
     // For debug directly to step 2
-    // $('body').addClass('step-2');
+    $('body').addClass('step-2');
+    oh.reAdjustFixedBottom();
 
     $('.next').click(function(e) {
       // fill in summaries
@@ -195,11 +254,14 @@
 
     // after selected a image
     $('[name="image"]').on('change', function(e) {
+      var cover = $('.cover:visible');
+      var cover_size = cover.width();
+      var image_size = oh.isHighDensity() ? cover_size * 2 : cover_size;
       loadImage(e.target.files[0], function(img) {
         $(img).addClass('image');
-        $('.cover').addClass('image-attached').append(img);
+        cover.addClass('image-attached').append(img);
         $('.submit').attr('disabled', false);
-      }, {maxWidth: 640});
+      }, {maxWidth: image_size, maxHeight: image_size, crop: true});
     });
 
     // click x to remove the image
