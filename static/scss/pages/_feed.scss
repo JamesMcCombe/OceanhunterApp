@@ -17,7 +17,7 @@
 
                 .fish-image {
                     // now just for iPhone
-                    height: 320px;
+                    width: 100%;
                 }
 
                 .summaries {
@@ -89,5 +89,21 @@
                 }
             }
         }
+
+    @media #{$medium-up} {
+        margin-left: $column-gutter;
+        margin-right: $column-gutter;
+
+        .feed {
+            .image-wrapper {
+                .summaries {
+                    font-size: rem-calc(16);
+                    position: relative;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
     } // .feeds
 }
