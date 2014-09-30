@@ -150,15 +150,17 @@ body {
 }
 
 .oc-reveal-modal {
-    &-small {
-        // remove default whole page reveal on small screen
-        min-height: 0;
-        width: 85%;
-        // top: rem-calc(100);
-        left: 0;
-        right: 0;
-        // center
-        margin: 0 auto;
+    @media #{$small-only} {
+        &.small {
+            // remove default whole page reveal on small screen
+            min-height: 0;
+            width: 85%;
+            // top: rem-calc(100);
+            left: 0;
+            right: 0;
+            // center
+            margin: 0 auto;
+        }
     }
 
     .cssfilters &-blur {
