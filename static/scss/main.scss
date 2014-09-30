@@ -41,6 +41,7 @@
     font-weight: $font-weight-lighter;
     letter-spacing: rem-calc(0.5px);
 }
+.lighter { @include font-weight-lighter; }
 
 header {
     text-align: center;
