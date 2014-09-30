@@ -39,6 +39,9 @@
                 }
             }
             .comments {
+                @media #{$small-only} {
+                    @include grid-column(12);
+                }
                 list-style: none;
                 margin-top: rem-calc(8);
                 margin-left: 0;
@@ -48,59 +51,88 @@
                     @include anchor-primary-color;
                     font-weight: bolder;
                 }
-                .expand {  }
-                .more {
-                    display: inline-block;
-                    padding: 0 rem-calc(12);
-                    float: right;
-                    letter-spacing: rem-calc(2);
+            }
+            .actions {
+                font-size: rem-calc(14);
+                @media #{$small-only} {
+                    @include grid-column(12);
                 }
-                .new-comment {
-                    display: none;
-                    $height: rem-calc(40);
-                    $font-size: rem-calc(16);
-                    [name="content"] {
-                        height: $height;
-                        background-color: $white;
-                        /* border-color: white; */
-                        border-color: $white;
-                        /* margin-right: 20px; */
-                        color: $black;
-                        font-size: $font-size;
-                        padding: 0 0.5rem;
-                    }
-                    .button {
-                        background-color: $white;
-                        background-image: none;
-                        color: $primary-color;
-                        text-shadow: none;
-                        font-size: $font-size;
-                        font-weight: $font-weight-normal;
-                        // line-height: 2.3;
-                        margin: 0;
-                        height: $height;
-                        line-height: $height;
+                .expand {  }
+            }
+            .more {
+                display: inline-block;
+                padding: 0 rem-calc(12);
+                float: right;
+                letter-spacing: rem-calc(2);
+            }
+            .new-comment {
+                @media #{$small-only} {
+                    @include grid-column(12);
+                }
+                display: none;
+                $height: rem-calc(40);
+                $font-size: rem-calc(16);
+                [name="content"] {
+                    height: $height;
+                    background-color: $white;
+                    /* border-color: white; */
+                    border-color: $white;
+                    /* margin-right: 20px; */
+                    color: $black;
+                    font-size: $font-size;
+                    padding: 0 0.5rem;
+                }
+                .button {
+                    background-color: $white;
+                    background-image: none;
+                    color: $primary-color;
+                    text-shadow: none;
+                    font-size: $font-size;
+                    font-weight: $font-weight-normal;
+                    // line-height: 2.3;
+                    margin: 0;
+                    height: $height;
+                    line-height: $height;
 
-                        &:hover {
-                            background-color: $primary-color;
-                            color: $white;
-                        }
+                    &:hover {
+                        background-color: $primary-color;
+                        color: $white;
                     }
                 }
             }
         }
 
     @media #{$medium-up} {
+        padding-top: $column-gutter;
         margin-left: $column-gutter;
         margin-right: $column-gutter;
 
         .feed {
+            .wrap-for-medium {
+                @include clearfix;
+                padding: $column-gutter / 2;
+                // border: 3px solid scale-color($black, $lightness: 10%);
+                box-shadow: 0 0 3px scale-color($black, $lightness: 30%);
+                background-color: black;
+            }
             .image-wrapper {
                 .summaries {
-                    font-size: rem-calc(16);
+                    font-size: rem-calc(14);
                     position: relative;
                     opacity: 1;
                 }
+            }
+            .actions {
+                margin-bottom: rem-calc(2);
+                .expand { color: scale-color($white, $lightness: -30%); }
+            }
+            .meta {
+                padding-top: rem-calc(5);
+                font-size: rem-calc(13);
+                border-top: 1px solid scale-color($black, $lightness: 10%);
+
+                img { height: rem-calc(24); border-radius: 50%; }
+                .more { margin-right: rem-calc(-12); }
             }
         }
     }
