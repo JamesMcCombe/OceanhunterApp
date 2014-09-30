@@ -109,7 +109,6 @@
 
         .feed {
             .wrap-for-medium {
-                @include clearfix;
                 padding: $column-gutter / 2;
                 // border: 3px solid scale-color($black, $lightness: 10%);
                 box-shadow: 0 0 3px scale-color($black, $lightness: 30%);
@@ -135,7 +134,35 @@
                 .more { margin-right: rem-calc(-12); }
             }
         }
-    }
+    } // @media medium up
+
+
+        @media #{$large-up} {
+            &.new-comment-focus {
+                .feed {
+                    -webkit-transition: all 100ms ease-out;
+                    -webkit-transform: scale3d(1, 1, 1);
+                    &:not(.focus) {
+                        $scale: 0.9;
+                        // opacity: 0.4;
+                        -webkit-transform: scale3d($scale, $scale, $scale);
+                        .wrap-for-medium:after {
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            top: 0; left: 0; right: 0; bottom: 0;
+                            background-color: rgba(0, 0, 0, 0.4);
+                        }
+                    }
+                    &.focus {
+                        $scale: 1.1;
+                        // opacity: 1;
+                        -webkit-transform: scale3d($scale, $scale, $scale);
+                        z-index: 10;
+                    }
+                }
+            }
+        } // @media large up
 
     } // .feeds
 }

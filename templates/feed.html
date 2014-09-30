@@ -96,14 +96,25 @@
       modal_action_fish_id = btn.data('fish-id');
     });
 
+
     // click comment button on reveal modal
     $('body').on('click', '[data-action].comment', function(e) {
       $('#feedModal').foundation('reveal', 'close');
-      $('.fish-'+modal_action_fish_id)
-        .find('.new-comment').show()
-        .find('[name="content"]').focus();
+
+      var feed = $('.fish-'+modal_action_fish_id);
+
+      // Animation on focus feed
+      // but disabled now. Because it's too slow on iPad, and some bugs when
+      // submit new comment.
+      // $('.feeds').addClass('new-comment-focus');
+      // feed.addClass('focus');
+
+      feed.find('.new-comment').show()
+          .find('[name="content"]').focus();
+
       reLayout(); // re layout after DOM change because of masonry
     });
+
 
     $('body').on('submit', '.new-comment form', function(e) {
       e.preventDefault();
@@ -145,11 +156,13 @@
       });
     });
 
+
     function reLayout() {
       if (!oh.isSmallScreen()) {
         $('.feeds').masonry();
       }
     }
+
 
     // init masonry for iPad and PC
     if (!oh.isSmallScreen()) {
