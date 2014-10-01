@@ -12,9 +12,12 @@
 
 {% block content %}
 
-{% addtoblock 'body-class' %} page-feed {% endaddtoblock %}
+{% addtoblock 'body-class' %}
+  page-feed
+  {% if enlarge %} page-fish-enlarge {% endif %}
+{% endaddtoblock %}
 
-<ul class="small-block-grid-1 medium-block-grid-3 feeds">
+<ul class="small-block-grid-1 {% if enlarge %} medium-block-grid-1 {% else %} medium-block-grid-3 {% endif %} feeds">
   {% for f in feeds %}
     <li class="feed row fish-{{ f.id }}">
       <div class="wrap-for-medium">
@@ -31,38 +34,41 @@
         </div>
         {% if not enlarge %}</a>{% endif %}
       </div>
-      <ul class="comments">
-        {% for c in f.comment_set.all %}
-          <li class="comment">
-            <a class="name" href="{% url 'userfish' c.user.id %}">{{ c.user.first_name }} {{ f.user.last_name|first|capfirst }}.</a> | <span class="content">{{ c.content }}</span>
-          </li>
-        {% endfor %}
-      </ul>
-      <div class="actions">
-        <a href="#" class="expand">See all {{ f.comment_set.count }} comments</a>
-        <a href="#" class="more show-for-small-only" data-reveal-id="feedModal" data-fish-id="{{ f.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
-      </div>
-      <div class="new-comment">
-        <form>
-        <input type="hidden" name="fish_id" value="{{ f.id }}">
-        <div class="row collapse">
-          <div class="small-10 columns" style="padding-right: 2px;">
-            <input type="text" name="content" placeholder="Write a comment...">
-          </div>
-          <div class="small-2 columns">
-            <input type="submit" class="button postfix" value="OK">
-          </div>
+      <div class="enlarge-medium-col">
+        <h4 class="comments-title">Comments</h4>
+        <ul class="comments">
+          {% for c in f.comment_set.all %}
+            <li class="comment">
+              <a class="name" href="{% url 'userfish' c.user.id %}">{{ c.user.first_name }} {{ f.user.last_name|first|capfirst }}.</a> | <span class="content">{{ c.content }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="actions">
+          <a href="#" class="expand">See all {{ f.comment_set.count }} comments</a>
+          <a href="#" class="more show-for-small-only" data-reveal-id="feedModal" data-fish-id="{{ f.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
         </div>
-        </form>
-      </div>
-      <div class="meta show-for-medium-up">
-        <a href="{% url 'userfish' f.user.id %}">
-          {% thumbnail f.user.profile.biggest_fish.image "60x60" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
-          {{ f.user.first_name }} {{ f.user.last_name|first|capfirst }}.
-        </a>
-        <br>
-        <span class="lighter">{{ f.create|naturaltime }}</span>
-        <a href="#" class="more" data-reveal-id="feedModal" data-fish-id="{{ f.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
+        <div class="new-comment">
+          <form>
+          <input type="hidden" name="fish_id" value="{{ f.id }}">
+          <div class="row collapse">
+            <div class="small-10 columns" style="padding-right: 2px;">
+              <input type="text" name="content" placeholder="Write a comment...">
+            </div>
+            <div class="small-2 columns">
+              <input type="submit" class="button postfix" value="OK">
+            </div>
+          </div>
+          </form>
+        </div>
+        <div class="meta show-for-medium-up">
+          <a href="{% url 'userfish' f.user.id %}">
+            {% thumbnail f.user.profile.biggest_fish.image "60x60" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+            {{ f.user.first_name }} {{ f.user.last_name|first|capfirst }}.
+          </a>
+          <br>
+          <span class="lighter">{{ f.create|naturaltime }}</span>
+          <a href="#" class="more" data-reveal-id="feedModal" data-fish-id="{{ f.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
+        </div>
       </div>
     </div> <!-- wrap for medium -->
     </li>

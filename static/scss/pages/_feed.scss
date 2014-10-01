@@ -38,6 +38,7 @@
                     }
                 }
             }
+            .comments-title { display: none; }
             .comments {
                 @media #{$small-only} {
                     @include grid-column(12);
@@ -109,6 +110,7 @@
 
         .feed {
             .wrap-for-medium {
+                @include clearfix;
                 padding: $column-gutter / 2;
                 // border: 3px solid scale-color($black, $lightness: 10%);
                 box-shadow: 0 0 5px scale-color($black, $lightness: 15%);
@@ -165,4 +167,29 @@
         } // @media large up
 
     } // .feeds
+}
+
+
+.page-fish-enlarge {
+    @media #{$medium-up} {
+        .feeds {
+            .feed {
+                .wrap-for-medium {
+                }
+                .image-wrapper {
+                    @include grid-column(6);
+                    $padding: $column-gutter / 3;
+                    padding: $padding $padding 0;
+                    background-color: $primary-color;
+
+                    .summaries { font-size: rem-calc(18); }
+                }
+                .enlarge-medium-col {
+                    @include grid-column(6);
+                }
+                .comments-title { display: block; color: $white; }
+                .comments { font-size: rem-calc(16); }
+            }
+        }
+    }
 }
