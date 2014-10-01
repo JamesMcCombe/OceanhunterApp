@@ -33,7 +33,7 @@
         <li class="">
           <a class="image-wrapper" href="#">
             {% thumbnail fish.image "300x300" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
-            <img class="icon-enlarge" src="{% static 'img/icon-search.png' %}">
+            <i class="icon-enlarge icomoon-search"></i>
             <div class="annotation">
               <p>{{ u.first_name }} {{ u.last_name }}</p>
               <p>{{ u.profile.city }}</p>

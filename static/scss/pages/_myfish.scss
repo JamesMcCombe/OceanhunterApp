@@ -287,20 +287,21 @@
         h3 {
             margin-top: 0;
             // margin-bottom: rem-calc(20);
-            @include font-weight-lighter;
             font-size: rem-calc(15);
             color: $white;
         }
         .fishes {
+            > li { clear: none !important; }
             $padding: rem-calc(12);
             .image-wrapper {
                 display: block;
                 position: relative;
                 color: $white;
+                box-shadow: 0 0 3px black;
+                color: scale-color($white, $lightness: -20%);
                 .fish-image { opacity: 0.5; }
                 .icon-enlarge {
-                    width: 17px;
-                    height: 17px;
+                    font-size: rem-calc(16);
                     position: absolute;
                     top: 10%;
                     left: 10%;
@@ -321,6 +322,7 @@
                         // transition: opacity 300ms ease-out;
                         opacity: .75;
                     }
+                    color: $white;
                 }
             }
             .pts {
@@ -328,6 +330,39 @@
                 padding-left: $padding;
                 padding-top: $padding/2;
                 margin: 0;
+            }
+        }
+    }
+
+
+    @media #{$medium-up} {
+        // so complicate... just for a rectangle
+        .species-list {
+            .fishes {
+                > li:nth-of-type(4n+5) {
+                    margin-left: 25%;
+                }
+                .image-wrapper {
+                    .icon-enlarge { font-size: rem-calc(20); }
+                }
+            }
+        }
+        .name-grid {
+            background-color: black;
+            position: relative;
+            padding-bottom: 100%;
+            box-shadow: 0 0 3px scale-color($black, $lightness: 10%);
+
+            .wrap-name {
+                position: absolute;
+                top: 0; left: 0; right: 0; bottom: 0;
+                padding: rem-calc(16) rem-calc(20);
+
+                h3 {
+                    color: $primary-color;
+                    font-size: rem-calc(16);
+                    margin-bottom: 0;
+                }
             }
         }
     }

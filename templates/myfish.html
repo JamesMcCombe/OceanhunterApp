@@ -27,14 +27,22 @@
 
 <ul class="row species-list">
 {% for species, fishes in species_list.items %}
-  <li class="column small-12">
-    <h3>{{ species.name }} &nbsp;|&nbsp; {{ species.points }} Pts</h3>
-    <ul class="small-block-grid-3 fishes">
+  <li class="column small-12 medium-10 medium-centered">
+    <h3 class="lighter show-for-small-only">{{ species.name }} &nbsp;|&nbsp; {{ species.points }} Pts</h3>
+    <ul class="fishes small-block-grid-3 medium-block-grid-4">
+      <li class="show-for-medium-up">
+        <div class="name-grid">
+          <div class="wrap-name">
+            <h3>{{ species.name }}</h3>
+            <div class="points">{{ species.points }} Points</div>
+          </div>
+        </div>
+      </li>
       {% for fish in fishes %}
         <li class="">
           <a class="image-wrapper" href="{% url 'fish_enlarge' fish.id %}">
             {% thumbnail fish.image "200x200" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
-            <img class="icon-enlarge" src="{% static 'img/icon-search.png' %}">
+            <i class="icon-enlarge icomoon-search"></i>
           </a>
         </li>
       {% endfor %}
