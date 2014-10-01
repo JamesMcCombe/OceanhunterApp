@@ -40,9 +40,11 @@
       </li>
       {% for fish in fishes %}
         <li class="">
-          <a class="image-wrapper" href="{% url 'fish_enlarge' fish.id %}">
-            {% thumbnail fish.image "200x200" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
-            <i class="icon-enlarge icomoon-search"></i>
+          <a class="fish" href="{% url 'fish_enlarge' fish.id %}">
+            <div class="image-wrapper">
+              {% thumbnail fish.image "200x200" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+              <i class="icon-enlarge icomoon-search"></i>
+            </div>
           </a>
         </li>
       {% endfor %}

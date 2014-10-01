@@ -18,7 +18,7 @@
 
 {% block content %}
 
-{% addtoblock 'body-class' %} page-myfish {% endaddtoblock %}
+{% addtoblock 'body-class' %} page-myfish page-myfish-myteam {% endaddtoblock %}
 
 <ul class="tabs" role="tablist">
   <li class="tab-title small-6 text-center" role="presentational"><a href="{% url 'userfish' u.id %}" role="tab" tabindex="0" aria-selected="true" controls="panel1-1">My fish</a></li>
@@ -26,20 +26,22 @@
 </ul>
 
 <ul class="row species-list">
-  <li class="column small-12">
-    <ul class="small-block-grid-2 fishes">
+  <li class="column small-12 medium-11 medium-centered">
+    <ul class="small-block-grid-2 medium-block-grid-4 fishes">
       {# XXX don't have a team now so just placeholder #}
       {% for fish in u.fish_set.all|slice:":4" %}
         <li class="">
-          <a class="image-wrapper" href="#">
-            {% thumbnail fish.image "300x300" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
-            <i class="icon-enlarge icomoon-search"></i>
-            <div class="annotation">
-              <p>{{ u.first_name }} {{ u.last_name }}</p>
-              <p>{{ u.profile.city }}</p>
+          <a class="fish" href="#">
+            <div class="image-wrapper">
+              {% thumbnail fish.image "400x400" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+              <i class="icon-enlarge icomoon-search"></i>
+              <div class="annotation">
+                <p>{{ u.first_name }} {{ u.last_name }}</p>
+                <p class="city">{{ u.profile.city }}</p>
+              </div>
             </div>
+            <p class="pts">{{ u.profile.points }} Points</p>
           </a>
-          <p class="pts">{{ u.profile.points }} Points</p>
         </li>
       {% endfor %}
     </ul>

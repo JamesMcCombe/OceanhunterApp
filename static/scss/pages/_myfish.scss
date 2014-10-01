@@ -292,13 +292,11 @@
         }
         .fishes {
             > li { clear: none !important; }
-            $padding: rem-calc(12);
-            .image-wrapper {
+            .fish {
                 display: block;
-                position: relative;
-                color: $white;
                 box-shadow: 0 0 3px black;
                 color: scale-color($white, $lightness: -20%);
+                .image-wrapper { position: relative; }
                 .fish-image { opacity: 0.5; }
                 .icon-enlarge {
                     font-size: rem-calc(16);
@@ -306,15 +304,8 @@
                     top: 10%;
                     left: 10%;
                 }
-                .annotation {
-                    position: absolute;
-                    left: 0;
-                    bottom: 0;
-                    padding-left: $padding;
-                    padding-bottom: $padding/2;
-                    p { margin: 0; }
-                }
                 &:hover {
+                    color: $white;
                     .fish-image {
                         // XXX The animation will cause the image shake
                         // so disabled temporary until I know how to fix
@@ -322,14 +313,7 @@
                         // transition: opacity 300ms ease-out;
                         opacity: .75;
                     }
-                    color: $white;
                 }
-            }
-            .pts {
-                color: $primary-color;
-                padding-left: $padding;
-                padding-top: $padding/2;
-                margin: 0;
             }
         }
     }
@@ -339,6 +323,7 @@
         // so complicate... just for a rectangle
         .species-list {
             .fishes {
+                // for species name as title
                 > li:nth-of-type(4n+5) {
                     margin-left: 25%;
                 }
@@ -362,6 +347,63 @@
                     color: $primary-color;
                     font-size: rem-calc(16);
                     margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+
+.page-myfish-myteam {
+    $padding: rem-calc(12);
+    .species-list {
+        .fishes {
+            .fish {
+                .annotation {
+                    @media #{$small-only} {
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        padding-left: $padding;
+                        padding-bottom: $padding/2;
+                    }
+                    p { margin: 0; }
+                }
+                .pts {
+                    @media #{$small-only} { color: $primary-color; }
+                    padding-left: $padding;
+                    padding-top: $padding/2;
+                    margin: 0;
+                }
+                @media #{$small-only} {
+                    &:hover {
+                        .pts { color: scale-color($primary-color, $lightness: 10%); }
+                    }
+                }
+            }
+        }
+    }
+
+    @media #{$medium-up} {
+        .species-list {
+            .fishes {
+                .fish {
+                    background-color: black;
+                    .image-wrapper {
+                        .icon-enlarge { font-size: rem-calc(20); }
+                        .annotation {
+                            padding: $padding;
+                        }
+                    }
+                    .city { color: scale-color($white, $lightness: -40%); }
+                    .pts {
+                        padding-bottom: $padding;
+                    }
+
+                    &:hover {
+                        background-color: $primary-color;
+                        .city { color: scale-color($black, $lightness: 20%); }
+                    }
                 }
             }
         }
