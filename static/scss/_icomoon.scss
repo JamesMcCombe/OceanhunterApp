@@ -23,6 +23,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icomoon-search:before {
+    content: "\e036";
+}
 .icomoon-angle-right:before {
     content: "\f105";
 }
