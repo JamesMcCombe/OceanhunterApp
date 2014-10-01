@@ -141,39 +141,41 @@
 
 {% addtoblock 'fixed-to-bottom' %}
 <section class="bottom-btns">
-  <div class="row collapse summaries show-for-small-only">
-    <div class="columns small-4 species">
-      <dt><img src="{% static 'img/icon-species.png' %}"><span>Fish type</span></dt>
-      <dd>
-        <div class="round-bg">
-          <div class="content">
-            <img class="logo" src="/media/species/trumpeter.png">
-            <small class="name">King Fish</small>
+  <div class="show-for-small-only">
+    <div class="row collapse summaries">
+      <div class="columns small-4 species">
+        <dt><img src="{% static 'img/icon-species.png' %}"><span>Fish type</span></dt>
+        <dd>
+          <div class="round-bg">
+            <div class="content">
+              <img class="logo" src="/media/species/trumpeter.png">
+              <small class="name">King Fish</small>
+            </div>
           </div>
-        </div>
-      </dd>
-    </div>
-    <div class="columns small-4 weight">
-      <dt><img src="{% static 'img/icon-weight.png' %}"><span>Weight</span></dt>
-      <dd>
-        <div class="round-bg">
-          <div class="content">
-            <span class="value">26.2</span>
-            <small>Kilogram</small>
+        </dd>
+      </div>
+      <div class="columns small-4 weight">
+        <dt><img src="{% static 'img/icon-weight.png' %}"><span>Weight</span></dt>
+        <dd>
+          <div class="round-bg">
+            <div class="content">
+              <span class="value">26.2</span>
+              <small>Kilogram</small>
+            </div>
           </div>
-        </div>
-      </dd>
-    </div>
-    <div class="columns small-4 points">
-      <dt><img src="{% static 'img/icon-points.png' %}"><span>Points</span></dt>
-      <dd>
-        <div class="round-bg">
-          <div class="content">
-            <span class="value">80</span>
-            <small>Points</small>
+        </dd>
+      </div>
+      <div class="columns small-4 points">
+        <dt><img src="{% static 'img/icon-points.png' %}"><span>Points</span></dt>
+        <dd>
+          <div class="round-bg">
+            <div class="content">
+              <span class="value">80</span>
+              <small>Points</small>
+            </div>
           </div>
-        </div>
-      </dd>
+        </dd>
+      </div>
     </div>
   </div>
   <div class="row">
@@ -186,7 +188,7 @@
           <button class="button large expand next">Next</button>
         </div>
       </div>
-      <button class="button large expand orange submit show-for-small-only" disabled>Okay</button>
+      <div class="show-for-small-only"><button class="button large expand orange submit" disabled>Okay</button></div>
     </div>
   </div>
 </section>
