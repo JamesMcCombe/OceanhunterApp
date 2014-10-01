@@ -26,7 +26,11 @@
       <div class="image-wrapper">
         {# enlarge mode only display one fish, do not need link to myself #}
         {% if not enlarge %}<a href="{% url 'fish_enlarge' f.id %}">{% endif %}
-        {% thumbnail f.image "640x640" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+        {% if not enlarge %}
+          {% thumbnail f.image "640x640" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+        {% else %}
+          {% thumbnail f.image "900x900" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+        {% endif %}
         <div class="row collapse summaries">
           <div class="columns small-6 text-center">{{ f.species.name }}</div>
           <div class="columns small-3 text-center">{{ f.weight }} Kg</div>

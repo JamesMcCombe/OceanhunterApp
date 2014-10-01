@@ -31,27 +31,31 @@
     <li class="filter">Open Team <sup><a class="close">&#215;</a></sup></li>
   </ul>
 </div>
-<ul class="solos">
+<ul class="solos row swiper-container">
+  <div class="swiper-wrapper">
   {% for u in page.object_list %}
-  <li class="solo">
-    <div class="row">
-      <div class="columns small-12">
-        <div class="row collapse">
-          <div class="columns small-4">
-            <a href="{% url 'userfish' u.id %}">
-              {% thumbnail u.profile.biggest_fish.image "200x200" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
-            </a>
-          </div>
-          <div class="columns small-8 content">
-            <div class="name">{{ forloop.counter|add:start|ordinal }} | <a href="{% url 'userfish' u.id %}">{{ u.first_name }} {{ u.last_name }}</a></div>
-            <div class="city">{{ u.profile.city }}</div>
-            <div class="points">{{ u.profile.points }} Points</div>
-          </div>
+  <li class="solo columns small-12 swiper-slide">
+    <div class="row collapse wrap-medium">
+      <div class="columns show-for-medium-up rank">
+        {{ forloop.counter|add:start|ordinal }}
+      </div>
+      <div class="columns small-4 medium-12">
+        <a href="{% url 'userfish' u.id %}" class="image-wrapper">
+          {% thumbnail u.profile.biggest_fish.image "300x300" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+        </a>
+      </div>
+      <div class="columns small-8 medium-12 content">
+        <div class="name">
+          <span class="show-for-small-only">{{ forloop.counter|add:start|ordinal }} | </span>
+          <a href="{% url 'userfish' u.id %}">{{ u.first_name }} {{ u.last_name }}</a>
         </div>
+        <div class="city">{{ u.profile.city }}</div>
+        <div class="points">{{ u.profile.points }} Points</div>
       </div>
     </div>
   </li>
   {% endfor %}
+  </div>
 </ul>
 
 
@@ -90,6 +94,23 @@
       e.preventDefault();
       $('#filterModal').foundation('reveal', 'close');
     });
+
+
+    if (!oh.isSmallScreen()) {
+      var mySwiper = $('.swiper-container').swiper({
+        mode: 'horizontal',
+        slidesPerView: 4.5,
+        calculateHeight: true,
+        cssWidthAndHeight: false,
+        mousewheelControl: true,
+        mousewheelControlForceToAxis: true,
+        roundLengths: true,
+        grabCursor: true,
+        freeMode: true,
+        freeModeFluid: true
+      });
+    }
+
   });
 </script>
 {% endaddtoblock %}
