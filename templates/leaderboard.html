@@ -41,7 +41,7 @@
       </div>
       <div class="columns small-4 medium-12">
         <a href="{% url 'userfish' u.id %}" class="image-wrapper">
-          {% thumbnail u.profile.biggest_fish.image "300x300" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+          {% thumbnail u.profile.biggest_fish.image "600x600" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
         </a>
       </div>
       <div class="columns small-8 medium-12 content">

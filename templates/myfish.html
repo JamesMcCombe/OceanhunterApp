@@ -42,7 +42,7 @@
         <li class="">
           <a class="fish" href="{% url 'fish_enlarge' fish.id %}">
             <div class="image-wrapper">
-              {% thumbnail fish.image "200x200" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+              {% thumbnail fish.image "400x400" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
               <i class="icon-enlarge icomoon-search"></i>
             </div>
           </a>
