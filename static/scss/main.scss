@@ -102,12 +102,13 @@ body {
                 vertical-align: middle;
                 width: $icon-height; height: $icon-height; background-size: $icon-height; margin-right: rem-calc(10);
                 background-position: top left;
+                background-repeat: no-repeat;
                 &.icon-home { background-image: url('../../img/icon-home.png'); }
                 &.icon-myfish-new { background-image: url('../../img/icon-myfish-new.png'); }
                 &.icon-myfish { background-image: url('../../img/icon-myfish.png'); }
                 &.icon-leaderboard { background-image: url('../../img/icon-leaderboard.png'); }
             }
-            &:hover i { background-position-y: $icon-height; }
+            &:hover i { background-position-y: -$icon-height; }
         }
         opacity: 0;
         -webkit-transition: opacity 300ms ease;
@@ -130,19 +131,32 @@ body {
                 padding-bottom: rem-calc(40);
             }
             ul li {
-                border-top: 1px solid scale-color($black, $lightness: 10%);
-                &:last-child { border-bottom: 1px solid scale-color($black, $lightness: 10%); }
+                @media #{$small-only} {
+                    border-top: 1px solid scale-color($black, $lightness: 10%);
+                    &:last-child { border-bottom: 1px solid scale-color($black, $lightness: 10%); }
+                }
 
-                @include grid-column(12);
+                padding-left: $column-gutter / 2;
+                padding-right: $column-gutter / 2;
+
+                @media #{$medium-up} {
+                    padding-left: 33%;
+                }
 
                 > a {
+                    $font-size: rem-calc(20);
+                    @media #{$medium-up} {
+                        $font-size: rem-calc(24);
+                    }
                     @include font-weight-lighter;
                     text-transform: uppercase;
-                    font-size: rem-calc(20);
+                    font-size: $font-size;
+                    $icon-height: $font-size * 2.25;
+                    $icon-height: 70px;
 
-                    $icon-height: 45px;
                     i { width: $icon-height; height: $icon-height; background-size: $icon-height; margin-right: rem-calc(15); }
-                    &:hover i { background-position-y: $icon-height; }
+                    &:hover i { background-position-y: -$icon-height; }
+
                 }
             }
         }
