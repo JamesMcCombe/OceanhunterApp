@@ -43,7 +43,7 @@
         <ul class="comments">
           {% for c in f.comment_set.all %}
             <li class="comment">
-              <a class="name" href="{% url 'userfish' c.user.id %}">{{ c.user.first_name }} {{ f.user.last_name|first|capfirst }}.</a> | <span class="content">{{ c.content }}</span>
+              <a class="name" href="{% url 'userfish' c.user.id %}">{{ c.user.first_name }} {{ c.user.last_name|first|capfirst }}.</a> | <span class="content">{{ c.content }}</span>
             </li>
           {% endfor %}
         </ul>
