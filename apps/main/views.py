@@ -1,10 +1,17 @@
 from collections import OrderedDict
+from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.core.paginator import Paginator
-from annoying.decorators import render_to, ajax_request
+from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 
+from annoying.decorators import render_to, ajax_request
+from annoying.functions import get_object_or_None
+
+from accounts import models as am
 from . import models as m
 from . import forms as f
 
@@ -45,13 +52,78 @@ def go(request):
 @login_required
 @render_to('invite.html')
 def invite(request):
-    return {}
+    u = request.user
+    existing_team = get_object_or_None(am.Team, users=u)
+    isadmin = existing_team and existing_team.admin == u
+    isfull = existing_team and existing_team.users.count() == 4
+
+    if existing_team and (not isadmin or isfull):
+        messages.error(request, 'Sorry only admin can invite new member.')
+        return redirect('home')
+
+    return {'existing_team': existing_team}
 
 
 @login_required
 @render_to('invite_email.html')
 def invite_email(request):
     return {}
+
+
+@login_required
+@render_to('invite_facebook.html')
+def invite_facebook(request):
+    u = request.user
+
+    existing_team = get_object_or_None(am.Team, admin=u)
+    if existing_team:
+        link = facebook_invite_link(request, existing_team)
+        return redirect(link)
+
+    F = f.TeamForm
+    if request.method == 'GET':
+        form = F()
+    else:
+        form = F(request.POST)
+        if form.is_valid():
+            team = form.save(commit=False)
+            team.admin = u
+            team.save()
+            team.users = [u]
+            team.recalculate_points()
+            link = facebook_invite_link(request, team)
+            return redirect(link)
+    return {'form': form}
+
+
+@login_required
+def facebook_save_invitee(request):
+    u = request.user
+    team = get_object_or_404(am.Team, admin=u)
+
+    facebook_ids = [v for k, v in request.GET.items() if k.startswith('to[') and k.endswith(']')]
+    for id in facebook_ids:
+        fb_user = get_object_or_None(am.User, social_auth__provider='facebook', social_auth__uid=id)
+        # already in a team can not invite
+        if fb_user and get_object_or_None(am.Team, users=fb_user):
+            continue
+
+        data = dict(inviter=u, team=team, via='facebook', ref=id, status='new')
+        existing_invite = get_object_or_None(am.Invite, **data)
+        if not existing_invite:
+            invite = am.Invite(**data)
+            invite.save()
+            # this facebook user already our user
+            if fb_user:
+                invite.invitee = fb_user
+                invite.save()
+
+    if len(facebook_ids) > 1:
+        messages.success(request, 'Invites have been sent.')
+    elif len(facebook_ids) == 1:
+        messages.success(request, 'Invite has been sent.')
+
+    return redirect('invite')
 
 
 @login_required
@@ -68,6 +140,9 @@ def myfish_new(request):
             fish.user = u
             fish.save()
             u.profile.recalculate_points()
+            team = get_object_or_None(am.Team, users=u)
+            if team:
+                team.recalculate_points()
             return redirect('home')
     ctx = {'form': form}
 
@@ -108,10 +183,69 @@ def myteam(request, user_id):
     else:
         u = get_object_or_404(m.User, pk=user_id)
         possessive = u.profile.gender == 'male' and 'His' or 'Her'
+
+    if request.method == 'POST':
+        do_team_invite_post(request)
+
+    team = get_object_or_None(am.Team, users=u)
+    possessive_team = 'My'
+    if team and request.user not in team.users.all():
+        possessive_team = possessive
+
+    invite = get_object_or_None(am.Invite, invitee=request.user, team=team, status='new')
+
     return {
         'u': u,
         'possessive': possessive,
+        'team': team,
+        'invite': invite,
+        'possessive_team': possessive_team,
     }
+
+
+@login_required
+@render_to('myfish_myteam.html')
+def team_alone(request, team_id):
+    if request.method == 'POST':
+        do_team_invite_post(request)
+
+    u = request.user
+    team = get_object_or_404(am.Team, pk=team_id)
+    if request.user in team.users.all():
+        possessive_team = 'My'
+    else:
+        possessive_team = 'Open'
+
+    invite = get_object_or_None(am.Invite, invitee=u, team=team, status='new')
+
+    return {
+        'team': team,
+        'team_alone': True,
+        'invite': invite,
+        'possessive_team': possessive_team,
+    }
+
+
+def do_team_invite_post(request):
+    u = request.user
+    action = request.POST.get('action')
+    invite_id = request.POST.get('invite_id')
+    invite = get_object_or_None(am.Invite, pk=invite_id, status='new')
+
+    if not invite:
+        return
+
+    if action == 'join':
+        invite.status = 'accepted'
+        invite.accept = datetime.now()
+        invite.team.users.add(u)
+        invite.team.recalculate_points()
+        messages.success(request, 'Congratulation! Now you are member of %s!' % invite.team.name)
+    elif action == 'reject':
+        invite.status = 'read'
+
+    invite.read = datetime.now()
+    invite.save()
 
 
 @login_required
@@ -145,3 +279,17 @@ def leaderboard(request):
 
     radios = (form[name] for name in ['area', 'unit', 'team', 'age', 'gender'])
     return {'page': page, 'start': start, 'form': form, 'radios': radios}
+
+
+def facebook_invite_link(request, team):
+    app_id = settings.SOCIAL_AUTH_FACEBOOK_KEY
+    schema = request.is_secure() and 'https' or 'http'
+    base_url = "%s://%s" % (schema, request.get_host())
+
+    redirect_uri = base_url + reverse('facebook_save_invitee')
+    message = "Join my team %s please!" % team.name
+
+    return "http://www.facebook.com/dialog/apprequests?" \
+            "app_id=%(app_id)s" \
+            "&message=%(message)s" \
+            "&redirect_uri=%(redirect_uri)s" % locals()

@@ -40,6 +40,12 @@
         OC.user = OC.user || {};
         OC.user.first_name = "{{ user.first_name }}";
         OC.user.last_name = "{{ user.last_name }}";
+
+        var settings = settings || {};
+        settings.APP_ID = "{{ FACEBOOK_APP_ID }}";
+        settings.DOMAIN_NAME = "http://oceanhunter.node.co.nz";
+        settings.LOGIIN_CALLBACK_URL = "/fbcb";
+        settings.LOGIN_URL = "https://www.facebook.com/v2.0/dialog/oauth?client_id=" + settings.APP_ID + "&scope=publish_actions,user_friends&redirect_uri=" + settings.DOMAIN_NAME + settings.LOGIIN_CALLBACK_URL;
     </script>
 
 	<body class="{% render_block 'body-class' %}">
@@ -54,7 +60,7 @@
               <ul class="title-area">
                 {% block nav_title %}
                 <li class="name">
-                  <h1><a href="#">Ocean Hunter</a></h1>
+                  <h1><a href="/">Ocean Hunter</a></h1>
                 </li>
                 {% endblock nav_title %}
                 <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
@@ -76,12 +82,40 @@
         </div>
     {% endblock nav %}
 
+
+    {% for message in messages %}
+      <div class="row">
+        <div class="columns small-centered small-11 medium-8">
+          <div data-alert class="alert-box {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+            <a href="#" class="close">&times;</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+
+    {% block invitation %}
+      {% for invite in unread_invites %}
+      <div class="row">
+        <div class="columns small-centered small-11 medium-8">
+          <div data-alert class="alert-box">
+            <span class="lighter"><a href="{% url 'userfish' invite.inviter.id %}">{{ invite.inviter.first_name }} {{ invite.inviter.last_name }}</a> invite you to join team</span> <a href="{% url 'team_alone' invite.team.id %}">{{ invite.team.name }}</a>
+            <a href="#" class="close">&times;</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endblock invitation %}
+
+
     {% block header %}
     <header>
         <a class="logo" href="/"><img src="{% static 'img/logo.png' %}" alt="Ocean Hunter"/></a>
         {% block header_h2 %}{% endblock %}
     </header>
     {% endblock %}
+
 
     {% block content %}{% endblock %}
 
@@ -104,7 +138,6 @@
     {% endif %}
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/libs/foundation.min.js' %}"></script>
-    <script src="{% static 'build/js/settings.js' %}"></script>
     <script src="{% static 'build/js/FacebookAuth.js' %}"></script>
     <script src="{% static 'js/loadFacebook.js' %}"></script>
     <script src="{% static 'js/libs/idangerous.swiper.min.js' %}"></script>

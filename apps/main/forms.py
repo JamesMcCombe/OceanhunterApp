@@ -4,6 +4,12 @@ from . import models as m
 from accounts import models as am
 
 
+class TeamForm(forms.ModelForm):
+    class Meta:
+        model = am.Team
+        fields = ('name', 'kind')
+
+
 class FishForm(forms.ModelForm):
     class Meta:
         model = m.Fish

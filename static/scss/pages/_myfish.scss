@@ -298,6 +298,8 @@
                 color: scale-color($white, $lightness: -20%);
                 .image-wrapper { position: relative; }
                 .fish-image { opacity: 0.5; }
+                .add { padding: 39%; }
+                .placeholder { width: 100%; padding-bottom: 100%; }
                 .icon-enlarge {
                     font-size: rem-calc(16);
                     position: absolute;

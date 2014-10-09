@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load staticfiles sekizai_tags %}
+
+{% block header_h2 %}
+    <h2>Invite friends</h2>
+{% endblock %}
+
+{% block nav_title %}
+  {# remove title #}
+  <li class="name">
+    <h1></h1>
+  </li>
+{% endblock nav_title %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-invite page-invite-facebook small-header {% endaddtoblock %}
+
+<form action="" method="post">
+  {{ form.non_field_errors }}
+  {% csrf_token %}
+  <div class="row">
+    <div class="columns small-centered small-11 medium-5">
+      <label for="id_name">Name your team
+        <input type="text" id="id_name" name="name">
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns small-centered small-11 medium-5">
+      <input type="hidden" name="kind" value="open">
+      <input type="checkbox" name="kind" value="family" id="kind"><label for="kind" class="small">Is this a family team?</label>
+    </div>
+  </div>
+</form>
+
+{% addtoblock 'fixed-to-bottom' %}
+<section class="bottom-btns">
+  <div class="row">
+    <div class="columns small-centered small-11 medium-5">
+      <button class="button large expand submit">Next</button>
+    </div>
+  </div>
+</section>
+{% endaddtoblock %}
+
+
+{% addtoblock 'js' %}
+<script>
+  $(function() {
+
+    $('.submit').click(function() {
+      $(this).attr('disabled', true);
+      $('form').submit();
+    });
+
+    $(document).on('change, blur', 'input', function(e) {
+      if( $(e.target).is(':invalid') ){
+        $(e.target).parent().addClass('invalid');
+      } else {
+        $(e.target).parent().removeClass('invalid');
+      }
+    });
+
+  });
+</script>
+{% endaddtoblock %}
+
+
+
+{% endblock %}

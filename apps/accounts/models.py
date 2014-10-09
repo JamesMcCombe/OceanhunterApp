@@ -56,6 +56,9 @@ class Profile(models.Model):
     def biggest_fish(self):
         return self.user.fish_set.order_by('-points').first()
 
+    def facebook_binded(self):
+        return self.user.social_auth.filter(provider="facebook").count() > 0
+
 
 TEAM_KINDS = (
     ('open', 'Open'),
@@ -78,10 +81,15 @@ class Team(models.Model):
     def __unicode__(self):
         return self.name
 
+    def recalculate_points(self):
+        self.points = sum(u.profile.points for u in self.users.all())
+        self.save()
+
 
 class Invite(models.Model):
     inviter = models.ForeignKey(User, related_name='invited_users')
     invitee = models.ForeignKey(User, related_name='+', null=True)
+    team = models.ForeignKey(Team)
 
     create = models.DateTimeField(auto_now_add=True)
     read = models.DateTimeField(editable=False, null=True, help_text='when was this invite been read')

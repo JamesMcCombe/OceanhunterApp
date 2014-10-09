@@ -12,28 +12,53 @@
 
 {% block nav_title %}
 <li class="name">
-  <h1><a href="#">{{ u.first_name }} {{ u.last_name }} &nbsp;|&nbsp; {{ u.profile.points }} Pts</a></h1>
+  {% if team %}
+    <h1><a href="#">{{ team.name }} &nbsp;|&nbsp; {{ team.points }} Pts</a></h1>
+  {% else %}
+    <h1><a href="#">{{ u.first_name }} {{ u.last_name }} &nbsp;|&nbsp; {{ u.profile.points }} Pts</a></h1>
+  {% endif %}
 </li>
 {% endblock nav_title %}
+
+{% block invitation %}
+  {# remove invitation #}
+{% endblock invitation %}
 
 {% block content %}
 
 {% addtoblock 'body-class' %} page-myfish page-myfish-myteam {% endaddtoblock %}
 
+{% if invite %}
+  <div class="row">
+    <div class="columns small-centered small-11 medium-8">
+      <form action="" method="post">
+        <span class="lighter"><a href="{% url 'userfish' invite.inviter.id %}">{{ invite.inviter.first_name }} {{ invite.inviter.last_name }}</a> invite you to join this team</span>
+        {% csrf_token %}
+        <input type="hidden" name="invite_id" value="{{ invite.id }}">
+        <button name="action" value="join">Join</button>
+        <button name="action" value="reject" class="secondary">Not now</button>
+      </form>
+    </div>
+  </div>
+{% endif %}
+
 <ul class="tabs" role="tablist">
-  <li class="tab-title small-6 text-center" role="presentational"><a href="{% url 'userfish' u.id %}" role="tab" tabindex="0" aria-selected="true" controls="panel1-1">My fish</a></li>
-  <li class="tab-title small-6 text-center active" role="presentational"><a href="#" role="tab" tabindex="0" aria-selected="false" controls="panel1-2">My team</a></li>
+  <li class="tab-title small-6 text-center" role="presentational"><a {% if not team_alone %}href="{% url 'userfish' u.id %}"{% endif %} role="tab" tabindex="0" aria-selected="true" controls="panel1-1">My fish</a></li>
+  <li class="tab-title small-6 text-center active" role="presentational"><a href="#" role="tab" tabindex="0" aria-selected="false" controls="panel1-2">{{ possessive_team }} team</a></li>
 </ul>
 
 <ul class="row species-list">
   <li class="column small-12 medium-11 medium-centered">
     <ul class="small-block-grid-2 medium-block-grid-4 fishes">
-      {# XXX don't have a team now so just placeholder #}
-      {% for fish in u.fish_set.all|slice:":4" %}
+      {% for u in team.users.all|slice:":3" %}
         <li class="">
-          <a class="fish" href="#">
+          <a class="fish" href="{% url 'userfish' u.id %}">
             <div class="image-wrapper">
-              {% thumbnail fish.image "400x400" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+              {% if u.profile.biggest_fish %}
+                {% thumbnail u.profile.biggest_fish.image "400x400" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+              {% else %}
+                <div class="placeholder"></div>
+              {% endif %}
               <i class="icon-enlarge icomoon-search"></i>
               <div class="annotation">
                 <p>{{ u.first_name }} {{ u.last_name }}</p>
@@ -44,6 +69,15 @@
           </a>
         </li>
       {% endfor %}
+      {% if team.users.count < 4 and team.admin == user %}
+        <li>
+          <a class="fish" href="{% url 'invite' %}">
+            <div class="image-wrapper">
+              <img class="add" src="{% static 'img/add.png' %}">
+            </div>
+          </a>
+        </li>
+      {% endif %}
     </ul>
   </li>
 </ul>

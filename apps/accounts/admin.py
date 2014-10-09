@@ -11,3 +11,15 @@ class UserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+
+
+class TeamAdmin(admin.ModelAdmin):
+    list_display = ('name', 'kind', 'admin', 'points', 'create')
+
+admin.site.register(m.Team, TeamAdmin)
+
+
+class InviteAdmin(admin.ModelAdmin):
+    list_display = ('inviter', 'invitee', 'team', 'status', 'via', 'ref', 'create')
+
+admin.site.register(m.Invite, InviteAdmin)
