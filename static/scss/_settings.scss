@@ -344,14 +344,14 @@ $anchor-font-color-hover: scale-color($primary-color, $lightness: 14%);
 // $include-html-alert-classes: $include-html-classes;
 
 // We use this to control alert padding.
-// $alert-padding-top: rem-calc(14);
+$alert-padding-top: rem-calc(10);
 // $alert-padding-default-float: $alert-padding-top;
 // $alert-padding-opposite-direction: $alert-padding-top + rem-calc(10);
 // $alert-padding-bottom: $alert-padding-top;
 
 // We use these to control text style.
 // $alert-font-weight: $font-weight-normal;
-// $alert-font-size: rem-calc(13);
+$alert-font-size: rem-calc(18);
 // $alert-font-color: $white;
 // $alert-font-color-alt: scale-color($secondary-color, $lightness: -66%);
 
@@ -360,9 +360,9 @@ $anchor-font-color-hover: scale-color($primary-color, $lightness: 14%);
 
 // We use these to control border styles.
 // $alert-border-style: solid;
-// $alert-border-width: 1px;
+$alert-border-width: 0;
 // $alert-border-color: scale-color($primary-color, $lightness: $alert-function-factor);
-// $alert-bottom-margin: rem-calc(20);
+$alert-bottom-margin: rem-calc(10);
 
 // We use these to style the close buttons
 // $alert-close-color: $oil;
