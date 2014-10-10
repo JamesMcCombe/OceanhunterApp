@@ -69,7 +69,7 @@
           </a>
         </li>
       {% endfor %}
-      {% if team.users.count < 4 and team.admin == user %}
+      {% if not team or team.users.count < 4 and team.admin == user %}
         <li>
           <a class="fish" href="{% url 'invite' %}">
             <div class="image-wrapper">
