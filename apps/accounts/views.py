@@ -31,6 +31,10 @@ def signup(request):
             password = form.cleaned_data['password1']
             user = authenticate(email=email, password=password)
             auth_login(request, user)
+            # save invite related to this user
+            for invite in m.Invite.objects.filter(via='email', ref=email):
+                invite.invitee = user
+                invite.save()
             return redirect('invite')
     ctx = {'form': form}
     return ctx

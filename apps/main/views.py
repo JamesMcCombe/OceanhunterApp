@@ -7,6 +7,8 @@ from django.core.paginator import Paginator
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.template import Context, loader
+from django.core.mail import EmailMessage
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
@@ -67,7 +69,65 @@ def invite(request):
 @login_required
 @render_to('invite_email.html')
 def invite_email(request):
-    return {}
+    """I know this code of invitation is shit. Even me dont wanna see it again. Dont blame me."""
+    u = request.user
+
+    existing_team = get_object_or_None(am.Team, admin=u)
+
+    F = f.TeamForm
+    if request.method == 'GET':
+        form = F()
+    else:
+        if not existing_team:
+            form = F(request.POST)
+            if not form.is_valid():
+                return {'form': form}
+
+            team = form.save(commit=False)
+            team.admin = u
+            team.save()
+            team.users = [u]
+            team.recalculate_points()
+            existing_team = team
+
+        emails = request.POST.getlist('email')
+        emails = [email.strip() for email in emails if email.strip()]
+        for email in emails:
+            email_user = get_object_or_None(am.User, email=email)
+            # already in a team can not invite
+            if email_user and get_object_or_None(am.Team, users=email_user):
+                continue
+            data = dict(inviter=u, team=existing_team, via='email', ref=email, status='new')
+            existing_invite = get_object_or_None(am.Invite, **data)
+
+            if not existing_invite:
+                invite = am.Invite(**data)
+                invite.save()
+                # this email user already our user
+                if email_user:
+                    invite.invitee = email_user
+                    invite.save()
+                subject = "%s %s invite you to join the team %s" % \
+                    (u.first_name, u.last_name, existing_team.name)
+                # TODO make a real email
+                t = loader.get_template('emails/invitation.html')
+                c = Context({'subject': subject, 'user': u, 'team': existing_team})
+                html_content = t.render(c)
+                msg = EmailMessage(subject, html_content, 'from@example.com', [email])
+                msg.content_subtype = "html"
+                msg.send()
+
+        if len(emails) > 1:
+            messages.success(request, 'Invites have been sent.')
+        elif len(emails) == 1:
+            messages.success(request, 'Invite has been sent.')
+
+        return redirect('invite')
+
+    return {
+        'form': form,
+        'existing_team': existing_team,
+    }
 
 
 @login_required

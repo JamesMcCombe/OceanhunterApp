@@ -14,17 +14,17 @@
 {% addtoblock 'body-class' %} page-invite page-invite-email small-header {% endaddtoblock %}
 
 <form action="" method="post">
+  {% csrf_token %}
   <input type="submit" class="hide">
-  <div class="row">
-    <div class="columns small-centered small-11 medium-5">
-      <h3><small>Name your team</small></h3>
+  {% if not existing_team %}
+    <div class="row">
+      <div class="columns small-centered small-11 medium-5">
+        <label>Name your team
+          <input type="text" name="name" required>
+        </label>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="columns small-centered small-11 medium-5">
-      <input type="text">
-    </div>
-  </div>
+  {% endif %}
   <div class="row">
     <div class="columns small-centered small-11 medium-5">
       <p></p>
@@ -33,17 +33,17 @@
 
   <div class="row">
     <div class="columns small-centered small-11 medium-5">
-      <input type="email" placeholder="Email" autocorrect="off" autocapitalize="off">
+      <input type="email" name="email" placeholder="Email" autocorrect="off" autocapitalize="off">
     </div>
   </div>
   <div class="row">
     <div class="columns small-centered small-11 medium-5">
-      <input type="email" placeholder="Email" autocorrect="off" autocapitalize="off">
+      <input type="email" name="email" placeholder="Email" autocorrect="off" autocapitalize="off">
     </div>
   </div>
   <div class="row">
     <div class="columns small-centered small-11 medium-5">
-      <input type="email" placeholder="Email" autocorrect="off" autocapitalize="off">
+      <input type="email" name="email" placeholder="Email" autocorrect="off" autocapitalize="off">
     </div>
   </div>
 </form>

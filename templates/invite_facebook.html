@@ -25,8 +25,9 @@
   {% csrf_token %}
   <div class="row">
     <div class="columns small-centered small-11 medium-5">
-      <label for="id_name">Name your team
-        <input type="text" id="id_name" name="name">
+      {{ form.name.errors }}
+      <label>Name your team
+        <input type="text" name="name" required>
       </label>
     </div>
   </div>
