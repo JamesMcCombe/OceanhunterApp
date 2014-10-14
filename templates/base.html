@@ -1,5 +1,5 @@
 <!doctype html>
-{% load staticfiles sekizai_tags %}
+{% load staticfiles sekizai_tags adcode_tags %}
 <html>
 	<head>
 		<meta charset="utf-8"/>
@@ -31,22 +31,23 @@
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-    <script src="{% static 'js/libs/modernizr.build.js' %}"></script>
+        <script src="{% static 'js/libs/modernizr.build.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'build/css/main.css' %}"/>
-	</head>
 
-    <script>
-        var OC = OC || {};
-        OC.user = OC.user || {};
-        OC.user.first_name = "{{ user.first_name }}";
-        OC.user.last_name = "{{ user.last_name }}";
+        <script>
+            var OC = OC || {};
+            OC.user = OC.user || {};
+            OC.user.first_name = "{{ user.first_name }}";
+            OC.user.last_name = "{{ user.last_name }}";
 
-        var settings = settings || {};
-        settings.APP_ID = "{{ FACEBOOK_APP_ID }}";
-        settings.DOMAIN_NAME = "http://oceanhunter.node.co.nz";
-        settings.LOGIIN_CALLBACK_URL = "/fbcb";
-        settings.LOGIN_URL = "https://www.facebook.com/v2.0/dialog/oauth?client_id=" + settings.APP_ID + "&scope=publish_actions,user_friends&redirect_uri=" + settings.DOMAIN_NAME + settings.LOGIIN_CALLBACK_URL;
-    </script>
+            var settings = settings || {};
+            settings.APP_ID = "{{ FACEBOOK_APP_ID }}";
+            settings.DOMAIN_NAME = "http://oceanhunter.node.co.nz";
+            settings.LOGIIN_CALLBACK_URL = "/fbcb";
+            settings.LOGIN_URL = "https://www.facebook.com/v2.0/dialog/oauth?client_id=" + settings.APP_ID + "&scope=publish_actions,user_friends&redirect_uri=" + settings.DOMAIN_NAME + settings.LOGIIN_CALLBACK_URL;
+        </script>
+    </head>
+
 
 	<body class="{% render_block 'body-class' %}">
 
@@ -136,6 +137,8 @@
     {% else %}
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     {% endif %}
+    {# ad code #}
+    {% render_section_header %}
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/libs/foundation.min.js' %}"></script>
     <script src="{% static 'build/js/FacebookAuth.js' %}"></script>

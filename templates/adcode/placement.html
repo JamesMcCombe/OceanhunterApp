@@ -1,0 +1,5 @@
+{% if debug %}
+<img alt="{{ placement }}" src="{{ placement.placeholder }}">
+{% else %}
+<div data-trigger="gpt" data-path='{{ placement.remote_id }}' data-size="[{{ placement.width }}, {{ placement.height }}]"></div>
+{% endif %}

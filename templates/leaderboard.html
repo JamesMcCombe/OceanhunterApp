@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles sekizai_tags thumbnail humanize %}
+{% load staticfiles sekizai_tags thumbnail humanize adcode_tags %}
 
 {% block header %}
   {# remove footer #}
@@ -34,6 +34,13 @@
 <ul class="solos row swiper-container">
   <div class="swiper-wrapper">
   {% for u in page.object_list %}
+  {% if forloop.counter0|add:"3"|divisibleby:"4" %}
+    <li class="swiper-slide show-for-small-only">
+      <div class="wrap-for-medium">
+        {% render_placement 'mobile-banner' %}
+      </div>
+    </li>
+  {% endif %}
   <li class="solo columns small-12 swiper-slide">
     <div class="row collapse wrap-medium">
       <div class="columns show-for-medium-up rank">
@@ -81,6 +88,13 @@
     </div>
   </form>
 </div>
+
+
+{% addtoblock 'fixed-to-bottom' %}
+  <div class="show-for-medium-up">
+    {% render_placement 'medium-leaderboard' %}
+  </div>
+{% endaddtoblock %}
 
 
 {% addtoblock 'js' %}

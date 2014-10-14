@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'south',
     'sorl.thumbnail',
+    'adcode',
 
     'accounts',
     'main',
@@ -67,6 +68,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'sekizai.context_processors.sekizai',
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
+    'adcode.context_processors.current_placements',
     'main.context_processors.facebook_app_id',
     'main.context_processors.unread_invites',
 )

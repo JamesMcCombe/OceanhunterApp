@@ -1,0 +1,69 @@
+{% if section and placements and not debug %}
+<script>
+  // IMPORTANT: MUST PUT THIS BEFORE default.js
+  // Load GPT
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+  (function(){
+    var gads = document.createElement('script');
+    gads.async = true;
+    var useSSL = 'https:' == document.location.protocol;
+    gads.src = (useSSL ? 'https:' : 'http:') +
+      '//www.googletagservices.com/tag/js/gpt.js';
+    var node = document.getElementsByTagName('script')[0];
+    node.parentNode.insertBefore(gads, node);
+  })();
+</script>
+<script>
+  // Node
+  var NodeGpt = NodeGpt || {};
+  NodeGpt.init = function () {
+    googletag.cmd.push(function() {
+      //googletag.pubads().enableSyncRendering();
+      googletag.pubads().disableInitialLoad();
+      googletag.pubads().enableSingleRequest();
+      googletag.enableServices();
+      NodeGpt.displayAll();
+    });
+  };
+  /*
+    Display empty Google Publisher Tag like:
+    <div data-trigger="gpt" data-ad-unit-path="/171768464/TD_NZ_Top_Tile" data-size="[300, 250]">
+    newElements is optional. If no newElements, it will display all empty gpt in the page.
+  */
+  NodeGpt.displayAll = function(newElements) {
+    $elms = $('[data-trigger=gpt]', typeof newElements == 'undefined' ? document : newElements);
+    $elms.each(function() {
+      if (!$(this).data('loaded')) {
+        NodeGpt._display(this);
+      }
+    });
+  };
+  NodeGpt._display = function(elm) {
+    var $elm = $(elm),
+        adUnitPath = $elm.data('path'),
+        size = $elm.data('size'),
+        slotName = NodeGpt._generateNewSlotId();
+
+    $elm.attr('id', slotName).data('loaded', true);
+
+    googletag.cmd.push(function() {
+      var slot = googletag.defineSlot(adUnitPath, size, slotName).
+          addService(googletag.pubads());
+
+      // Display has to be called before
+      // refresh and after the slot div is in the page.
+      googletag.display(slotName);
+      googletag.pubads().refresh([slot]);
+    });
+  };
+  NodeGpt._generateNewSlotId = function() {
+    var min = 0;
+    var max = 999999;
+    return "div-gpt-ad-"+Math.floor(Math.random() * (max - min)) + min;
+  };
+
+  NodeGpt.init();
+
+</script>
+{% endif %}

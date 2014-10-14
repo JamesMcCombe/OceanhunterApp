@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles sekizai_tags thumbnail humanize %}
+{% load staticfiles sekizai_tags thumbnail humanize adcode_tags %}
 
 {% block header %}
   {# remove footer #}
@@ -19,6 +19,16 @@
 
 <ul class="small-block-grid-1 {% if enlarge %} medium-block-grid-1 {% else %} medium-block-grid-3 {% endif %} feeds">
   {% for f in feeds %}
+    {% if forloop.counter0|add:"3"|divisibleby:"5" %}
+      <li class="feed row">
+        <div class="show-for-small-only">
+          {% render_placement 'mobile-banner' %}
+        </div>
+        <div class="show-for-medium-up">
+          {% render_placement 'medium-tile' %}
+        </div>
+      </li>
+    {% endif %}
     <li class="feed row fish-{{ f.id }}">
       <div class="wrap-for-medium">
       <h3 class="columns small-12 show-for-small-only"><a href="{% url 'userfish' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
