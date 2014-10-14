@@ -35,10 +35,8 @@
   <div class="swiper-wrapper">
   {% for u in page.object_list %}
   {% if forloop.counter0|add:"3"|divisibleby:"4" %}
-    <li class="swiper-slide show-for-small-only">
-      <div class="wrap-for-medium">
-        {% render_placement 'mobile-banner' %}
-      </div>
+    <li class="show-for-small-only">
+      {% render_placement 'mobile-banner' %}
     </li>
   {% endif %}
   <li class="solo columns small-12 swiper-slide">
