@@ -2,7 +2,6 @@ Django<1.7
 bpython
 Pillow
 path.py
-South
 django-annoying
 django-extensions
 MySQL-python
