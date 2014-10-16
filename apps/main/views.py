@@ -122,7 +122,10 @@ def invite_email(request):
         elif len(emails) == 1:
             messages.success(request, 'Invite has been sent.')
 
-        return redirect('invite')
+        if u.profile.is_new():
+            return redirect('myfish_new')
+        else:
+            return redirect('invite')
 
     return {
         'form': form,
@@ -183,7 +186,10 @@ def facebook_save_invitee(request):
     elif len(facebook_ids) == 1:
         messages.success(request, 'Invite has been sent.')
 
-    return redirect('invite')
+    if u.profile.is_new():
+        return redirect('myfish_new')
+    else:
+        return redirect('invite')
 
 
 @login_required

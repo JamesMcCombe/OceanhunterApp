@@ -1,5 +1,7 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 from annoying.fields import AutoOneToOneField
 
 AREA_CHOICES = (('North Island', 'North Island',), ('South Island', 'South Island',))
@@ -59,6 +61,13 @@ class Profile(models.Model):
     def facebook_binded(self):
         return self.user.social_auth.filter(provider="facebook").count() > 0
 
+    def is_new(self):
+        have_fish = self.user.fish_set.count() > 0
+
+        _now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+        new_join = (_now - self.user.date_joined).seconds < 600 # 10 mins
+
+        return not have_fish and new_join
 
 TEAM_KINDS = (
     ('open', 'Open'),
