@@ -24,6 +24,15 @@
             float: left;
             margin-right: rem-calc(15);
             color: $primary-color;
+
+            .remove {
+                // clear the button style
+                display: inline;
+                background: none;
+                text-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
         }
     }
 

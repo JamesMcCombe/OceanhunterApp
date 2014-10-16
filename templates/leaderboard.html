@@ -23,12 +23,15 @@
 
 <div class="row">
   <ul class="columns small-12 filters">
-    <li class="filter">King Fish <sup><a class="close">&#215;</a></sup></li>
-    <li class="filter">Auckland <sup><a class="close">&#215;</a></sup></li>
-    <li class="filter">Team <sup><a class="close">&#215;</a></sup></li>
-    <li class="filter">Junior <sup><a class="close">&#215;</a></sup></li>
-    <li class="filter">Male <sup><a class="close">&#215;</a></sup></li>
-    <li class="filter">Open Team <sup><a class="close">&#215;</a></sup></li>
+  <form method="get">
+    {% for field in form.filters %}
+      <li class="filter">
+        {{ field.choice_label }}
+        <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+        <sup><button class="remove" type="submit" name="{{ field.name }}" value="">&#215;</button></sup>
+      </li>
+    {% endfor %}
+  </form>
   </ul>
 </div>
 <ul class="solos row swiper-container">
