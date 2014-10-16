@@ -89,3 +89,20 @@ class SignupForm(forms.ModelForm):
             p.dob = data['dob']
             p.save()
         return user
+
+
+class ExtraProfileForm(forms.ModelForm):
+    # other fields
+    # address = forms.CharField(label="Address")
+    #suburb = forms.CharField(label="Surburb")
+    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=m.GENDER_CHOICES)
+    # area = forms.ChoiceField(widget=forms.RadioSelect, choices=m.AREA_CHOICES)
+    city = forms.ChoiceField(label="City", choices=m.CITY_CHOICES)
+    dob = forms.DateField(label="Date of Birth")
+    #postcode = forms.CharField(label="Postcode")
+    #phone = forms.CharField(label="Phone Number")
+
+    class Meta:
+        model = m.Profile
+        fields = ('gender', 'city', 'dob')
+

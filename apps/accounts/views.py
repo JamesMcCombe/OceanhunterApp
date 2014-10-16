@@ -66,6 +66,22 @@ def logout(request):
     return redirect('home')
 
 
+@login_required
+@render_to(T('extra_profile'))
+def extra_profile(request):
+    u = request.user
+    F = f.ExtraProfileForm
+    if request.method == 'GET':
+        form = F(instance=u.profile)
+    else:
+        form = F(data=request.POST, instance=u.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('invite')
+    ctx = {'form': form}
+    return ctx
+
+
 @ajax_request
 def fbuser(request):
     # r = request.META['HTTP_REFERER']

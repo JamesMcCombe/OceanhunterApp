@@ -44,9 +44,9 @@ class Profile(models.Model):
         for area, cities in CITY_CHOICES:
             for city in cities:
                 if self.city == city[0]:
+                    self.area = area
                     break
 
-        self.area = area
         super(Profile, self).save(*a, **kw)
 
     def recalculate_points(self):

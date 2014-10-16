@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load staticfiles sekizai_tags %}
+
+{% block nav %}
+  {# remove the nav #}
+{% endblock nav %}
+
+{% block header_h2 %}
+    <h2>Registration</h2>
+{% endblock %}
+
+{% block footer %}
+  {# remove footer #}
+{% endblock footer %}
+
+{% block invitation %}
+  {# remove invitation #}
+{% endblock invitation %}
+
+{% block content %}
+
+{% addtoblock 'body-class' %} page-signup small-header step-2 {% endaddtoblock %}
+
+<div class="row">
+  <div class="columns small-centered small-11 medium-5">
+    {# {{ form }} #}
+
+    <form action="" method="post">
+      {{ form.non_field_errors }}
+      {% csrf_token %}
+      <input type="submit" class="hide">
+      {% comment %} <!-- Get area from city. Do not need to input this. -->
+      <div class="row">
+        <div class="columns">
+          {{ form.area.errors }}
+          {% for radio in form.area %}
+            <input type="radio" name="{{ radio.name }}" id="{{form.area.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.area.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
+          {% endfor %}
+        </div>
+      </div>
+      {% endcomment %}
+      <div class="row">
+        <div class="columns">
+          {{ form.city.errors }}
+          {{ form.city }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="columns">
+          {{ form.dob.errors }}
+          <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="columns">
+          {{ form.gender.errors }}
+          {% for radio in form.gender %}
+            <input type="radio" name="{{ radio.name }}" id="{{form.gender.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.gender.auto_id }}_{{ radio.index }}" class="small">{{ radio.choice_label }}</label>
+          {% endfor %}
+        </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+{% addtoblock 'fixed-to-bottom' %}
+<section class="bottom-btns">
+  <div class="row">
+    <div class="column small-centered small-11 medium-5">
+      <button class="button large expand submit">Ok</button>
+    </div>
+  </div>
+</section>
+{% endaddtoblock %}
+
+
+{% addtoblock 'js' %}
+<script>
+  $(function() {
+
+    $('#showPassword').change(function(e) {
+      $('[name^="password"]').attr('type', this.checked ? 'text' : 'password');
+    });
+
+    $('[name="dob"]').focus(function(e) {
+      if ($(this).attr('type') != 'date') {
+        $(this).blur().attr('type', 'date').focus();
+      }
+    });
+
+    $('.next').click(function(e) {
+      $('body').addClass('step-2');
+      oh.reAdjustFixedBottom();
+      // focus to region because two step switch too fast no body realize what to do
+      $('[name="city"]').focus();
+    });
+
+    $('.submit').click(function() {
+      $(this).attr('disabled', true);
+      $('form').submit();
+    });
+
+    $(document).on('change, blur', 'input', function(e) {
+      if( $(e.target).is(':invalid') ){
+        $(e.target).parent().addClass('invalid');
+      } else {
+        $(e.target).parent().removeClass('invalid');
+      }
+    });
+
+  });
+</script>
+{% endaddtoblock %}
+
+
+{% endblock %}

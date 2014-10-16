@@ -7,6 +7,7 @@ APP_NAME = APP_ROOT.name
 
 urlpatterns = patterns('%s.views' % APP_NAME,
                        url(r'^signup/$', 'signup', name='signup'),
+                       url(r'^signup/extra_profile/$', 'extra_profile', name='extra_profile'),
                        url(r'^login/$', 'login', name='login'),
                        url(r'^logout/$', 'logout', name='logout'),
                        url(r'^fbuser/$', 'fbuser', name='fbuser'),
