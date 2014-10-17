@@ -122,7 +122,10 @@
         roundLengths: true,
         grabCursor: true,
         freeMode: true,
-        freeModeFluid: true
+        freeModeFluid: true,
+        onInit: function() {
+          oh.reAdjustFixedBottom();
+        }
       });
 
       $('#filterModal').data('css-top', '50');
