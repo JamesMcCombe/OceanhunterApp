@@ -34,7 +34,12 @@ def home(request):
     else:
         # XXX Currently no feeds actually coz there is only one type of feed: fish
         # so dont need to add a news feed model right now.
-        ctx['feeds'] = m.Fish.objects.order_by('-create')
+        PERPAGE = 8
+        q = m.Fish.objects.order_by('-create')
+        paginator = Paginator(q, PERPAGE)
+        p = request.GET.get('p', 1)
+        page = paginator.page(p)
+        ctx['page'] = page
         ctx['TEMPLATE'] = 'feed.html'
     return ctx
 
@@ -366,7 +371,7 @@ def leaderboard(request):
             if filters['area']:
                 q = q.filter(user__profile__area=filters['area'])
 
-            junior_dob = date.today() - relativedelta(years=14)
+            junior_dob = date.today() - relativedelta(years=16)
             if filters['age'] == 'junior':
                 q = q.filter(user__profile__dob__lt=junior_dob)
             elif filters['age'] == 'open':
@@ -395,7 +400,7 @@ def leaderboard(request):
             if filters['area']:
                 q = q.filter(profile__area=filters['area'])
 
-            junior_dob = date.today() - relativedelta(years=14)
+            junior_dob = date.today() - relativedelta(years=16)
             if filters['age'] == 'junior':
                 q = q.filter(profile__dob__lt=junior_dob)
             elif filters['age'] == 'open':

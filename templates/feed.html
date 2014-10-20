@@ -18,9 +18,9 @@
 {% endaddtoblock %}
 
 <ul class="small-block-grid-1 {% if enlarge %} medium-block-grid-1 {% else %} medium-block-grid-3 {% endif %} feeds">
-  {% for f in feeds %}
+  {% for f in page.object_list %}
     {% if forloop.counter0|add:"3"|divisibleby:"5" %}
-      <li class="feed row">
+      <li class="feed row infinite-item">
         <div class="show-for-small-only">
           {% render_placement 'mobile-banner' %}
         </div>
@@ -29,7 +29,7 @@
         </div>
       </li>
     {% endif %}
-    <li class="feed row fish-{{ f.id }}">
+    <li class="feed row fish-{{ f.id }} infinite-item">
       <div class="wrap-for-medium">
       <h3 class="columns small-12 show-for-small-only"><a href="{% url 'userfish' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
 
@@ -87,6 +87,9 @@
     </div> <!-- wrap for medium -->
     </li>
   {% endfor %}
+  {% if page.has_next %}
+    <a href="{% url 'home' %}?p={{ page.next_page_number }}" class="infinite-more-link hide">Next page</a>
+  {% endif %}
 </ul>
 
 
@@ -188,11 +191,29 @@
     if (!oh.isSmallScreen()) {
       $('.feeds').imagesLoaded(function() {
         $('.feeds').masonry({
-          // columnWidth: 200,
           itemSelector: '.feed'
         });
       });
     }
+
+    // Infinite scroll
+    $('.feeds').waypoint('infinite', {
+      onAfterPageLoad: function() {
+        if (!oh.isSmallScreen()) {
+          var container = $('.feeds');
+
+          var new_feeds = [];
+          $('.feed').each(function() {
+            var masonry_item = container.masonry('getItem', this);
+            if (!(masonry_item instanceof Masonry.Item)) {
+              new_feeds.push(this);
+            }
+          });
+          container.masonry('appended', new_feeds);
+          container.imagesLoaded(reLayout);
+        }
+      }
+    });
 
   });
 </script>
