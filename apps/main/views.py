@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, date
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
@@ -12,6 +12,8 @@ from django.core.mail import EmailMessage
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
+
+from dateutil.relativedelta import relativedelta
 
 from accounts import models as am
 from . import models as m
@@ -335,16 +337,90 @@ def leaderboard(request):
     PERPAGE = 15
     p = request.GET.get('p', 1)
     F = f.FilterForm
-    form = F(request.GET or None)
 
-    solos = m.User.objects.exclude(profile__points=0).order_by('-profile__points')
-    paginator = Paginator(solos, PERPAGE)
+    # make a copy for modify it
+    form_data = request.GET.copy()
 
-    page = paginator.page(p)
-    start = PERPAGE * (p - 1)
+    # unit always required and default is solo
+    if not form_data.get('unit'):
+        form_data['unit'] = 'solo'
 
-    radios = (form[name] for name in ['area', 'unit', 'team', 'age', 'gender'])
-    return {'page': page, 'start': start, 'form': form, 'radios': radios}
+    # area and city can not be setup both
+    if form_data.get('area') and form_data.get('city'):
+        del form_data['city']
+
+    if form_data.get('unit') == 'solo' and form_data.get('team_kind'):
+        del form_data['team_kind']
+
+    form = F(form_data or None)
+    if form.is_valid():
+        filters = form.cleaned_data
+
+        if filters['species']:
+            type = 'fish'
+            q = m.Fish.objects \
+                .filter(species=filters['species']) \
+                .order_by('-points')
+            if filters['city']:
+                q = q.filter(user__profile__city=filters['city'])
+            if filters['area']:
+                q = q.filter(user__profile__area=filters['area'])
+
+            junior_dob = date.today() - relativedelta(years=14)
+            if filters['age'] == 'junior':
+                q = q.filter(user__profile__dob__lt=junior_dob)
+            elif filters['age'] == 'open':
+                q = q.filter(user__profile__dob__gte=junior_dob)
+
+            if filters['gender']:
+                q = q.filter(user__profile__gender=filters['gender'])
+
+        elif filters['unit'] == 'team':
+            type = 'team'
+            q = am.Team.objects \
+                .exclude(points=0) \
+                .order_by('-points')
+
+            if filters['team_kind']:
+                q = q.filter(kind=filters['team_kind'])
+
+        else: # elif filters['unit'] == 'team'
+            type = 'solo'
+            q = m.User.objects \
+                .exclude(profile__points=0) \
+                .order_by('-profile__points')
+
+            if filters['city']:
+                q = q.filter(profile__city=filters['city'])
+            if filters['area']:
+                q = q.filter(profile__area=filters['area'])
+
+            junior_dob = date.today() - relativedelta(years=14)
+            if filters['age'] == 'junior':
+                q = q.filter(profile__dob__lt=junior_dob)
+            elif filters['age'] == 'open':
+                q = q.filter(profile__dob__gte=junior_dob)
+
+            if filters['gender']:
+                q = q.filter(profile__gender=filters['gender'])
+
+        paginator = Paginator(q, PERPAGE)
+
+        page = paginator.page(p)
+        start = PERPAGE * (p - 1)
+
+        radios = (form[name] for name in ['area', 'unit', 'team_kind', 'age', 'gender'])
+        return {
+            'page': page,
+            'start': start,
+            'form': form,
+            'type': type,
+            'radios': radios,
+        }
+    else:
+        # for debug only
+        # normally it should not have any errors
+        print form.errors
 
 
 def facebook_invite_link(request, team):

@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from annoying.fields import AutoOneToOneField
+from main import models as mm
 
 AREA_CHOICES = (('North Island', 'North Island',), ('South Island', 'South Island',))
 GENDER_CHOICES = (('female', 'Female',), ('male', 'Male',))
@@ -70,8 +71,8 @@ class Profile(models.Model):
         return not have_fish and new_join
 
 TEAM_KINDS = (
-    ('open', 'Open'),
-    ('family', 'Family'),
+    ('family', 'Family Team'),
+    ('open', 'Open Team'),
 )
 
 class Team(models.Model):
@@ -93,6 +94,12 @@ class Team(models.Model):
     def recalculate_points(self):
         self.points = sum(u.profile.points for u in self.users.all())
         self.save()
+
+    def biggest_fish(self):
+        return mm.Fish.objects \
+            .filter(user=self.users.all()) \
+            .order_by('-points') \
+            .first()
 
 
 class Invite(models.Model):

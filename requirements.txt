@@ -10,3 +10,4 @@ python-social-auth
 South
 sorl-thumbnail
 django-ad-code
+python-dateutil

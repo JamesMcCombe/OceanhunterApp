@@ -31,16 +31,15 @@ class CommentForm(forms.ModelForm):
 
 class FilterForm(forms.Form):
     UNIT_CHOICES = (('solo', 'Solo'), ('team', 'Team'))
-    TEAM_CHOICES = (('family', 'Family Team'), ('open', 'Open Team'))
     AGE_CHOICES = (('junior', 'Junior'), ('open', 'Open Age'))
 
-    city = forms.ChoiceField(label="City", choices=am.CITY_CHOICES)
-    species = forms.ModelChoiceField(queryset=m.Species.objects, label="Fish Species")
-    area = forms.ChoiceField(widget=forms.RadioSelect, choices=am.AREA_CHOICES)
+    city = forms.ChoiceField(label="City", choices=am.CITY_CHOICES, required=False)
+    species = forms.ModelChoiceField(queryset=m.Species.objects, label="Fish Species", required=False)
+    area = forms.ChoiceField(widget=forms.RadioSelect, choices=am.AREA_CHOICES, required=False)
     unit = forms.ChoiceField(widget=forms.RadioSelect, choices=UNIT_CHOICES, initial='solo')
-    team = forms.ChoiceField(widget=forms.RadioSelect, choices=TEAM_CHOICES)
-    age = forms.ChoiceField(widget=forms.RadioSelect, choices=AGE_CHOICES)
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=am.GENDER_CHOICES)
+    team_kind = forms.ChoiceField(widget=forms.RadioSelect, choices=am.TEAM_KINDS, required=False)
+    age = forms.ChoiceField(widget=forms.RadioSelect, choices=AGE_CHOICES, required=False)
+    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=am.GENDER_CHOICES, required=False)
 
     def filters(self):
         """For leader board. Get non empty field and get the label of the choice

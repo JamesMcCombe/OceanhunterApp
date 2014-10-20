@@ -36,7 +36,7 @@
 </div>
 <ul class="solos row swiper-container">
   <div class="swiper-wrapper">
-  {% for u in page.object_list %}
+  {% for obj in page.object_list %}
   {% if forloop.counter0|add:"3"|divisibleby:"4" %}
     <li class="show-for-small-only">
       {% render_placement 'mobile-banner' %}
@@ -48,17 +48,41 @@
         {{ forloop.counter|add:start|ordinal }}
       </div>
       <div class="columns small-4 medium-12">
-        <a href="{% url 'userfish' u.id %}" class="image-wrapper">
-          {% thumbnail u.profile.biggest_fish.image "600x600" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+        {% if type == 'fish' %}
+        <a href="{% url 'fish_enlarge' obj.id %}" class="image-wrapper">
+          {% thumbnail obj.image "600x600" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
         </a>
+        {% elif type == 'solo' %}
+        <a href="{% url 'userfish' obj.id %}" class="image-wrapper">
+          {% thumbnail obj.profile.biggest_fish.image "600x600" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+        </a>
+        {% else %}
+        <a href="{% url 'team_alone' obj.id %}" class="image-wrapper">
+          {% thumbnail obj.biggest_fish.image "600x600" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+        </a>
+        {% endif %}
       </div>
       <div class="columns small-8 medium-12 content">
         <div class="name">
           <span class="show-for-small-only">{{ forloop.counter|add:start|ordinal }} | </span>
-          <a href="{% url 'userfish' u.id %}">{{ u.first_name }} {{ u.last_name }}</a>
+          {% if type == 'fish' %}
+          <a href="{% url 'fish_enlarge' obj.id %}">{{ obj.user.first_name }} {{ obj.user.last_name }}</a>
+          {% elif type == 'solo' %}
+          <a href="{% url 'userfish' obj.id %}">{{ obj.first_name }} {{ obj.last_name }}</a>
+          {% else %}
+          <a href="{% url 'team_alone' obj.id %}">{{ obj.name }}</a>
+          {% endif %}
         </div>
-        <div class="city">{{ u.profile.city }}</div>
-        <div class="points">{{ u.profile.points }} Points</div>
+        {% if type == 'fish' %}
+        <div class="city">{{ obj.user.profile.city }}</div>
+        {% elif type == 'solo' %}
+        <div class="city">{{ obj.profile.city }}</div>
+        {% endif %}
+        {% if type == 'solo' %}
+        <div class="points">{{ obj.profile.points }} Points</div>
+        {% else %}
+        <div class="points">{{ obj.points }} Points</div>
+        {% endif %}
       </div>
     </div>
   </li>
