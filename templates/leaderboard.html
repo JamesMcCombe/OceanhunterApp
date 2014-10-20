@@ -66,7 +66,7 @@
         <div class="name">
           <span class="show-for-small-only">{{ forloop.counter|add:start|ordinal }} | </span>
           {% if type == 'fish' %}
-          <a href="{% url 'fish_enlarge' obj.id %}">{{ obj.user.first_name }} {{ obj.user.last_name }}</a>
+          <a href="{% url 'userfish' obj.user.id %}">{{ obj.user.first_name }} {{ obj.user.last_name }}</a>
           {% elif type == 'solo' %}
           <a href="{% url 'userfish' obj.id %}">{{ obj.first_name }} {{ obj.last_name }}</a>
           {% else %}
