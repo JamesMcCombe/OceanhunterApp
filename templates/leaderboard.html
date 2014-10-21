@@ -50,15 +50,39 @@
       <div class="columns small-4 medium-12">
         {% if type == 'fish' %}
         <a href="{% url 'fish_enlarge' obj.id %}" class="image-wrapper">
-          {% thumbnail obj.image "600x600" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+          <img class="fish-image"
+            srcset="{% thumbnail obj.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
+                    {% thumbnail obj.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
+                    {% thumbnail obj.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
+                    {% thumbnail obj.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
+            sizes="(min-width: 40em) 21vw,
+                   31vw"
+            src="{% thumbnail obj.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+          >
         </a>
         {% elif type == 'solo' %}
         <a href="{% url 'userfish' obj.id %}" class="image-wrapper">
-          {% thumbnail obj.profile.biggest_fish.image "600x600" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+          <img class="fish-image"
+            srcset="{% thumbnail obj.profile.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
+                    {% thumbnail obj.profile.biggest_fish.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
+                    {% thumbnail obj.profile.biggest_fish.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
+                    {% thumbnail obj.profile.biggest_fish.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
+            sizes="(min-width: 40em) 21vw,
+                   31vw"
+            src="{% thumbnail obj.profile.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+          >
         </a>
         {% else %}
         <a href="{% url 'team_alone' obj.id %}" class="image-wrapper">
-          {% thumbnail obj.biggest_fish.image "600x600" crop="center" as im %}<img src="{{ im.url }}">{% endthumbnail %}
+          <img class="fish-image"
+            srcset="{% thumbnail obj.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
+                    {% thumbnail obj.biggest_fish.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
+                    {% thumbnail obj.biggest_fish.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
+                    {% thumbnail obj.biggest_fish.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
+            sizes="(min-width: 40em) 21vw,
+                   31vw"
+            src="{% thumbnail obj.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+          >
         </a>
         {% endif %}
       </div>

@@ -55,7 +55,16 @@
           <a class="fish" href="{% url 'userfish' u.id %}">
             <div class="image-wrapper">
               {% if u.profile.biggest_fish %}
-                {% thumbnail u.profile.biggest_fish.image "400x400" crop="center" as im %}<img class="fish-image" src="{{ im.url }}">{% endthumbnail %}
+                <img class="fish-image"
+                  srcset="{% thumbnail u.profile.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
+                          {% thumbnail u.profile.biggest_fish.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
+                          {% thumbnail u.profile.biggest_fish.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
+                          {% thumbnail u.profile.biggest_fish.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %},
+                          {% thumbnail u.profile.biggest_fish.image "640x640" crop="center" as im %}{{ im.url }} 640w{% endthumbnail %}"
+                  sizes="(min-width: 40em) 21vw,
+                         50vw"
+                  src="{% thumbnail u.profile.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+                >
               {% else %}
                 <div class="placeholder"></div>
               {% endif %}
