@@ -170,3 +170,5 @@ EMAIL_HOST_PASSWORD='123456' # TODO: fill this in local.py
 EMAIL_SUBJECT_PREFIX='[%s]' % PROJ_NAME
 EMAIL_USE_TLS=True
 EMAIL_PORT=587
+
+ADCODE_PLACEHOLDER_TEMPLATE = '//placehold.it/{width}x{height}'
