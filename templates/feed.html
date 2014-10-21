@@ -18,7 +18,7 @@
 {% endaddtoblock %}
 
 <ul class="small-block-grid-1 {% if enlarge %} medium-block-grid-1 {% else %} medium-block-grid-3 {% endif %} feeds">
-  {% for f in page.object_list %}
+  {% for f in feeds %}
     {% if forloop.counter0|add:"3"|divisibleby:"5" %}
       <li class="feed row infinite-item">
         <div class="show-for-small-only">

@@ -40,6 +40,7 @@ def home(request):
         p = request.GET.get('p', 1)
         page = paginator.page(p)
         ctx['page'] = page
+        ctx['feeds'] = page.object_list
         ctx['TEMPLATE'] = 'feed.html'
     return ctx
 
