@@ -42,11 +42,13 @@
         margin-left: 0;
         .solo {
             &.swiper-slide { box-sizing: border-box; }
+            width: percentage(1 / 4.2);
             padding-bottom: $spacing;
             padding-top: $spacing;
             &:not(:first-child) {
                 border-top: 1px solid scale-color($black, $lightness:5%);
             }
+            .fish-image { width: 100%; }
             .content { padding-left: $spacing; }
             .name {
                 // to fix foundation show-for-small-only

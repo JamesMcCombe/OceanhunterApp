@@ -297,7 +297,7 @@
                 box-shadow: 0 0 3px black;
                 color: scale-color($white, $lightness: -20%);
                 .image-wrapper { position: relative; }
-                .fish-image { opacity: 0.5; }
+                .fish-image { opacity: 0.5; width: 100%; }
                 .add { padding: 39%; }
                 .placeholder { width: 100%; padding-bottom: 100%; }
                 .icon-enlarge {

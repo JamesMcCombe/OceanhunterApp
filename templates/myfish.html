@@ -42,13 +42,13 @@
         <li class="">
           <a class="fish" href="{% url 'fish_enlarge' fish.id %}">
             <div class="image-wrapper">
-              <img class="fish-image"
-                srcset="{% thumbnail fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
+              <img class="fish-image lazyload"
+                data-srcset="{% thumbnail fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
                         {% thumbnail fish.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
                         {% thumbnail fish.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
                         {% thumbnail fish.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %},
                         {% thumbnail fish.image "640x640" crop="center" as im %}{{ im.url }} 640w{% endthumbnail %}"
-                sizes="(min-width: 40em) 18vw,
+                data-sizes="(min-width: 40em) 18vw,
                        33.3vw"
                 src="{% thumbnail fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
               >

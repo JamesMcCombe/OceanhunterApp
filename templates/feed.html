@@ -36,13 +36,13 @@
       <div class="image-wrapper">
         {# enlarge mode only display one fish, do not need link to myself #}
         {% if not enlarge %}<a href="{% url 'fish_enlarge' f.id %}">{% endif %}
-        <img class="fish-image"
-          srcset="{% thumbnail f.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
+        <img class="fish-image lazyload"
+          data-srcset="{% thumbnail f.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
                   {% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }} 320w{% endthumbnail %},
                   {% thumbnail f.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %},
                   {% thumbnail f.image "640x640" crop="center" as im %}{{ im.url }} 640w{% endthumbnail %},
                   {% thumbnail f.image "900x900" crop="center" as im %}{{ im.url }} 900w{% endthumbnail %}"
-          sizes="(min-width: 40em) {% if not enlarge %}25vw{% else %}45vw{% endif %},
+          data-sizes="(min-width: 40em) {% if not enlarge %}25vw{% else %}45vw{% endif %},
                  100vw"
           src="{% thumbnail f.image "100x100" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
         >
@@ -81,8 +81,8 @@
         </div>
         <div class="meta show-for-medium-up">
           <a href="{% url 'userfish' f.user.id %}">
-            <img
-              srcset="{% thumbnail f.user.profile.biggest_fish.image "30x30" crop="center" as im %}{{ im.url }} 1x{% endthumbnail %},
+            <img class="lazyload"
+              data-srcset="{% thumbnail f.user.profile.biggest_fish.image "30x30" crop="center" as im %}{{ im.url }} 1x{% endthumbnail %},
                       {% thumbnail f.user.profile.biggest_fish.image "60x60" crop="center" as im %}{{ im.url }} 2x{% endthumbnail %}"
               src="{% thumbnail f.user.profile.biggest_fish.image "30x30" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
             >
