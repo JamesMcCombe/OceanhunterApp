@@ -249,6 +249,19 @@ def myfish(request, user_id):
 
 
 @login_required
+def myfish_delete(request):
+    u = request.user
+    if request.method == 'POST':
+        print request.POST
+        fish_id = request.POST.get('id')
+        print fish_id
+        fish = get_object_or_404(m.Fish, pk=fish_id, user=u)
+        fish.status = 'removed'
+        fish.save()
+        return redirect('home')
+
+
+@login_required
 @render_to('myfish_myteam.html')
 def myteam(request, user_id):
     if user_id == 'me' or int(user_id) == request.user.id:

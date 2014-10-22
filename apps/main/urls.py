@@ -16,6 +16,7 @@ urlpatterns = patterns('main.views',
     url(r'^team/(?P<team_id>\d+)/$', 'team_alone', name='team_alone'),
     url(r'^fish/new/$', 'myfish_new', name='myfish_new'),
     url(r'^fish/(?P<fish_id>\d+)/$', 'fish_enlarge', name='fish_enlarge'),
+    url(r'^fish/delete/$', 'myfish_delete', name='myfish_delete'),
 
     url(r'^ajax/newcomment/$', 'ajax_new_comment', name='ajax_new_comment'),
 

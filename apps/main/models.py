@@ -14,6 +14,11 @@ class Species(models.Model):
         return self.name
 
 
+class FishManager(models.Manager):
+    def get_query_set(self):
+        return super(FishManager, self).get_query_set().exclude(status='removed')
+
+
 class Fish(models.Model):
     class Meta:
         verbose_name_plural = 'Fish'
@@ -33,9 +38,12 @@ class Fish(models.Model):
 
     create = models.DateTimeField(auto_now_add=True)
 
+    objects = FishManager()
+
     def save(self, *a, **kw):
         self.points = int(round(self.weight * self.species.k))
         super(Fish, self).save(*a, **kw)
+        self.user.profile.recalculate_points()
 
 
 class Comment(models.Model):

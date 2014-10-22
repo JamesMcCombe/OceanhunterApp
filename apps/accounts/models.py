@@ -55,6 +55,8 @@ class Profile(models.Model):
     def recalculate_points(self):
         self.points = sum(f.points for f in self.user.fish_set.all())
         self.save()
+        for team in self.user.team_set.all():
+            team.recalculate_points()
 
     def biggest_fish(self):
         return self.user.fish_set.order_by('-points').first()
@@ -82,7 +84,7 @@ class Team(models.Model):
 
     # creater is default admin, but can transfer to some one else
     admin = models.ForeignKey(User, related_name='+')
-    users = models.ManyToManyField(User, related_name='+')
+    users = models.ManyToManyField(User)
     points = models.IntegerField(default=0)
     text = models.TextField(blank=True)
 
