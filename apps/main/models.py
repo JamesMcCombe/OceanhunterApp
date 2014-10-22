@@ -25,6 +25,12 @@ class Fish(models.Model):
     points = models.IntegerField(default=0)
     image = models.ImageField(upload_to="fish")
 
+    STATUS = (
+        ('normal', 'Normal'),
+        ('removed', 'Removed'),
+    )
+    status = models.CharField(max_length=10, choices=STATUS, default='normal')
+
     create = models.DateTimeField(auto_now_add=True)
 
     def save(self, *a, **kw):

@@ -193,20 +193,26 @@ body {
     .action {
         $icon-size: rem-calc(30);
         $spacing: rem-calc(12);
-        line-height: 0;
         padding-top: $spacing;
         padding-bottom: $spacing;
         cursor: pointer;
+        color: scale-color($black, $lightness: 20%);
+        font-size: rem-calc(20);
         // Icon
-        &:before {
-            content: "";
-            width: $icon-size;
-            height: $icon-size;
-            background-position: 0 0;
-            background-repeat: no-repeat;
-            background-size: $icon-size;
-            display: inline-block;
-
+        &.icon-action {
+            line-height: 0;
+            &:before {
+                content: "";
+                width: $icon-size;
+                height: $icon-size;
+                background-position: 0 0;
+                background-repeat: no-repeat;
+                background-size: $icon-size;
+                display: inline-block;
+            }
+        }
+        &:hover {
+            color: $orange;
         }
         &:hover:before { background-position-y: -$icon-size; }
         &.edit:before { background-image: url('../../img/icon-edit.png'); }

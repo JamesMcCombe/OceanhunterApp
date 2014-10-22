@@ -109,10 +109,24 @@
     </div>
   </div>
   <div class="row actions">
-    <div class="columns small-4 text-center action comment" data-action data-title="Comment"></div>
-    <div class="columns small-4 text-center action delete" data-action data-title="Delete"></div>
+    <div class="columns small-4 text-center action icon-action comment" data-action data-title="Comment"></div>
+    <a class="columns small-4 text-center action icon-action delete" data-action data-title="Delete" data-reveal-id="feedDeleteModal"></a>
     {# <div class="columns small-4 text-center action edit" data-action data-title="Edit"></div> #}
-    <div class="columns small-4 text-center action share" data-action data-title="Share"></div>
+    <div class="columns small-4 text-center action icon-action share" data-action data-title="Share"></div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+
+<div id="feedDeleteModal" class="reveal-modal oc-reveal-modal feed-delete-reveal-modal collapse small" data-reveal data-options="animation:fade" data-css-top="100">
+  <div class="row">
+    <div class="columns small-12">
+      <h2>Are you sure?</h2>
+    </div>
+  </div>
+  <div class="row actions">
+    <div class="columns small-6 text-center action no">NO</div>
+    <div class="columns small-6 text-center action yes">YES</div>
   </div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
@@ -208,6 +222,7 @@
     // Infinite scroll
     $('.feeds').waypoint('infinite', {
       onAfterPageLoad: function() {
+        // relayout the masonry on non mobile screen
         if (!oh.isSmallScreen()) {
           var container = $('.feeds');
 
