@@ -241,7 +241,11 @@
       var modal = $('#feedModal');
       modal.find('.share-buttons').toggle('fast');
     });
-
+    // hide share
+    $(document).on('closed.fndtn.reveal', '.feed-reveal-modal', function () {
+      var modal = $(this);
+      modal.find('.share-buttons').hide();
+    });
 
     function reLayout() {
       if (!oh.isSmallScreen()) {
