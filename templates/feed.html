@@ -22,9 +22,9 @@
     {% if enlarge and forloop.first %}
       {% addtoblock 'head' %}
       <meta property="og:url" content="{{ BASE_URL }}{% url 'fish_enlarge' f.id %}">
-      <meta property="og:title" content="I caught a {{ f.weight }} Kg {{ f.species }} @OceanHunter!">
+      <meta property="og:title" content="{% include "_share_title.html" with f=f %}">
       <meta property="og:image" content="{{ BASE_URL }}{% thumbnail f.image "600x600" crop="center" as im %}{{ im.url }}{% endthumbnail %}">
-      <meta property="og:description" content="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
+      <meta property="og:description" content="{% include "_share_description.html" with f=f %}">
       {% endaddtoblock %}
     {% endif %}
     {% if forloop.counter0|add:"3"|divisibleby:"5" %}
@@ -43,7 +43,7 @@
 
       <div class="image-wrapper">
         {# enlarge mode only display one fish, do not need link to myself #}
-        {% if not enlarge %}<a href="{% url 'fish_enlarge' f.id %}" class="link-to-enlarge">{% endif %}
+        {% if not enlarge %}<a href="{% url 'fish_enlarge' f.id %}" class="link-to-enlarge" data-share-title="{% include "_share_title.html" with f=f %}">{% endif %}
         <img class="fish-image lazyload"
           data-srcset="{% thumbnail f.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
                   {% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }} 320w{% endthumbnail %},
@@ -124,7 +124,7 @@
   </div>
   <div class="row actions hide share-buttons">
     <div class="columns small-4 text-center action icomoon-action share-facebook" data-action data-title="Share on Facebook"><i class="icomoon-facebook"></i></div>
-    <div class="columns small-4 text-center action icomoon-action share-twitter" data-action data-title="Share on Twitter"><i class="icomoon-twitter"></i></div>
+    <a href="" target="_blank" class="columns small-4 text-center action icomoon-action share-twitter" data-action data-title="Share on Twitter"><i class="icomoon-twitter"></i></a>
     <div class="columns small-4 text-center action icomoon-action share-instagram" data-action data-title="Share on Instagram"><i class="icomoon-instagram"></i></div>
   </div>
   <a class="close-reveal-modal">&#215;</a>
@@ -158,9 +158,14 @@
 
     // to know which menu the user click
     var modal_action_fish_id = null;
+    function _get_current_feed() {
+      return $('.fish-'+modal_action_fish_id);
+    }
+
     $(document).on('click', '.feed .more', function(e) {
       var btn = $(this);
       var modal = $('#feedModal');
+      // set current feed
       modal_action_fish_id = btn.data('fish-id');
 
       // if the user not the owner, hide the delete button
@@ -179,7 +184,7 @@
     $(document).on('click', '[data-action].comment', function(e) {
       $('#feedModal').foundation('reveal', 'close');
 
-      var feed = $('.fish-'+modal_action_fish_id);
+      var feed = _get_current_feed();
       if (!oh.checkLoginAndAlert()) { return; }
 
       // Animation on focus feed
@@ -260,20 +265,38 @@
     });
 
 
-    $(document).on('click', '.action.share-facebook', function() {
+    function _get_current_feed_share_link() {
       var link;
       if (is_enlarge) {
         link = location.href;
       } else {
-        var feed = $('.fish-'+modal_action_fish_id);
+        var feed = _get_current_feed();
         link = feed.find('.link-to-enlarge').prop('href');
       }
+      return link;
+    }
+
+    // share to facebook
+    $(document).on('click', '.action.share-facebook', function() {
       FB.ui({
         method: 'share',
-        href: link,
+        href: _get_current_feed_share_link(),
       }, function(response) {
         $('#feedModal').foundation('reveal', 'close');
       });
+    });
+
+
+    // share to twitter
+    $(document).on('click', '.action.share-twitter', function() {
+      var feed = _get_current_feed();
+      var link_elm = feed.find('.link-to-enlarge');
+      var title = link_elm.data('share-title') + ' ' + _get_current_feed_share_link();
+      title = encodeURIComponent(title);
+      var link = 'https://twitter.com/intent/tweet?text='+title;
+
+      $(this).attr('href', link);
+      // do not prevent default here, we need the link
     });
 
 
