@@ -148,7 +148,7 @@
   $(function() {
     // to know which menu the user click
     var modal_action_fish_id = null;
-    $('body').on('click', '.feed .more', function(e) {
+    $(document).on('click', '.feed .more', function(e) {
       var btn = $(this);
       var modal = $('#feedModal');
       modal_action_fish_id = btn.data('fish-id');
@@ -166,7 +166,7 @@
 
 
     // click comment button on reveal modal
-    $('body').on('click', '[data-action].comment', function(e) {
+    $(document).on('click', '[data-action].comment', function(e) {
       $('#feedModal').foundation('reveal', 'close');
 
       var feed = $('.fish-'+modal_action_fish_id);
@@ -184,7 +184,7 @@
     });
 
 
-    $('body').on('submit', '.new-comment form', function(e) {
+    $(document).on('submit', '.new-comment form', function(e) {
       e.preventDefault();
 
       var f = $(this);
@@ -226,18 +226,18 @@
 
 
     // click no button on delete modal
-    $('body').on('click', '.feed-delete-reveal-modal .action.no', function(e) {
+    $(document).on('click', '.feed-delete-reveal-modal .action.no', function(e) {
       $('#feedDeleteModal').foundation('reveal', 'close');
     });
     // click yes button on delete modal
-    $('body').on('click', '.feed-delete-reveal-modal .action.yes', function(e) {
+    $(document).on('click', '.feed-delete-reveal-modal .action.yes', function(e) {
       var form = $('#feedDeleteForm');
       form.find('input[name="id"]').val(modal_action_fish_id);
       form.submit();
     });
 
-    // click share button on modal
-    $('body').on('click', '.action.share', function(e) {
+    // click share button on modal to show the options: facebook, twitter...
+    $(document).on('click', '.action.share', function(e) {
       var modal = $('#feedModal');
       modal.find('.share-buttons').toggle('fast');
     });

@@ -18,7 +18,7 @@ class OceanHunter
       .css 'opacity', 1
 
   bindRevealAction: ->
-    $('body').on 'mouseenter', '[data-action]', (e) ->
+    $(document).on 'mouseenter', '[data-action]', (e) ->
       elm = $ e.target
       title = elm.data 'title'
       if title?
@@ -31,9 +31,9 @@ class OceanHunter
       title_wrap.text title
 
   bindRevealBlur: ->
-    $('body').on 'open.fndtn.reveal', '.oc-reveal-modal-blur', (e) ->
+    $(document).on 'open.fndtn.reveal', '.oc-reveal-modal-blur', (e) ->
       $('.page-wrap').addClass 'blur'
-    $('body').on 'close.fndtn.reveal', '.oc-reveal-modal-blur', (e) ->
+    $(document).on 'close.fndtn.reveal', '.oc-reveal-modal-blur', (e) ->
       $('.page-wrap').removeClass 'blur'
 
   isSmallScreen: ->
