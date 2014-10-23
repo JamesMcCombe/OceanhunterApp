@@ -19,7 +19,7 @@
 
 <ul class="small-block-grid-1 {% if enlarge %} medium-block-grid-1 {% else %} medium-block-grid-3 {% endif %} feeds">
   {% for f in feeds %}
-    {% if enlarge %}
+    {% if enlarge and forloop.first %}
       {% addtoblock 'head' %}
       <meta property="og:url" content="{{ BASE_URL }}{% url 'fish_enlarge' f.id %}">
       <meta property="og:title" content="I caught a {{ f.weight }} Kg {{ f.species }} @OceanHunter!">
