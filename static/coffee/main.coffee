@@ -46,6 +46,11 @@ class OceanHunter
     else if window.devicePixelRatio?
       window.devicePixelRatio > 1.3
 
+  # check if user logined, if not reveal the alert ask user to signup or login
+  checkLoginAndAlert: ->
+    if not OC.user.logined
+      $('#loginAlertModal').foundation('reveal', 'open')
+    OC.user.logined
 
 $ ->
   window.oh = new OceanHunter

@@ -40,6 +40,7 @@
             OC.user.first_name = "{{ user.first_name }}";
             OC.user.last_name = "{{ user.last_name }}";
             OC.user.id = "{{ user.id }}";
+            OC.user.logined = {{ user.is_authenticated|yesno:"true,false" }};
 
             var settings = settings || {};
             settings.APP_ID = "{{ FACEBOOK_APP_ID }}";
@@ -132,6 +133,21 @@
     </div>
 
     </div> {# end of .page-wrap #}
+
+
+    <div id="loginAlertModal" class="reveal-modal oc-reveal-modal login-alert-reveal-modal collapse small" data-reveal data-options="animation:fade" data-css-top="100">
+      <div class="row">
+        <div class="columns small-12">
+          <h2>Need a account?</h2>
+        </div>
+      </div>
+      <div class="row actions">
+        <a href="{% url 'signup' %}" class="columns small-6 text-center action">Register</a>
+        <a href="{% url 'login' %}" class="columns small-6 text-center action">Login</a>
+      </div>
+      <a class="close-reveal-modal">&#215;</a>
+    </div>
+
 
     {% if debug %}
     <script src="{% static 'js/libs/jquery-1.11.0.min.js' %}"></script>

@@ -170,6 +170,7 @@
       $('#feedModal').foundation('reveal', 'close');
 
       var feed = $('.fish-'+modal_action_fish_id);
+      if (!oh.checkLoginAndAlert()) { return; }
 
       // Animation on focus feed
       // but disabled now. Because it's too slow on iPad, and some bugs when

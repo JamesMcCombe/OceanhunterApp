@@ -45,7 +45,6 @@ def home(request):
     return ctx
 
 
-@login_required
 @render_to('feed.html')
 def fish_enlarge(request, fish_id):
     ctx = {}
