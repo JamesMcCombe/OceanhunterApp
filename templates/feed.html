@@ -19,6 +19,13 @@
 
 <ul class="small-block-grid-1 {% if enlarge %} medium-block-grid-1 {% else %} medium-block-grid-3 {% endif %} feeds">
   {% for f in feeds %}
+    {% if enlarge %}
+      {% addtoblock 'head' %}
+      <meta og:title="I caught a {{ f.weight }} Kg {{ f.species }} @OceanHunter!">
+      <meta og:image="{% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }}{% endthumbnail %}">
+      <meta og:description="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
+      {% endaddtoblock %}
+    {% endif %}
     {% if forloop.counter0|add:"3"|divisibleby:"5" %}
       <li class="feed row infinite-item">
         <div class="show-for-small-only">
@@ -35,7 +42,7 @@
 
       <div class="image-wrapper">
         {# enlarge mode only display one fish, do not need link to myself #}
-        {% if not enlarge %}<a href="{% url 'fish_enlarge' f.id %}">{% endif %}
+        {% if not enlarge %}<a href="{% url 'fish_enlarge' f.id %}" class="link-to-enlarge">{% endif %}
         <img class="fish-image lazyload"
           data-srcset="{% thumbnail f.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
                   {% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }} 320w{% endthumbnail %},
@@ -115,9 +122,9 @@
     <div class="columns small-4 text-center action icon-action share" data-action data-title="Share"></div>
   </div>
   <div class="row actions hide share-buttons">
-    <div class="columns small-4 text-center action icomoon-action" data-action data-title="Share on Facebook"><i class="icomoon-facebook"></i></div>
-    <div class="columns small-4 text-center action icomoon-action" data-action data-title="Share on Twitter"><i class="icomoon-twitter"></i></div>
-    <div class="columns small-4 text-center action icomoon-action" data-action data-title="Share on Instagram"><i class="icomoon-instagram"></i></div>
+    <div class="columns small-4 text-center action icomoon-action share-facebook" data-action data-title="Share on Facebook"><i class="icomoon-facebook"></i></div>
+    <div class="columns small-4 text-center action icomoon-action share-twitter" data-action data-title="Share on Twitter"><i class="icomoon-twitter"></i></div>
+    <div class="columns small-4 text-center action icomoon-action share-instagram" data-action data-title="Share on Instagram"><i class="icomoon-instagram"></i></div>
   </div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
@@ -146,6 +153,8 @@
 {% addtoblock 'js' %}
 <script>
   $(function() {
+    var is_enlarge = {{ enlarge|yesno:"true,false" }};
+
     // to know which menu the user click
     var modal_action_fish_id = null;
     $(document).on('click', '.feed .more', function(e) {
@@ -237,6 +246,7 @@
       form.submit();
     });
 
+
     // click share button on modal to show the options: facebook, twitter...
     $(document).on('click', '.action.share', function(e) {
       var modal = $('#feedModal');
@@ -247,6 +257,24 @@
       var modal = $(this);
       modal.find('.share-buttons').hide();
     });
+
+
+    $(document).on('click', '.action.share-facebook', function() {
+      var link;
+      if (is_enlarge) {
+        link = location.href;
+      } else {
+        var feed = $('.fish-'+modal_action_fish_id);
+        link = feed.find('.link-to-enlarge').prop('href');
+      }
+      FB.ui({
+        method: 'share',
+        href: link,
+      }, function(response) {
+
+      });
+    });
+
 
     function reLayout() {
       if (!oh.isSmallScreen()) {
