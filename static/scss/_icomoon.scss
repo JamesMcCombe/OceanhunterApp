@@ -23,6 +23,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icomoon-instagram:before {
+    content: "\e603";
+}
 .icomoon-search:before {
     content: "\e036";
 }
@@ -37,4 +40,10 @@
 }
 .icomoon-cross:before {
     content: "\e600";
+}
+.icomoon-twitter:before {
+    content: "\f099";
+}
+.icomoon-facebook:before {
+    content: "\f09a";
 }

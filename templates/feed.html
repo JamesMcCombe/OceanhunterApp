@@ -108,11 +108,16 @@
       <h2 data-title-origin="More">More</h2>
     </div>
   </div>
-  <div class="row actions">
+  <div class="row actions hide-delete-btn-wrap">
     <div class="columns small-4 text-center action icon-action comment" data-action data-title="Comment"></div>
     <a class="columns small-4 text-center action icon-action delete" data-action data-title="Delete" data-reveal-id="feedDeleteModal"></a>
     {# <div class="columns small-4 text-center action edit" data-action data-title="Edit"></div> #}
     <div class="columns small-4 text-center action icon-action share" data-action data-title="Share"></div>
+  </div>
+  <div class="row actions hide share-buttons">
+    <div class="columns small-4 text-center action icomoon-action" data-action data-title="Share on Facebook"><i class="icomoon-facebook"></i></div>
+    <div class="columns small-4 text-center action icomoon-action" data-action data-title="Share on Twitter"><i class="icomoon-twitter"></i></div>
+    <div class="columns small-4 text-center action icomoon-action" data-action data-title="Share on Instagram"><i class="icomoon-instagram"></i></div>
   </div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
@@ -151,10 +156,10 @@
       // if the user not the owner, hide the delete button
       var user_id = btn.data('user-id');
       if (user_id != OC.user.id) {
-        modal.find('.small-4').removeClass('small-4').addClass('small-6');
+        modal.find('.hide-delete-btn-wrap .small-4').removeClass('small-4').addClass('small-6');
         modal.find('.action.delete').hide();
       } else {
-        modal.find('.small-6').removeClass('small-6').addClass('small-4');
+        modal.find('.hide-delete-btn-wrap .small-6').removeClass('small-6').addClass('small-4');
         modal.find('.action.delete').show();
       }
     });
@@ -224,11 +229,17 @@
     $('body').on('click', '.feed-delete-reveal-modal .action.no', function(e) {
       $('#feedDeleteModal').foundation('reveal', 'close');
     });
-    // click comment button on reveal modal
+    // click yes button on delete modal
     $('body').on('click', '.feed-delete-reveal-modal .action.yes', function(e) {
       var form = $('#feedDeleteForm');
       form.find('input[name="id"]').val(modal_action_fish_id);
       form.submit();
+    });
+
+    // click share button on modal
+    $('body').on('click', '.action.share', function(e) {
+      var modal = $('#feedModal');
+      modal.find('.share-buttons').toggle('fast');
     });
 
 

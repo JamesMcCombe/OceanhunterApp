@@ -211,6 +211,12 @@ body {
                 display: inline-block;
             }
         }
+        &.icomoon-action {
+            line-height: 0;
+            padding-top: $spacing + rem-calc(1);
+            padding-bottom: $spacing + rem-calc(1);
+            font-size: rem-calc(27);
+        }
         &:hover {
             color: $orange;
         }

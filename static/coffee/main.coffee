@@ -18,13 +18,13 @@ class OceanHunter
       .css 'opacity', 1
 
   bindRevealAction: ->
-    $('body').on 'mouseover', '[data-action]', (e) ->
+    $('body').on 'mouseenter', '[data-action]', (e) ->
       elm = $ e.target
       title = elm.data 'title'
       if title?
         title_wrap = elm.closest('.reveal-modal').find('h2')
         title_wrap.text title
-    .on 'mouseout', '[data-action]', (e) ->
+    .on 'mouseleave', '[data-action]', (e) ->
       elm = $ e.target
       title_wrap = elm.closest('.reveal-modal').find('h2')
       title = title_wrap.data 'title-origin'
