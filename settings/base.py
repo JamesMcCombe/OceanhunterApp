@@ -63,6 +63,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
+    'django.core.context_processors.request',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'sekizai.context_processors.sekizai',
@@ -71,6 +72,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'adcode.context_processors.current_placements',
     'main.context_processors.facebook_app_id',
     'main.context_processors.unread_invites',
+    'main.context_processors.baseurl',
 )
 
 SOCIAL_AUTH_PIPELINE = (
