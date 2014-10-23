@@ -220,7 +220,7 @@ body {
         &:hover {
             color: $orange;
         }
-        &:hover:before { background-position-y: -$icon-size; }
+        &:hover:before { background-position: 0 (-$icon-size); }
         &.edit:before { background-image: url('../../img/icon-edit.png'); }
         &.comment:before { background-image: url('../../img/icon-comment.png'); }
         &.share:before { background-image: url('../../img/icon-share.png'); }
