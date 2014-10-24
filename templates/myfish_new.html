@@ -13,12 +13,12 @@
 
 {% addtoblock 'body-class' %} page-myfish-new {% endaddtoblock %}
 
-{# wrap for the width #}
-<div class="row"><div class="columns small-12 medium-11 medium-centered">
 <form action="{% url 'myfish_new' %}" method="post" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
   {% csrf_token %}
   {# {{ form }} #}
   <div class="page-1">
+    {# wrap for the width #}
+    <div class="row"><div class="columns small-12 medium-11 medium-centered">
     <div class="row">
       <div class="columns small-12 medium-12">
         <label>{{ form.species.label }}</label>
@@ -66,6 +66,8 @@
         </label>
       </div>
     </div>
+    {# wrap for the width #}
+    </div></div>
   </div>
   <input name="{{ form.image.html_name }}" type="file" accept="image/*">
   {# Page 2: For iPhone #}
@@ -82,6 +84,8 @@
 
     {# Page 2: For iPad and PC #}
     <div class="show-for-medium-up">
+      {# wrap for the width #}
+      <div class="row"><div class="columns medium-11 medium-centered">
       <div class="row">
         <div class="columns medium-6">
           <div class="cover">
@@ -133,11 +137,11 @@
         </div>
       </div>
     </div>
+    {# wrap for the width #}
+    </div></div>
     {# End of Page 2 for iPad and PC #}
   </div>
 </form>
-{# wrap for the width #}
-</div></div>
 
 {% addtoblock 'fixed-to-bottom' %}
 <section class="bottom-btns">
