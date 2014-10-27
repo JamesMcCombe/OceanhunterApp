@@ -42,7 +42,9 @@
         margin-left: 0;
         .solo {
             &.swiper-slide { box-sizing: border-box; }
-            width: percentage(1 / 4.2);
+            @media #{$medium-up} {
+                width: percentage(1 / 4.2);
+            }
             padding-bottom: $spacing;
             padding-top: $spacing;
             &:not(:first-child) {
