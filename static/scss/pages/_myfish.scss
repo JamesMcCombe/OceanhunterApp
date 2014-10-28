@@ -89,6 +89,7 @@
     .species-list {
         .fishes {
             .fish {
+                background-color: black;
                 .annotation {
                     @media #{$small-only} {
                         position: absolute;
@@ -101,8 +102,7 @@
                 }
                 .pts {
                     @media #{$small-only} { color: $primary-color; }
-                    padding-left: $padding;
-                    padding-top: $padding/2;
+                    padding: $padding/2 $padding;
                     margin: 0;
                 }
                 @media #{$small-only} {
@@ -118,7 +118,6 @@
         .species-list {
             .fishes {
                 .fish {
-                    background-color: black;
                     .image-wrapper {
                         .icon-enlarge { font-size: rem-calc(20); }
                         .annotation {
@@ -127,12 +126,13 @@
                     }
                     .city { color: scale-color($white, $lightness: -40%); }
                     .pts {
-                        padding-bottom: $padding;
+                        padding: $padding;
                     }
 
                     &:hover {
                         background-color: $primary-color;
                         .city { color: scale-color($black, $lightness: 20%); }
+                        .pts { border-top: 1px solid scale-color($primary-color, $lightness: 3%); }
                     }
                 }
             }
