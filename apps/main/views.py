@@ -103,6 +103,7 @@ def invite_email(request):
             email_user = get_object_or_None(am.User, email=email)
             # already in a team can not invite
             if email_user and get_object_or_None(am.Team, users=email_user):
+                messages.error(request, 'You cannot invite the person who already has a team.')
                 continue
             data = dict(inviter=u, team=existing_team, via='email', ref=email, status='new')
             existing_invite = get_object_or_None(am.Invite, **data)
