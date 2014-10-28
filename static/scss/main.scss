@@ -88,13 +88,30 @@ body {
 // I use foundation top-bar as a menu
 // XXX Maybe use a reveal?
 .oc-top-bar {
+    .title-area {
+        .name .logo {
+            margin-right: rem-calc(5);
+
+            &.logo-name {
+                height: $topbar-title-font-size * 0.9;
+                margin-top: -4px;
+                @media #{$small-only} { display: none; }
+            }
+            &.logo-fish {
+                height: $topbar-title-font-size * 1.2;
+                @media #{$medium-up} { display: none; }
+            }
+        }
+
+        .toggle-topbar.menu-icon a span i.show-for-medium-up { font-style: normal; }
+    }
 
     .hide-on-menu-expanded, .name {
         -webkit-transition: opacity 100ms ease;
         transition: opacity 100ms ease;
     }
-    .logo { display: none; }
     .top-bar-section {
+        .logo { display: none; }
         ul li > a {
             $icon-height: 25px;
             i {

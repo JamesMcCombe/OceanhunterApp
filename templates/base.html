@@ -64,7 +64,11 @@
               <ul class="title-area">
                 {% block nav_title %}
                 <li class="name">
-                  <h1><a href="/">Ocean Hunter</a></h1>
+                  <h1><a href="/">
+                    <img src="{% static 'img/logo-name.png' %}" alt="Ocean Hunter" class="logo logo-name"/>
+                    <img src="{% static 'img/logo-fish.png' %}" alt="Ocean Hunter" class="logo logo-fish"/>
+                    {% block nav_title_text %} Ocean Hunter {% endblock nav_title_text %}
+                  </a></h1>
                 </li>
                 {% endblock nav_title %}
                 <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
