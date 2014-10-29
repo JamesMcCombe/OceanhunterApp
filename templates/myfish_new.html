@@ -55,9 +55,15 @@
     </div>
 
     <div class="row">
-      <div class="columns small-12 medium-6">
+      <div class="columns small-6 medium-3">
+        <input type="hidden" name="{{ form.weight.html_name }}" value="{{ form.weight.value|default_if_none:"" }}">
         <label>{{ form.weight.label }}
-          <input type="number" step="0.001" min="0.001" name="{{ form.weight.html_name }}" value="{{ form.weight.value|default_if_none:"" }}" placeholder="{{ form.weight.help_text }}" required>
+          <input type="number" step="0.001" min="0.001" name="weight_kgs" value="{{ form.weight.value|default_if_none:"" }}" placeholder="{{ form.weight.help_text }}" required>
+        </label>
+      </div>
+      <div class="columns small-6 medium-3">
+        <label> &nbsp;
+          <input type="number" step="1" min="0" name="weight_grams" value="" placeholder="Grams">
         </label>
       </div>
       <div class="columns small-12 medium-6">
@@ -238,7 +244,11 @@
       $('.summaries .species .logo').attr('src', activeSlide.find('.logo img').attr('src'));
       $('.summaries .species .name').text(activeSlide.find('.name').text());
 
-      var weight = $('[name="weight"]').val();
+      var kgs = parseInt($('[name="weight_kgs"]').val()) || 0;
+      var grams = parseInt($('[name="weight_grams"]').val()) || 0;
+      var weight = kgs + grams/1000;
+      $('[name="weight"]').val(weight);
+
       $('.summaries .weight .value').text(weight);
 
       var k = activeSlide.data('k');
