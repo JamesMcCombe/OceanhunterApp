@@ -263,11 +263,23 @@
       var cover = $('.cover:visible');
       var cover_size = cover.width();
       var image_size = oh.isHighDensity() ? cover_size * 2 : cover_size;
-      loadImage(e.target.files[0], function(img) {
-        $(img).addClass('image');
-        cover.addClass('image-attached').append(img);
-        $('.submit').attr('disabled', false);
-      }, {maxWidth: image_size, maxHeight: image_size, crop: true});
+      var file = e.target.files[0];
+      loadImage.parseMetaData(file, function (data) {
+        var options = {
+          maxWidth: image_size,
+          maxHeight: image_size,
+          crop: true,
+          orientation: data.exif.get('Orientation')
+        };
+
+        function displayImage(img) {
+          $(img).addClass('image');
+          cover.addClass('image-attached').append(img);
+          $('.submit').attr('disabled', false);
+        }
+
+        loadImage(file, displayImage, options);
+      });
     });
 
     // click x to remove the image

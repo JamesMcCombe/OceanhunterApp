@@ -121,13 +121,13 @@
     .cover {
         @media #{$small-only} {
             position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
+            top: 45px; left: 0; bottom: 0; right: 0;
         }
         cursor: pointer;
         text-align: center;
 
         .add-image {
-            margin-top: 25%;
+            margin-top: 15%;
             img { width: 55px; }
 
             p { @include font-weight-lighter; margin-top: rem-calc(10); }
@@ -224,6 +224,7 @@
             position: relative;
 
             .add-image {
+                margin-top: 25%;
                 img { width: 78px; }
                 p { margin-top: rem-calc(20); font-size: rem-calc(20); }
             }
