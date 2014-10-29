@@ -67,7 +67,7 @@
                   <h1><a href="/">
                     <img src="{% static 'img/logo-name.png' %}" alt="Ocean Hunter" class="logo logo-name"/>
                     <img src="{% static 'img/logo-fish.png' %}" alt="Ocean Hunter" class="logo logo-fish"/>
-                    {% block nav_title_text %} Ocean Hunter {% endblock nav_title_text %}
+                    {% block nav_title_text %}{% endblock nav_title_text %}
                   </a></h1>
                 </li>
                 {% endblock nav_title %}
@@ -131,8 +131,8 @@
         {% render_block 'fixed-to-bottom' %}
         {% block footer %}
         <footer>
-            <a href="">Terms & conditions</a> |
-            <a href="">Privacy Policy</a>
+            <a href="/terms-conditions">Terms & Conditions</a> |
+            <a href="/privacy-policy">Privacy Policy</a>
         </footer>
         {% endblock %}
     </div>
