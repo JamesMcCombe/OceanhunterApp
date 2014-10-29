@@ -58,12 +58,12 @@
       <div class="columns small-6 medium-3">
         <input type="hidden" name="{{ form.weight.html_name }}" value="{{ form.weight.value|default_if_none:"" }}">
         <label>{{ form.weight.label }}
-          <input type="number" step="0.001" min="0.001" name="weight_kgs" value="{{ form.weight.value|default_if_none:"" }}" placeholder="{{ form.weight.help_text }}" required>
+          <input type="number" step="1" min="0" max="99" name="weight_kgs" value="" placeholder="Kgs">
         </label>
       </div>
       <div class="columns small-6 medium-3">
         <label> &nbsp;
-          <input type="number" step="1" min="0" name="weight_grams" value="" placeholder="Grams">
+          <input type="number" step="1" min="0" max="999" name="weight_grams" value="" placeholder="Grams">
         </label>
       </div>
       <div class="columns small-12 medium-6">
