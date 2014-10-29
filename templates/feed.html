@@ -252,6 +252,7 @@
       e.preventDefault();
       $(this).closest('.comments').find('.comment').removeClass('hide');
       $(this).remove();
+      reLayout();
     });
 
 
