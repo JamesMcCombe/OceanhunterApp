@@ -6,9 +6,21 @@
         i {
             line-height: $topbar-height;
             font-size: 20px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -4px;
+            padding-right: 4px;
         }
         padding-left: 15px;
         cursor: pointer;
+        color: $topbar-link-color;
+        text-transform: $topbar-menu-link-transform;
+        font-size: $topbar-menu-link-font-size;
+        font-weight: $topbar-menu-link-weight;
+        height: $topbar-height;
+        line-height: $topbar-height;
+
+        span { @media #{$small-only} {display: none; } }
     }
     .filters {
         list-style: none;
