@@ -14,10 +14,7 @@
 
 {% block content %}
 
-{% addtoblock 'body-class' %}
-  page-feed
-  {% if enlarge %} page-fish-enlarge {% endif %}
-{% endaddtoblock %}
+{% addtoblock 'body-class' %} page-feed {% endaddtoblock %}
 
 <ul class="small-block-grid-1 {% if enlarge %} medium-block-grid-1 {% else %} medium-block-grid-3 {% endif %} feeds">
   {% for f in feeds %}
@@ -39,7 +36,7 @@
         </div>
       </li>
     {% endif %}
-    <li class="feed row fish-{{ f.id }} infinite-item">
+    <li class="feed row fish fish-{{ f.id }} infinite-item {% if enlarge %} enlarge {% endif %}">
       <div class="wrap-for-medium">
       <h3 class="columns small-12 show-for-small-only"><a href="{% url 'userfish' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
 
@@ -326,7 +323,8 @@
     if (!oh.isSmallScreen()) {
       $('.feeds').imagesLoaded(function() {
         $('.feeds').masonry({
-          itemSelector: '.feed'
+          itemSelector: '.feed',
+          transitionDuration: 0
         });
       });
     }
@@ -349,6 +347,26 @@
           // FIXME: relayout after double click
           container.imagesLoaded(reLayout);
         }
+      }
+    });
+
+
+    // enlarge one feed
+    $(document).on('click', '.link-to-enlarge', function(e) {
+      if (!oh.isSmallScreen()) {
+        e.preventDefault();
+        var feed = $(this).closest('.fish');
+
+        // enlarge
+        feed.toggleClass('enlarge');
+
+        // re layout
+        $('.feeds').masonry();
+
+        // scroll to new position
+        $('html,body').animate({
+          scrollTop: feed.offset().top - 75 // padding of header
+        }, 0);
       }
     });
 
