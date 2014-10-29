@@ -66,16 +66,15 @@
       <div class="enlarge-medium-col">
         <h4 class="comments-title">Comments</h4>
         <ul class="comments">
+          {% if f.comment_set.count > 3 %}
+            <li><a href="#" class="expand">View previous comments</a></li>
+          {% endif %}
           {% for c in f.comment_set.all %}
-            <li class="comment">
+            <li class="comment {% if forloop.revcounter > 3 %} hide {% endif %}">
               <a class="name" href="{% url 'userfish' c.user.id %}">{{ c.user.first_name }} {{ c.user.last_name|first|capfirst }}.</a> | <span class="content">{{ c.content }}</span>
             </li>
           {% endfor %}
         </ul>
-        <div class="actions">
-          <a href="#" class="expand">See all {{ f.comment_set.count }} comments</a>
-          <a href="#" class="more show-for-small-only" data-reveal-id="feedModal" data-fish-id="{{ f.id }}" data-user-id="{{ f.user.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
-        </div>
         <div class="new-comment">
           <form>
           <input type="hidden" name="fish_id" value="{{ f.id }}">
@@ -88,6 +87,9 @@
             </div>
           </div>
           </form>
+        </div>
+        <div class="actions">
+          <a href="#" class="more show-for-small-only" data-reveal-id="feedModal" data-fish-id="{{ f.id }}" data-user-id="{{ f.user.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
         </div>
         <div class="meta show-for-medium-up">
           <a href="{% url 'userfish' f.user.id %}">
@@ -164,6 +166,8 @@
       return $('.fish-'+modal_action_fish_id);
     }
 
+
+    // Click the ... button of feed
     $(document).on('click', '.feed .more', function(e) {
       var btn = $(this);
       var modal = $('#feedModal');
@@ -222,7 +226,7 @@
       // display new comment before actually post to backend
       var new_comment_elm = $('<li class="comment"><a class="name" href="#"></a> | <span class="content"></span></li>');
       new_comment_elm
-        .find('a').text(OC.user.first_name + ' ' + OC.user.last_name).end()
+        .find('a').text(OC.user.first_name + ' ' + OC.user.last_name[0] + '.').end()
         .find('span').text(content);
 
       new_comment_elm.appendTo(f.closest('.feed').find('.comments'));
@@ -240,6 +244,14 @@
         if (data.status == 'success') {
         }
       });
+    });
+
+
+    // Show hidden comments
+    $(document).on('click', '.expand', function(e) {
+      e.preventDefault();
+      $(this).closest('.comments').find('.comment').removeClass('hide');
+      $(this).remove();
     });
 
 

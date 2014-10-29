@@ -52,3 +52,6 @@ class Comment(models.Model):
     content = models.CharField(max_length=2000)
 
     create = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.content
