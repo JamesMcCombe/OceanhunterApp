@@ -268,9 +268,11 @@
         var options = {
           maxWidth: image_size,
           maxHeight: image_size,
-          crop: true,
-          orientation: data.exif.get('Orientation')
+          crop: true
         };
+        if (data.exif) {
+          options.orientation = data.exif.get('Orientation');
+        }
 
         function displayImage(img) {
           $(img).addClass('image');
