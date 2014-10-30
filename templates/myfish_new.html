@@ -32,7 +32,7 @@
           {# <a class="arrow-right" href="#"></a> #}
           <div class="swiper-wrapper">
             {% for s in species %}
-            <div class="swiper-slide" data-id="{{ s.id }}" data-k="{{ s.k }}">
+            <div class="swiper-slide" data-id="{{ s.id }}" data-k="{{ s.k }}" data-count-of-user="{{ s.count_of_user }}">
               <div class="species">
                 <div class="logo-wrap">
                   <div class="logo">
@@ -205,6 +205,21 @@
 {% endaddtoblock %}
 
 
+<div id="fishMax" class="reveal-modal oc-reveal-modal fish-max-reveal-modal collapse small" data-reveal data-options="animation:fade" data-css-top="100">
+  <div class="row">
+    <div class="columns small-12">
+      <h2>Maximum fish reached!</h2>
+      <p>You can only enter 3 fish per species. If you want to replace a fish with another, please delete one fish first. This will remove the entry and points from your fish.</p>
+    </div>
+  </div>
+  <div class="row actions">
+    <a href="{% url 'myfish' %}" class="columns small-6 text-center action yes">My Fish</a>
+    <div class="columns small-6 text-center action no">Cancel</div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+
 {% addtoblock 'js' %}
 <script>
   $(function() {
@@ -241,8 +256,10 @@
     $('.next').click(function(e) {
       // fill in summaries
       var activeSlide = $('.swiper-slide-active');
-      $('.summaries .species .logo').attr('src', activeSlide.find('.logo img').attr('src'));
-      $('.summaries .species .name').text(activeSlide.find('.name').text());
+      var logo = activeSlide.find('.logo img').attr('src');
+      $('.summaries .species .logo').attr('src', logo);
+      var name = activeSlide.find('.name').text();
+      $('.summaries .species .name').text(name);
 
       var kgs = parseInt($('[name="weight_kgs"]').val()) || 0;
       var grams = parseInt($('[name="weight_grams"]').val()) || 0;
@@ -255,9 +272,27 @@
       var points = Math.round(k * weight);
       $('.summaries .points .value').text(points);
 
-      $('body').addClass('step-2');
-      oh.reAdjustFixedBottom();
+      var count_of_user = activeSlide.data('count-of-user');
+      if (count_of_user >= 3) {
+        // reach maximun
+        var href = $('#fishMax').find('.yes').attr('href');
+        // remove existing # added by last reveal
+        href = href.replace(/#.*/, '') + '#' + name;
+        $('#fishMax').find('.yes').attr('href', href);
+
+        $('#fishMax').foundation('reveal', 'open');
+      } else {
+        $('body').addClass('step-2');
+        oh.reAdjustFixedBottom();
+      }
     });
+
+
+    // click no button on modal
+    $(document).on('click', '.fish-max-reveal-modal .action.no', function(e) {
+      $('#fishMax').foundation('reveal', 'close');
+    });
+
 
     // popup the file choose modal
     $('.cover').click(function(e) {

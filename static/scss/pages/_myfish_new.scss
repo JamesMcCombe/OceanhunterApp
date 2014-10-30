@@ -15,6 +15,10 @@
         .page-2, .summaries, .submit { display: block; }
     }
 
+    .fish-max-reveal-modal {
+        h2 { color: $alert-color; }
+    }
+
     .swiper-container {
         .swiper-slide {
             width: 33.33333%;

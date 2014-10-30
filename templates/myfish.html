@@ -28,6 +28,7 @@
 <ul class="row species-list">
 {% for species, fishes in species_list.items %}
   <li class="column small-12 medium-10 medium-centered">
+    <span class="anchor" id="{{ species.name }}"></span>
     <h3 class="lighter show-for-small-only">{{ species.name }} &nbsp;|&nbsp; {{ species.points }} Pts</h3>
     <ul class="fishes small-block-grid-3 medium-block-grid-4">
       <li class="show-for-medium-up">
