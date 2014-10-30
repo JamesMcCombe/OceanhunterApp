@@ -30,6 +30,7 @@ CITY_CHOICES = (
         ('Timaru/Oamaru', 'Timaru/Oamaru'),
         ('Otago', 'Otago'),
         ('Southland', 'Southland'),
+        ('Chathams Islands', 'Chathams Islands'),
     )),
 )
 
