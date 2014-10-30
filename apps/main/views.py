@@ -218,9 +218,6 @@ def myfish_new(request):
             fish.user = u
             fish.save()
             u.profile.recalculate_points()
-            team = get_object_or_None(am.Team, users=u)
-            if team:
-                team.recalculate_points()
             return redirect('home')
     ctx = {'form': form}
 
