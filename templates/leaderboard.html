@@ -126,7 +126,7 @@
         {% for radio in field %}
           <div class="columns small-6">
             <input type="radio" name="{{ radio.name }}" id="{{field.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} >
-            <label for="{{ field.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
+            <label class="filter-radio-label" for="{{ field.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
           </div>
         {% endfor %}
       </div>
@@ -156,6 +156,16 @@
     $('.close').click(function(e) {
       e.preventDefault();
       $('#filterModal').foundation('reveal', 'close');
+    });
+
+
+    $(document).on('click', '.filter-radio-label', function(e) {
+      var input_id = $(this).attr('for');
+      var input = $('#'+input_id);
+      if (input.prop('checked')) {
+        e.preventDefault();
+        input.prop('checked', false);
+      }
     });
 
 

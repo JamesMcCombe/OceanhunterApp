@@ -87,12 +87,11 @@
                 text-align: center;
 
                 &:hover {
-                    background-color: $black;
                     color: $primary-color;
                 }
             }
 
-            &:hover ~ label, &:checked ~ label {
+            &:checked ~ label {
                 background-color: $black;
                 color: $primary-color;
             }
