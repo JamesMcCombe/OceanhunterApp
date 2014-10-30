@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from annoying.decorators import render_to, ajax_request
+from django.contrib import messages
 from . import models as m
 from . import forms as f
 
@@ -54,6 +55,8 @@ def login(request):
             if user and user.is_active:
                 auth_login(request, user)
                 return redirect(request.POST['next'])
+            else:
+                messages.error(request, 'The username and password were incorrect.');
     ctx = {'form': form}
     ctx['public'] = 'public'
     ctx['next'] = request.GET.get('next', 'home')
