@@ -219,7 +219,11 @@ def myfish_new(request):
             fish.save()
             u.profile.recalculate_points()
             return redirect('home')
-    ctx = {'form': form}
+
+    species = m.Species.objects.all()
+    for s in species:
+        s.count_of_user = m.Fish.objects.filter(user=u, species=s).count()
+    ctx = {'form': form, 'species': species}
 
     return ctx
 

@@ -31,13 +31,13 @@
           {# <a class="arrow-left" href="#"></a> #}
           {# <a class="arrow-right" href="#"></a> #}
           <div class="swiper-wrapper">
-            {% for s in form.species.field.queryset %}
+            {% for s in species %}
             <div class="swiper-slide" data-id="{{ s.id }}" data-k="{{ s.k }}">
               <div class="species">
                 <div class="logo-wrap">
                   <div class="logo">
                     <img src="{{ s.logo.url }}">
-                    <sup class="k"><span>{{ s.k }}</span></sup>
+                    <sup class="k"><span>{{ s.count_of_user }}</span></sup>
                   </div>
                 </div>
                 <div class="name text-center">{{ s.name }}</div>
