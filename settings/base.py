@@ -15,6 +15,8 @@ SERVER_NAME = 'example.com'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@w@4gg7^dy9z3(r%n0b&*rr)4cf0-b$=hpsyx5qo0r4l3b=i$8'
 
+MANAGERS = (('Mike', 'mike@oceanhunter.co.nz'), ('Node', 'node@node.co.nz'))
+
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = (

@@ -230,9 +230,9 @@ body {
         }
         &.icomoon-action {
             line-height: 0;
-            padding-top: $spacing + rem-calc(1);
-            padding-bottom: $spacing + rem-calc(1);
-            font-size: rem-calc(27);
+            padding-top: $spacing - rem-calc(2);
+            padding-bottom: $spacing - rem-calc(2);
+            font-size: rem-calc(33);
         }
         &:hover {
             color: $orange;

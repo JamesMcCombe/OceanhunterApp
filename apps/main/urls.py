@@ -19,6 +19,7 @@ urlpatterns = patterns('main.views',
     url(r'^fish/delete/$', 'myfish_delete', name='myfish_delete'),
 
     url(r'^ajax/newcomment/$', 'ajax_new_comment', name='ajax_new_comment'),
+    url(r'^ajax/report/$', 'ajax_report', name='ajax_report'),
 
     url(r'^leaderboard/$', 'leaderboard', name='leaderboard'),
 

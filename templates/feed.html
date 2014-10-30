@@ -122,10 +122,11 @@
     </div>
   </div>
   <div class="row actions hide-delete-btn-wrap">
-    <div class="columns small-4 text-center action icon-action comment" data-action data-title="Comment"></div>
-    <a class="columns small-4 text-center action icon-action delete" data-action data-title="Delete" data-reveal-id="feedDeleteModal"></a>
-    {# <div class="columns small-4 text-center action edit" data-action data-title="Edit"></div> #}
-    <div class="columns small-4 text-center action icon-action share" data-action data-title="Share"></div>
+    <div class="columns small-3 text-center action icon-action comment" data-action data-title="Comment"></div>
+    <div class="columns small-3 text-center action icon-action delete" data-action data-title="Delete" data-reveal-id="feedDeleteModal"></div>
+    {# <div class="columns small-3 text-center action edit" data-action data-title="Edit"></div> #}
+    <div class="columns small-3 text-center action icon-action share" data-action data-title="Share"></div>
+    <div class="columns small-3 text-center action icomoon-action report" data-action data-title="Report" data-reveal-id="reportSuccessful"><i class="icomoon-report"></i></div>
   </div>
   <div class="row actions hide share-buttons">
     <div class="columns small-6 text-center action icomoon-action share-facebook" data-action data-title="Share on Facebook"><i class="icomoon-facebook"></i></div>
@@ -146,6 +147,19 @@
   <div class="row actions">
     <div class="columns small-6 text-center action no">NO</div>
     <div class="columns small-6 text-center action yes">YES</div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+
+<div id="reportSuccessful" class="reveal-modal oc-reveal-modal report-successful-reveal-modal collapse small" data-reveal data-options="animation:fade" data-css-top="100">
+  <div class="row">
+    <div class="columns small-12">
+      <h2>Reported</h2>
+    </div>
+  </div>
+  <div class="row actions">
+    <div class="columns small-12 text-center action no">OK</div>
   </div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
@@ -179,10 +193,10 @@
       // if the user not the owner, hide the delete button
       var user_id = btn.data('user-id');
       if (user_id != OC.user.id) {
-        modal.find('.hide-delete-btn-wrap .small-4').removeClass('small-4').addClass('small-6');
+        modal.find('.hide-delete-btn-wrap .small-3').removeClass('small-3').addClass('small-4');
         modal.find('.action.delete').hide();
       } else {
-        modal.find('.hide-delete-btn-wrap .small-6').removeClass('small-6').addClass('small-4');
+        modal.find('.hide-delete-btn-wrap .small-4').removeClass('small-4').addClass('small-4');
         modal.find('.action.delete').show();
       }
     });
@@ -205,6 +219,31 @@
           .find('[name="content"]').focus();
 
       reLayout(); // re layout after DOM change because of masonry
+    });
+
+
+    // click report button on reveal modal
+    $(document).on('click', '[data-action].report', function(e) {
+      $('#feedModal').foundation('reveal', 'close');
+
+      var csrftoken = $.cookie('csrftoken');
+      var payload = {
+        csrfmiddlewaretoken: csrftoken,
+        fish: modal_action_fish_id
+      };
+
+      $.ajax({
+        url: "{% url 'ajax_report' %}",
+        method: 'POST',
+        data: payload
+      }).success(function(data) {
+        if (data.status == 'success') {
+        }
+      });
+    });
+    // click no button on delete modal
+    $(document).on('click', '.report-successful-reveal-modal .action.no', function(e) {
+      $('#reportSuccessful').foundation('reveal', 'close');
     });
 
 

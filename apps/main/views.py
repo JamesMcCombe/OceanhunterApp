@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.template import Context, loader
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail, mail_managers
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
@@ -125,7 +125,7 @@ def invite_email(request):
                 t = loader.get_template('emails/invitation.html')
                 c = Context({'subject': subject, 'user': u, 'team': existing_team})
                 html_content = t.render(c)
-                msg = EmailMessage(subject, html_content, 'from@example.com', [email])
+                msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
                 msg.content_subtype = "html"
                 msg.send()
 
@@ -445,6 +445,24 @@ def leaderboard(request):
         # for debug only
         # normally it should not have any errors
         print form.errors
+
+
+@login_required
+@ajax_request
+def ajax_report(request):
+    u = request.user
+    if request.method == 'POST':
+        fish = get_object_or_404(m.Fish, pk=request.POST.get('fish'))
+
+        schema = request.is_secure() and 'https' or 'http'
+        base_url = "%s://%s" % (schema, request.get_host())
+
+        page_url = base_url + reverse('fish_enlarge', kwargs={'fish_id': fish.id})
+
+        content = "%s %s reported a page: %s" % (u.first_name, u.last_name, page_url)
+        mail_managers('Report', content, fail_silently=False)
+
+        return {'status': 'success'}
 
 
 def facebook_invite_link(request, team):
