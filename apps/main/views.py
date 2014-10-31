@@ -408,6 +408,11 @@ def leaderboard(request):
             if filters['team_kind']:
                 q = q.filter(kind=filters['team_kind'])
 
+            if filters['city']:
+                q = q.filter(admin__profile__city=filters['city'])
+            if filters['area']:
+                q = q.filter(admin__profile__area=filters['area'])
+
         else: # elif filters['unit'] == 'team'
             type = 'solo'
             q = m.User.objects \
