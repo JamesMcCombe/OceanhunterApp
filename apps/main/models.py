@@ -9,6 +9,7 @@ class Species(models.Model):
     name = models.CharField(max_length=255)
     logo = models.ImageField(upload_to="species")
     k = models.IntegerField(help_text='Weight of calculating points')
+    base = models.IntegerField(help_text='Base of calculating points')
 
     def __unicode__(self):
         return self.name
@@ -41,9 +42,11 @@ class Fish(models.Model):
     objects = FishManager()
 
     def save(self, *a, **kw):
-        self.points = int(round(self.weight * self.species.k))
+        self.points = int(round(self.species.base + (self.weight * self.species.k)))
         super(Fish, self).save(*a, **kw)
         self.user.profile.recalculate_points()
+
+    recalculate_points = save
 
 
 class Comment(models.Model):

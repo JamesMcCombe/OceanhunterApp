@@ -54,7 +54,29 @@ class Profile(models.Model):
         super(Profile, self).save(*a, **kw)
 
     def recalculate_points(self):
-        self.points = sum(f.points for f in self.user.fish_set.all())
+        species_in_count = {
+            'North Island': (
+                'Snapper',
+                'Butter Fish',
+                'Tarakihi',
+                'Kahawai',
+                'Giant Boar',
+                'Pink Maomao',
+            ),
+            'South Island': (
+                'Blue Cod',
+                'Butter Fish',
+                'Trumperter',
+                'Blue Moki',
+                'Kahawai',
+                'Tarakihi',
+            ),
+        }
+        self.points = sum(
+            f.points
+            for f in self.user.fish_set.all()
+            if f.species.name in species_in_count[self.area]
+        )
         self.save()
         for team in self.user.team_set.all():
             team.recalculate_points()

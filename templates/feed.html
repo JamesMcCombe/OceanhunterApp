@@ -60,7 +60,7 @@
         <div class="row collapse summaries">
           <div class="columns small-6 text-center">{{ f.species.name }}</div>
           <div class="columns small-3 text-center">{{ f.weight }} Kg</div>
-          <div class="columns small-3 text-center">{{ f.points }} Pts</div>
+          <div class="columns small-3 text-center">{{ f.points|intcomma }} Pts</div>
         </div>
         {% if not enlarge %}</a>{% endif %}
       </div>

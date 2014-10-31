@@ -32,7 +32,7 @@
           {# <a class="arrow-right" href="#"></a> #}
           <div class="swiper-wrapper">
             {% for s in species %}
-            <div class="swiper-slide" data-id="{{ s.id }}" data-k="{{ s.k }}" data-count-of-user="{{ s.count_of_user }}">
+            <div class="swiper-slide" data-id="{{ s.id }}" data-k="{{ s.k }}" data-base="{{ s.base }}"  data-count-of-user="{{ s.count_of_user }}">
               <div class="species">
                 <div class="logo-wrap">
                   <div class="logo">
@@ -268,8 +268,9 @@
 
       $('.summaries .weight .value').text(weight);
 
+      var base = activeSlide.data('base');
       var k = activeSlide.data('k');
-      var points = Math.round(k * weight);
+      var points = Math.round(base + (k * weight));
       $('.summaries .points .value').text(points);
 
       var count_of_user = activeSlide.data('count-of-user');

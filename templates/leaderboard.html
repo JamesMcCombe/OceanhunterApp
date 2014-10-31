@@ -103,9 +103,9 @@
         <div class="city">{{ obj.profile.city }}</div>
         {% endif %}
         {% if type == 'solo' %}
-        <div class="points">{{ obj.profile.points }} Points</div>
+        <div class="points">{{ obj.profile.points|intcomma }} Points</div>
         {% else %}
-        <div class="points">{{ obj.points }} Points</div>
+        <div class="points">{{ obj.points|intcomma }} Points</div>
         {% endif %}
       </div>
     </div>
