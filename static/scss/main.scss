@@ -132,10 +132,14 @@ body {
         transition: opacity 300ms ease;
         @media #{$medium-up} { opacity: 1; }
     }
+    .menu-footer {
+        font-size: rem-calc(13);
+        text-align: center;
+    }
 
     &.expanded {
         position: absolute;
-        bottom: 0;
+        min-height: 100%;
         background: $black;
         .hide-on-menu-expanded, .name { opacity: 0; }
 
