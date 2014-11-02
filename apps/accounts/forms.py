@@ -36,7 +36,7 @@ class SignupForm(forms.ModelForm):
     gender = forms.ChoiceField(widget=forms.RadioSelect, choices=m.GENDER_CHOICES)
     # area = forms.ChoiceField(widget=forms.RadioSelect, choices=m.AREA_CHOICES)
     city = forms.ChoiceField(label="City", choices=m.CITY_CHOICES)
-    dob = forms.DateField(label="Date of Birth", input_formats=['%d/%m/%Y', '%d/%m/%y'])
+    dob = forms.DateField(label="Date of Birth", input_formats=['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d'])
     #postcode = forms.CharField(label="Postcode")
     #phone = forms.CharField(label="Phone Number")
 
