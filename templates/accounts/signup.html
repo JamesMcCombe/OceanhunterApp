@@ -83,6 +83,7 @@
         </div>
         <div class="row">
           <div class="columns">
+            {{ form.dob.errors }}
             <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">
           </div>
         </div>
