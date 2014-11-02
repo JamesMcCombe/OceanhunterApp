@@ -250,6 +250,10 @@ body {
     }
 }
 
+.invitations {
+    margin: rem-calc(16) 0;
+    button { margin: 0; }
+}
 
 @import "pages/home";
 @import "pages/go";

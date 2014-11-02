@@ -104,6 +104,7 @@
 
 
     {% block invitation %}
+    <div class="invitations">
       {% for invite in unread_invites %}
       <div class="row">
         <div class="columns small-centered small-11 medium-8">
@@ -114,6 +115,7 @@
         </div>
       </div>
       {% endfor %}
+    </div>
     {% endblock invitation %}
 
 
