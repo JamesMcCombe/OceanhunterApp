@@ -29,7 +29,7 @@
 {% addtoblock 'body-class' %} page-myfish page-myfish-myteam {% endaddtoblock %}
 
 {% if invite %}
-  <div class="row">
+  <div class="row invitations">
     <div class="columns small-centered small-11 medium-8">
       <form action="" method="post">
         <span class="lighter"><a href="{% url 'userfish' invite.inviter.id %}">{{ invite.inviter.first_name }} {{ invite.inviter.last_name }}</a> invite you to join this team</span>
