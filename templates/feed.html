@@ -31,7 +31,7 @@
       {% endaddtoblock %}
     {% endif %}
     {% if forloop.counter0|add:start|add:"2"|divisibleby:"5" %}
-      <li class="feed row infinite-item">
+      <li class="feed infinite-item">
         <div class="show-for-small-only">
           {% render_placement 'mobile-banner' %}
         </div>
@@ -40,9 +40,9 @@
         </div>
       </li>
     {% endif %}
-    <li class="feed row fish fish-{{ f.id }} infinite-item {% if enlarge %} enlarge {% endif %}">
+    <li class="feed fish fish-{{ f.id }} infinite-item {% if enlarge %} enlarge {% endif %}">
       <div class="wrap-for-medium">
-      <h3 class="columns small-12 show-for-small-only"><a href="{% url 'userfish' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
+      <h3 class="show-for-small-only"><a href="{% url 'userfish' f.user.id %}">{{ f.user.first_name }} {{ f.user.last_name }}</a></h3>
 
       <div class="image-wrapper">
         {# enlarge mode only display one fish, do not need link to myself #}

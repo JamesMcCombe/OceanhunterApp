@@ -17,6 +17,8 @@
                 padding-bottom: rem-calc(25);
             }
             h3 {
+                margin-top: $header-bottom-margin;
+                padding: 0 $column-gutter / 2;
                 font-size: rem-calc(18);
                 font-weight: bolder;
 
