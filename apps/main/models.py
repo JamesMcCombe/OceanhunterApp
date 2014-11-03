@@ -25,7 +25,7 @@ class Fish(models.Model):
         verbose_name_plural = 'Fish'
 
     user = models.ForeignKey(User)
-    weight = models.DecimalField(max_digits=8, decimal_places=2)
+    weight = models.DecimalField(max_digits=5, decimal_places=3)
     witness = models.CharField(max_length=50)
     species = models.ForeignKey(Species)
     points = models.IntegerField(default=0)

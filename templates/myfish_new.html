@@ -21,6 +21,8 @@
   {% csrf_token %}
   {# {{ form }} #}
   <div class="page-1">
+    {{ form.non_field_errors }}
+    {{ form.image.errors }}
     {# wrap for the width #}
     <div class="row"><div class="columns small-12 medium-11 medium-centered">
     <div class="row">
@@ -64,6 +66,7 @@
         <label>{{ form.weight.label }}
           <input type="number" step="1" min="0" max="99" name="weight_kgs" value="" placeholder="Kgs">
         </label>
+        {{ form.weight.errors }}
       </div>
       <div class="columns small-6 medium-3">
         <label> &nbsp;
@@ -74,6 +77,7 @@
         <label>{{ form.witness.label }}
           <input type="text" name="{{ form.witness.html_name }}" value="{{ form.witness.value|default_if_none:"" }}" placeholder="{{ form.witness.help_text }}" required>
         </label>
+        {{ form.witness.errors }}
       </div>
     </div>
     {# wrap for the width #}
