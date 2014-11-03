@@ -43,7 +43,7 @@
 {% endif %}
 
 <ul class="tabs" role="tablist">
-  <li class="tab-title small-6 text-center" role="presentational"><a {% if not team_alone %}href="{% url 'userfish' u.id %}"{% endif %} role="tab" tabindex="0" aria-selected="true" controls="panel1-1">My Fish</a></li>
+  <li class="tab-title small-6 text-center" role="presentational"><a {% if not team_alone %}href="{% url 'userfish' u.id %}"{% endif %} role="tab" tabindex="0" aria-selected="true" controls="panel1-1">{% if not team_alone %}{{ possessive }} Fish {% else %} - {% endif %}</a></li>
   <li class="tab-title small-6 text-center active" role="presentational"><a href="#" role="tab" tabindex="0" aria-selected="false" controls="panel1-2">{{ possessive_team }} Team</a></li>
 </ul>
 
@@ -78,7 +78,7 @@
           </a>
         </li>
       {% endfor %}
-      {% if not team or team.users.count < 4 and team.admin == user %}
+      {% if u == user and not team or team.users.count < 4 and team.admin == user %}
         <li>
           <a class="fish" href="{% url 'invite' %}">
             <div class="image-wrapper">
