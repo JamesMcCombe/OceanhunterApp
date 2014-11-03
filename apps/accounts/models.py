@@ -60,7 +60,7 @@ class Profile(models.Model):
                 'Butter Fish',
                 'Tarakihi',
                 'Kahawai',
-                'Giant Boar',
+                'Giant Boarfish',
                 'Pink Maomao',
             ),
             'South Island': (
