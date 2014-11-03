@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.template import Context, loader
+from django.template import Context, RequestContext, loader
 from django.core.mail import EmailMessage, send_mail, mail_managers
 
 from annoying.decorators import render_to, ajax_request
@@ -105,12 +105,14 @@ def invite_email(request):
 
         emails = request.POST.getlist('email')
         emails = [email.strip() for email in emails if email.strip()]
+        success_invitions = []
         for email in emails:
             email_user = get_object_or_None(am.User, email=email)
             # already in a team can not invite
             if email_user and get_object_or_None(am.Team, users=email_user):
-                messages.error(request, 'You cannot invite the person who already has a team.')
+                messages.error(request, 'You cannot invite %s who already has a team.' % email)
                 continue
+            success_invitions.append(email)
             data = dict(inviter=u, team=existing_team, via='email', ref=email, status='new')
             existing_invite = get_object_or_None(am.Invite, **data)
 
@@ -125,15 +127,15 @@ def invite_email(request):
                     (u.first_name, u.last_name, existing_team.name)
                 # TODO make a real email
                 t = loader.get_template('emails/invitation.html')
-                c = Context({'subject': subject, 'user': u, 'team': existing_team})
+                c = RequestContext(request, {'subject': subject, 'user': u, 'team': existing_team})
                 html_content = t.render(c)
                 msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
                 msg.content_subtype = "html"
                 msg.send()
 
-        if len(emails) > 1:
+        if len(success_invitions) > 1:
             messages.success(request, 'Invites have been sent.')
-        elif len(emails) == 1:
+        elif len(success_invitions) == 1:
             messages.success(request, 'Invite has been sent.')
 
         if u.profile.is_new():
