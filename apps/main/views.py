@@ -257,9 +257,7 @@ def myfish(request, user_id):
 def myfish_delete(request):
     u = request.user
     if request.method == 'POST':
-        print request.POST
         fish_id = request.POST.get('id')
-        print fish_id
         fish = get_object_or_404(m.Fish, pk=fish_id, user=u)
         fish.status = 'removed'
         fish.save()
