@@ -167,6 +167,14 @@
     });
 
 
+    // allow radio can be toggle off
+    // FIXME this doesnt work on iOS dont waste your time.
+    // Coz I've tried:
+    // 1. remove FastClick
+    // 2. add class needsclick
+    // 3. add touchstart touchend
+    // 4. onclick=""
+    // JUST DONT WASTE YOUR TIME.
     $(document).on('click', '.filter-radio-label', function(e) {
       var input_id = $(this).attr('for');
       var input = $('#'+input_id);
@@ -176,6 +184,106 @@
       }
     });
 
+
+    var AUTO_RADIO = {
+      species: {
+        0: {
+          on: [['unit', 'solo']],
+          off: [['team_kind', 'family'], ['team_kind', 'open']]
+        }
+      },
+      unit: {
+        solo: {
+          off: [['team_kind', 'family'], ['team_kind', 'open']]
+        },
+        team: {
+          off: [
+            ['gender', 'male'], ['gender', 'female'],
+            ['age', 'junior'], ['age', 'open'],
+          ],
+          select: [['species', '']]
+        }
+      },
+      team_kind: {
+        family: {
+          on: [['unit', 'team']],
+          off: [
+            ['gender', 'male'], ['gender', 'female'],
+            ['age', 'junior'], ['age', 'open'],
+          ],
+          select: [['species', '']]
+        },
+        open: {
+          on: [['unit', 'team']],
+          off: [
+            ['gender', 'male'], ['gender', 'female'],
+            ['age', 'junior'], ['age', 'open'],
+          ],
+          select: [['species', '']]
+        }
+      },
+      age: {
+        junior: {
+          on: [['unit', 'solo']],
+          off: [['team_kind', 'family'], ['team_kind', 'open']]
+        },
+        open: {
+          on: [['unit', 'solo']],
+          off: [['team_kind', 'family'], ['team_kind', 'open']]
+        }
+      },
+      gender: {
+        female: {
+          on: [['unit', 'solo']],
+          off: [['team_kind', 'family'], ['team_kind', 'open']]
+        },
+        male: {
+          on: [['unit', 'solo']],
+          off: [['team_kind', 'family'], ['team_kind', 'open']]
+        }
+      }
+    };
+
+
+    // copy species options to all the other options
+    // Species need more specific work
+    // 1. select any species then uncheck all teams options
+    // 2. check any team options set species to none
+    $('[name="species"]').find('option').each(function(i, n) {
+      var val = $(this).attr('value');
+      if (val) {
+        AUTO_RADIO['species'][val] = AUTO_RADIO['species'][0];
+      }
+    });
+
+
+    // auto turn off conflict filters
+    $(document).on('change', '.filter-reveal-modal input, .filter-reveal-modal select', function(e) {
+      var obj = $(this);
+      // console.log(obj.attr('name'), obj.val());
+      var name = obj.attr('name');
+      var val = obj.val();
+
+      if (AUTO_RADIO[name] && AUTO_RADIO[name][val]) {
+        var actions = AUTO_RADIO[name][val];
+        $.each(actions, function(action, inputs) {
+          if (action == 'select') {
+            $.each(inputs, function(i, n) {
+              var input = $('[name="'+n[0]+'"]');
+              input.val(n[1]);
+            });
+          } else {
+            var check_val = action == 'on' ? true : false;
+            $.each(inputs, function(i, n) {
+              // console.log(n);
+              var input = $('[name="'+n[0]+'"][value="'+n[1]+'"]');
+              input.prop('checked', check_val);
+              // console.log(input);
+            });
+          }
+        });
+      }
+    });
 
     if (!oh.isSmallScreen()) {
       $('#filterModal').data('css-top', '50');
