@@ -1,5 +1,6 @@
 class OceanHunter
   constructor: ->
+    @removeMobileHover()
     $('input, textarea').placeholder()
     FastClick.attach(document.body)
     $(document).foundation()
@@ -51,6 +52,23 @@ class OceanHunter
     if not OC.user.logined
       $('#loginAlertModal').foundation('reveal', 'open')
     OC.user.logined
+
+  # disable :hover on touch devices
+  # https://gist.github.com/javan/4404503
+  removeMobileHover: ->
+    if 'createTouch' of document
+      ignore = /:hover\b/
+      try
+        for stylesheet in document.styleSheets
+          idxs = []
+          # detect hover rules
+          for rule, idx in stylesheet.cssRules
+            if rule.type is CSSRule.STYLE_RULE and ignore.test(rule.selectorText)
+              idxs.unshift idx
+
+          # delete hover rules
+          stylesheet.deleteRule idx for idx in idxs
+
 
 $ ->
   window.oh = new OceanHunter

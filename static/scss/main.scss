@@ -34,7 +34,7 @@
 
 @mixin anchor-primary-color {
     color: $primary-color;
-    &:hover { color: $anchor-font-color-hover; }
+    .no-touch &:hover { color: $anchor-font-color-hover; }
 }
 
 @mixin font-weight-lighter {
@@ -125,7 +125,7 @@ body {
                 &.icon-myfish { background-image: url('../../img/icon-myfish.png'); }
                 &.icon-leaderboard { background-image: url('../../img/icon-leaderboard.png'); }
             }
-            &:hover i { background-position-y: -$icon-height; }
+            .no-touch &:hover i { background-position-y: -$icon-height; }
         }
         opacity: 0;
         -webkit-transition: opacity 300ms ease;
@@ -176,7 +176,7 @@ body {
                     $icon-height: 70px;
 
                     i { width: $icon-height; height: $icon-height; background-size: $icon-height; margin-right: rem-calc(15); }
-                    &:hover i { background-position-y: -$icon-height; }
+                    .no-touch &:hover i { background-position-y: -$icon-height; }
 
                 }
             }
@@ -238,10 +238,10 @@ body {
             padding-bottom: $spacing - rem-calc(2);
             font-size: rem-calc(33);
         }
-        &:hover {
+        .no-touch &:hover {
             color: $orange;
         }
-        &:hover:before { background-position: 0 (-$icon-size); }
+        .no-touch &:hover:before { background-position: 0 (-$icon-size); }
         &.edit:before { background-image: url('../../img/icon-edit.png'); }
         &.comment:before { background-image: url('../../img/icon-comment.png'); }
         &.share:before { background-image: url('../../img/icon-share.png'); }
