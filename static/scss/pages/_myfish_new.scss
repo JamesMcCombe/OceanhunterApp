@@ -199,9 +199,11 @@
                         display: block;
                         width: 100%;
                         top: 56%;
-                        line-height: 1; // for multiline name
+                        line-height: 1.1; // for multiline name
                         left: 0;
                         font-size: 50%;
+
+                        &.name { padding-left: 12%; padding-right: 12%; }
                     }
                 }
 
