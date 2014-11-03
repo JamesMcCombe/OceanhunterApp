@@ -39,7 +39,9 @@ def home(request):
         paginator = Paginator(q, PERPAGE)
         p = request.GET.get('p', 1)
         page = paginator.page(p)
+        start = PERPAGE * (int(p) - 1)
         ctx['page'] = page
+        ctx['start'] = start
         ctx['feeds'] = page.object_list
         ctx['TEMPLATE'] = 'feed.html'
     return ctx
@@ -356,7 +358,7 @@ def ajax_new_comment(request):
 
 @render_to('leaderboard.html')
 def leaderboard(request):
-    PERPAGE = 15
+    PERPAGE = 8
     p = request.GET.get('p', 1)
     F = f.FilterForm
 
@@ -434,7 +436,7 @@ def leaderboard(request):
         paginator = Paginator(q, PERPAGE)
 
         page = paginator.page(p)
-        start = PERPAGE * (p - 1)
+        start = PERPAGE * (int(p) - 1)
 
         radios = (form[name] for name in ['area', 'unit', 'team_kind', 'age', 'gender'])
         return {

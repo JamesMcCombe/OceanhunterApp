@@ -42,12 +42,12 @@
 
 <ul class="solos small-block-grid-1 medium-block-grid-4">
   {% for obj in page.object_list %}
-  {% if forloop.counter0|add:"3"|divisibleby:"4" %}
-    <li class="ad show-for-small-only">
+  {% if forloop.counter0|add:start|add:"3"|divisibleby:"4" %}
+    <li class="ad show-for-small-only infinite-item">
       {% render_placement 'mobile-banner' %}
     </li>
   {% endif %}
-  <li class="solo swiper-slide1">
+  <li class="solo infinite-item">
     <div class="row collapse wrap-medium">
       <div class="columns show-for-medium-up rank">
         {{ forloop.counter|add:start|ordinal }}
@@ -115,6 +115,9 @@
       </div>
   </li>
   {% endfor %}
+  {% if page.has_next %}
+    <a href="{% url 'leaderboard' %}?p={{ page.next_page_number }}" class="infinite-more-link hide">Next page</a>
+  {% endif %}
   </div>
 </ul>
 
@@ -177,6 +180,10 @@
     if (!oh.isSmallScreen()) {
       $('#filterModal').data('css-top', '50');
     }
+
+
+    // Infinite scroll
+    $('.solos').waypoint('infinite');
 
   });
 </script>
