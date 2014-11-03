@@ -56,3 +56,4 @@ $ ->
   window.oh = new OceanHunter
   oh.reAdjustFixedBottom()
   oh._showFixedBottom()
+  $('.fixed-to-bottom-wrapper').imagesLoaded(oh.reAdjustFixedBottom);
