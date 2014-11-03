@@ -32,10 +32,10 @@
     {% endif %}
     {% if forloop.counter0|add:start|add:"2"|divisibleby:"5" %}
       <li class="feed infinite-item">
-        <div class="show-for-small-only">
+        <div class="show-for-small-only text-center">
           {% render_placement 'mobile-banner' %}
         </div>
-        <div class="show-for-medium-up">
+        <div class="show-for-medium-up text-center">
           {% render_placement 'medium-tile' %}
         </div>
       </li>

@@ -43,7 +43,7 @@
 <ul class="solos small-block-grid-1 medium-block-grid-4">
   {% for obj in page.object_list %}
   {% if forloop.counter0|add:start|add:"3"|divisibleby:"4" %}
-    <li class="ad show-for-small-only infinite-item">
+    <li class="ad text-center show-for-small-only infinite-item">
       {% render_placement 'mobile-banner' %}
     </li>
   {% endif %}
@@ -148,7 +148,7 @@
 
 
 {% addtoblock 'fixed-to-bottom' %}
-  <div class="show-for-medium-up">
+  <div class="show-for-medium-up text-center">
     {% render_placement 'medium-leaderboard' %}
   </div>
 {% endaddtoblock %}
