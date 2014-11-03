@@ -22,15 +22,17 @@
 
         span { @media #{$small-only} {display: none; } }
     }
-    .filters {
-        list-style: none;
-        margin-left: 0;
-        margin-bottom: 0;
+    .filters-wrap {
         padding-bottom: rem-calc(10);
         padding-top: rem-calc(10);
         background-color: black;
         border-top: 1px solid scale-color($black, $lightness:15%);
         border-bottom: 1px solid scale-color($black, $lightness:15%);
+    }
+    .filters {
+        list-style: none;
+        margin-left: 0;
+        margin-bottom: 0;
 
         .filter {
             float: left;
@@ -50,13 +52,15 @@
 
     .solos {
         $spacing: rem-calc(15);
-        list-style: none;
-        margin-left: 0;
+        .solo, .ad {
+            // clear block grid clear for some ad not shown on big screen
+            clear: none !important;
+        }
+        .ad {
+            padding: 0;
+        }
         .solo {
-            &.swiper-slide { box-sizing: border-box; }
-            @media #{$medium-up} {
-                width: percentage(1 / 4.2);
-            }
+
             padding-bottom: $spacing;
             padding-top: $spacing;
             &:not(:first-child) {
@@ -115,8 +119,6 @@
         .solos {
             $spacing: $column-gutter / 2;
             .solo {
-                padding-left: $spacing;
-                padding-right: $spacing;
                 // &:first-child { padding-left: $spacing; }
                 // &:last-child { padding-right: $spacing; }
 

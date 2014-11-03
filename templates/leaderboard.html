@@ -21,28 +21,33 @@
 
 {% addtoblock 'body-class' %} page-leaderboard {% endaddtoblock %}
 
-<div class="row">
-  <ul class="columns small-12 filters">
-  <form method="get">
-    {% for field in form.filters %}
-      <li class="filter">
-        {{ field.choice_label }}
-        <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
-        <sup><button class="remove" type="submit" name="{{ field.name }}" value="">&#215;</button></sup>
-      </li>
-    {% endfor %}
-  </form>
-  </ul>
+<div class="filters-wrap">
+  <div class="row">
+    <ul class="columns small-12 filters">
+    <form method="get">
+      {% for field in form.filters %}
+        <li class="filter">
+          {{ field.choice_label }}
+          <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+          <sup><button class="remove" type="submit" name="{{ field.name }}" value="">&#215;</button></sup>
+        </li>
+      {% endfor %}
+    </form>
+    </ul>
+  </div>
 </div>
-<ul class="solos row swiper-container">
-  <div class="swiper-wrapper">
+
+{# wrap of row and columns #}
+<div class="row"> <div class="columns small-12">
+
+<ul class="solos small-block-grid-1 medium-block-grid-4">
   {% for obj in page.object_list %}
   {% if forloop.counter0|add:"3"|divisibleby:"4" %}
-    <li class="show-for-small-only">
+    <li class="ad show-for-small-only">
       {% render_placement 'mobile-banner' %}
     </li>
   {% endif %}
-  <li class="solo columns small-12 swiper-slide">
+  <li class="solo swiper-slide1">
     <div class="row collapse wrap-medium">
       <div class="columns show-for-medium-up rank">
         {{ forloop.counter|add:start|ordinal }}
@@ -108,12 +113,12 @@
         <div class="points">{{ obj.points|intcomma }} Points</div>
         {% endif %}
       </div>
-    </div>
   </li>
   {% endfor %}
   </div>
 </ul>
 
+</div> </div> {# wrap of row and columns #}
 
 <div id="filterModal" class="reveal-modal oc-reveal-modal oc-reveal-modal-full oc-reveal-modal-blur filter-reveal-modal collapse" data-reveal data-options="animation:fade">
   <form method="get">
@@ -170,22 +175,6 @@
 
 
     if (!oh.isSmallScreen()) {
-      var mySwiper = $('.swiper-container').swiper({
-        mode: 'horizontal',
-        slidesPerView: 4.2,
-        calculateHeight: true,
-        cssWidthAndHeight: false,
-        mousewheelControl: true,
-        mousewheelControlForceToAxis: true,
-        roundLengths: true,
-        grabCursor: true,
-        freeMode: true,
-        freeModeFluid: true,
-        onInit: function() {
-          oh.reAdjustFixedBottom();
-        }
-      });
-
       $('#filterModal').data('css-top', '50');
     }
 
