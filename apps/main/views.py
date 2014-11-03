@@ -282,9 +282,7 @@ def myteam(request, user_id):
         do_team_invite_post(request)
 
     team = get_object_or_None(am.Team, users=u)
-    possessive_team = 'My'
-    if team and request.user not in team.users.all():
-        possessive_team = possessive
+    possessive_team = possessive
 
     invite = get_object_or_None(am.Invite, invitee=request.user, team=team, status='new')
 
@@ -335,6 +333,13 @@ def do_team_invite_post(request):
         invite.team.users.add(u)
         invite.team.recalculate_points()
         messages.success(request, 'Congratulation! Now you are member of %s!' % invite.team.name)
+
+        # disable all other invitations
+        for i in am.Invite.objects.filter(invitee=u, status='new').exclude(pk=invite_id).all():
+            i.read = datetime.now()
+            i.status = 'read'
+            i.save()
+
     elif action == 'reject':
         invite.status = 'read'
 
