@@ -203,7 +203,7 @@
           <a href="{% url 'home' %}" class="button large expand secondary2 cancel">Cancel</a>
         </div>
         <div class="columns small-12 medium-6">
-          <button class="button large expand next">Next</button>
+          <button class="button large expand next" disabled>Next</button>
         </div>
       </div>
       <div class="show-for-small-only"><button class="button large expand orange submit" disabled>Okay</button></div>
@@ -254,6 +254,7 @@
       $('.swiper-slide').on('click', function(e) {
         $('.swiper-slide-active').removeClass('swiper-slide-active');
         $(this).addClass('swiper-slide-active');
+        check_inputs_page_1();
       });
     }
 
@@ -269,10 +270,7 @@
       var name = activeSlide.find('.name').text();
       $('.summaries .species .name').text(name);
 
-      var kgs = parseInt($('[name="weight_kgs"]').val()) || 0;
-      var grams = parseInt($('[name="weight_grams"]').val()) || 0;
-      var weight = kgs + grams/1000;
-      $('[name="weight"]').val(weight);
+      var weight = $('[name="weight"]').val();
 
       $('.summaries .weight .value').text(weight);
 
@@ -354,13 +352,35 @@
       $('form').submit();
     });
 
-    $(document).on('change, blur', 'input', function(e) {
+    $(document).on('change, blur, keyup', 'input', function(e) {
       if( $(e.target).is(':invalid') ){
         $(e.target).parent().addClass('invalid');
       } else {
         $(e.target).parent().removeClass('invalid');
       }
     });
+
+    $(document).on('keyup', 'input', function(e) {
+      check_inputs_page_1();
+    });
+
+    function check_inputs_page_1() {
+      var species_id = $('.swiper-slide-active').data('id');
+      var witness = $('[name="witness"]').val();
+
+      var kgs = parseInt($('[name="weight_kgs"]').val()) || 0;
+      var grams = parseInt($('[name="weight_grams"]').val()) || 0;
+      var weight = kgs + grams/1000;
+      $('[name="weight"]').val(weight);
+
+      var any_invalid = $('.invalid').length > 0;
+
+      if (species_id && weight && witness && !any_invalid) {
+        $('.next').attr('disabled', false);
+      } else {
+        $('.next').attr('disabled', true);
+      }
+    }
 
   });
 </script>
