@@ -25,10 +25,10 @@
   {% csrf_token %}
   <div class="row">
     <div class="columns small-centered small-11 medium-5">
-      {{ form.name.errors }}
       <label>Name your team
         <input type="text" name="name" required>
       </label>
+      {{ form.name.errors }}
     </div>
   </div>
   <div class="row">
@@ -50,14 +50,42 @@
 {% endaddtoblock %}
 
 
+<div id="createFamilyModal" class="reveal-modal oc-reveal-modal create-family-reveal-modal collapse small" data-reveal data-options="animation:fade" data-css-top="100">
+  <div class="row">
+    <div class="columns small-12">
+      <h2>Family Team</h2>
+      <p>A family team consists of 2 adults and 2 juniors only.</p>
+    </div>
+  </div>
+  <div class="row actions">
+    <div class="columns small-6 text-center action yes">OK</div>
+    <div class="columns small-6 text-center action no">Cancel</div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+
 {% addtoblock 'js' %}
 <script>
   $(function() {
 
     $('.submit').click(function() {
-      $(this).attr('disabled', true);
+      if ($('[name="kind"][value="family"]').is(':checked')) {
+        $('#createFamilyModal').foundation('reveal', 'open');
+      } else {
+        $(this).attr('disabled', true);
+        $('form').submit();
+      }
+    });
+
+    $(document).on('click', '.action.yes', function(e) {
+      $('.submit').attr('disabled', true);
       $('form').submit();
     });
+    $(document).on('click', '.action.no', function(e) {
+      $('#createFamilyModal').foundation('reveal', 'close');
+    });
+
 
     $(document).on('change, blur', 'input', function(e) {
       if( $(e.target).is(':invalid') ){
