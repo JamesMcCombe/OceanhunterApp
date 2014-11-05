@@ -84,13 +84,14 @@
     }
 
     a {
-      color: white;
+      /*color: white;*/
+      color: #efefef;
       text-decoration: none;
     }
 
     a,
     a:link {
-      color: #2A5DB0;
+      /*color: #2A5DB0;*/
       text-decoration: underline;
     }
 
@@ -222,13 +223,23 @@
                       <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#333333">
                         <tr>
                           <td valign="top" style="padding-bottom:15px; background-color:#333333;">
-                            <h1>Do you wanna join my team?</h1>
+                            <h1>Join my team!</h1>
                           </td>
                         </tr>
                         <tr>
                           <td valign="top" style="padding-bottom:20px; background-color:#333333;">
                             <b>Hi {{ first_name }},</b><br>
-                            {{ user.first_name }} {{ user.last_name }} invite you to join the team {{ team.name }}
+                            {{ user.first_name }} {{ user.last_name }} has invited you to join their team {{ team.name }}.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td valign="top" style="padding-bottom:20px; background-color:#333333;">
+                            Join their team by clicking on the link below and you can start contributing your fish and points straight away!
+                          </td>
+                        </tr>
+                        <tr>
+                          <td valign="top" style="padding-bottom:20px; background-color:#333333;">
+                            For more information about the competition and how you can win prizes for yourself as well as your team, check out the competition <a href="">terms and conditions</a> here.
                           </td>
                         </tr>
                         <tr>

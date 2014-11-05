@@ -123,10 +123,10 @@ def invite_email(request):
                 if email_user:
                     invite.invitee = email_user
                     invite.save()
-                subject = "%s %s invite you to join the team %s" % \
+                subject = "%s %s has invited you to join the team %s" % \
                     (u.first_name, u.last_name, existing_team.name)
                 # TODO make a real email
-                t = loader.get_template('emails/invitation.html')
+                t = loader.get_template('emails/invitation-inline.html')
                 c = RequestContext(request, {'subject': subject, 'user': u, 'team': existing_team})
                 html_content = t.render(c)
                 msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
