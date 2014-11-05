@@ -136,7 +136,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '93a9494c3e3cfbe0e2a3ae952d51a2e6'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/accounts/signup/extra_profile/'
 #SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_location', 'user_birthday']
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'user_friends', 'user_location']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email']
 
 ROOT_URLCONF = 'urls'
 
