@@ -1,0 +1,94 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ subject }}</title>
+  </head>
+  <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" bgcolor="" class="background" style="-ms-text-size-adjust: none; -webkit-text-size-adjust: none; background: #efefef; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; margin: 0; padding: 0"><style type="text/css">
+.ExternalClass {
+display: block !important; width: 100%;
+}
+.ExternalClass {
+line-height: 100%;
+}
+body {
+margin: 0; padding: 0;
+}
+body {
+font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: #efefef; line-height: 1.5em;
+}
+body {
+margin-bottom: 0; -webkit-text-size-adjust: none; -ms-text-size-adjust: none;
+}
+img {
+outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;
+}
+@media only screen and (max-width: 600px) {
+  body[class*="background"] {
+    background: #eeeeee !important;
+  }
+  table[class*="background"] {
+    background: #eeeeee !important;
+  }
+  td[class*="background"] {
+    background: #eeeeee !important;
+  }
+  table[class="card"] {
+    width: auto !important;
+  }
+  td[class="data-heading"] {
+    display: block !important;
+  }
+  td[class="data-value"] {
+    display: block !important;
+  }
+  td[class="data-heading"] {
+    text-align: left !important; padding: 10px 10px 0;
+  }
+  table[class="wrap"] {
+    width: 100% !important;
+  }
+  td[class="wrap-cell"] {
+    padding-top: 0 !important; padding-bottom: 0 !important;
+  }
+}
+</style>
+  <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" class="background" style="background: #efefef; margin: 0; padding: 0; width: 100% !important" bgcolor="#efefef"><tr><td align="center" valign="top" width="100%" class="background" style="background: #efefef; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; text-align: left; vertical-align: top" bgcolor="#efefef">
+        <center>
+          <table cellpadding="0" cellspacing="0" width="600" class="wrap" style="width: 600px"><tr><td valign="top" class="wrap-cell" style="border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; padding-bottom: 30px; padding-top: 30px; text-align: left; vertical-align: top" align="left">
+                <table cellpadding="0" cellspacing="0" class="force-full-width" style="width: 100% !important"><tr><td height="21" valign="top" class="header-cell" style="background: #000000; border-collapse: collapse; color: #333333; font-family: Arial, Helvetica, sans-serif; font-size: 24px; line-height: 1.5em; padding: 25px 20px; text-align: left; vertical-align: top" align="left" bgcolor="#000000">
+                      <img width="200" height="21" src="{{ SITE_URL }}{% static 'img/logo-name.png' %}" alt="logo" style="-ms-interpolation-mode: bicubic; outline: none; text-decoration: none" /></td>
+                  </tr><tr><td valign="top" class="body-cell" style="background: #333333; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; padding: 30px 20px 34px; text-align: left; vertical-align: top" align="left" bgcolor="#333333">
+
+                      <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#333333"><tr><td valign="top" style="background: #333333; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; padding-bottom: 20px; text-align: left; vertical-align: top" align="left" bgcolor="#333333">
+                            <h1 style="font-size: 24px; font-weight: normal; line-height: 24px; margin: 0; padding: 0">{{ subject }}</h1>
+                          </td>
+                        </tr><tr><td valign="top" style="background: #333333; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; padding-bottom: 15px; text-align: left; vertical-align: top" align="left" bgcolor="#333333">
+                            <b>Hi {{ user.first_name }}, thanks for registering!</b>
+                          </td>
+                        </tr><tr><td valign="top" style="background: #333333; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; padding-bottom: 20px; text-align: left; vertical-align: top" align="left" bgcolor="#333333">
+                            You are now entered into this years competition so feel free to start loading up your fish and earning points. We are kicking off this years competition with some great categories including the TEAM and FAMILY TEAM categories.
+                          </td>
+                        </tr><tr><td valign="top" style="background: #333333; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; padding-bottom: 20px; text-align: left; vertical-align: top" align="left" bgcolor="#333333">
+                            So get some friends together and create a team of up to 4 people, or get a family team together by combining 2 adults and 2 juniors together.
+                          </td>
+                        </tr><tr><td valign="top" style="background: #333333; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; padding-bottom: 20px; text-align: left; vertical-align: top" align="left" bgcolor="#333333">
+                            Remember, you need to upload a clear photo of your fish and the fish weight for it to count as a successful entry, so make sure you check out the <a href="{{ SITE_URL }}/terms-conditions" style="color: #efefef; text-decoration: underline">terms and conditions</a> to understand exactly what you need to do.
+                          </td>
+                        </tr><tr><td valign="top" style="background: #333333; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; padding-bottom: 20px; text-align: left; vertical-align: top" align="left" bgcolor="#333333">
+                            Good luck out there, stay safe and happy hunting.
+                          </td>
+                        </tr><tr><td style="background: #333333; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.5em; text-align: left; vertical-align: top" align="left" bgcolor="#333333" valign="top">
+                            Ocean Hunter
+                          </td>
+                        </tr></table></td>
+                  </tr><tr><td valign="top" class="footer-cell" style="background: #000000; border-collapse: collapse; color: #efefef; font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.5em; padding: 30px 20px; text-align: center; vertical-align: top" align="center" bgcolor="#000000">
+                      © 2014 Ocean Hunter
+                    </td>
+                  </tr></table></td>
+            </tr></table></center>
+      </td>
+    </tr></table></body>
+</html>

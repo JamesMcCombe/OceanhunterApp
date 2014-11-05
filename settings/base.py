@@ -167,11 +167,12 @@ FIXTURE_DIRS = (
     PROJ_ROOT/"fixtures",
 )
 
-EMAIL_HOST='smtp.gmail.com'
-SERVER_EMAIL = DEFAULT_FROM_EMAIL = EMAIL_HOST_USER = 'node@node.co.nz'
-EMAIL_HOST_PASSWORD='123456' # TODO: fill this in local.py
+EMAIL_HOST = 'smtp.officemail.co.nz'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL = 'Ocean Hunter <comp@oceanhunter.co.nz>'
+EMAIL_HOST_USER = 'oceanhunter06'
+EMAIL_HOST_PASSWORD = '123455' # TODO: fill this in local.py
 EMAIL_SUBJECT_PREFIX='[%s]' % PROJ_NAME
-EMAIL_USE_TLS=True
-EMAIL_PORT=587
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
 
 ADCODE_PLACEHOLDER_TEMPLATE = '//placehold.it/{width}x{height}'

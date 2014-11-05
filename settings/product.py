@@ -23,3 +23,5 @@ CACHES = {
         'LOCATION': 'staticfiles-filehashes'
     }
 }
+
+SITE_URL = 'https://oceanhunter.node.co.nz'

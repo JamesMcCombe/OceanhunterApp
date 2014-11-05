@@ -16,9 +16,9 @@ urlpatterns = patterns('%s.views' % APP_NAME,
 urlpatterns += patterns('django.contrib.auth.views',
     url(r'^password/change/$', 'password_change', name="password_change"),
     url(r'^password/change/done/$', 'password_change_done', name="password_change_done"),
-    url(r'^password/reset/$', 'password_reset', name="password_reset"),
+    url(r'^password/reset/$', 'password_reset', {'html_email_template_name': 'registration/password_reset_email_html-inline.html'}, name="password_reset"),
     url(r'^password/reset/done/$', 'password_reset_done', name='password_reset_done'),
-    url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 
+    url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         'password_reset_confirm', name="password_reset_confirm"),
     url(r'^password/done/$', 'password_reset_complete', name="password_reset_complete")
 )

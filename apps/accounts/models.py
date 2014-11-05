@@ -2,6 +2,12 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings
+from django.template import Context, RequestContext, loader
+from django.core.mail import EmailMessage, send_mail, mail_managers
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from annoying.fields import AutoOneToOneField
 from main import models as mm
 
@@ -33,6 +39,22 @@ CITY_CHOICES = (
         ('Chathams Islands', 'Chathams Islands'),
     )),
 )
+
+
+# send welcome email
+@receiver(post_save, sender=User)
+def send_welcome_email(sender, instance, created, **kwargs):
+    if created:
+        u = instance
+        email = '%s %s <%s>' % (u.first_name, u.last_name, u.email)
+        t = loader.get_template('emails/welcome-inline.html')
+        subject = 'Ocean Hunter Spearfishing Competition 2014/15'
+        c = Context({'SITE_URL': settings.SITE_URL, 'subject': subject, 'user': u})
+        html_content = t.render(c)
+        msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
+        msg.content_subtype = "html"
+        msg.send()
+
 
 class Profile(models.Model):
     user = AutoOneToOneField(User)
