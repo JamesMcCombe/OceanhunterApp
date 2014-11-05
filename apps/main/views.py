@@ -32,6 +32,10 @@ def home(request):
     if not request.user.is_authenticated():
         ctx['TEMPLATE'] = 'home.html'
     else:
+        # if login from facebook but no extra data have to go to fill all data
+        if not request.user.profile.area:
+            return redirect('extra_profile')
+
         # XXX Currently no feeds actually coz there is only one type of feed: fish
         # so dont need to add a news feed model right now.
         PERPAGE = 8
@@ -483,7 +487,7 @@ def facebook_invite_link(request, team):
     base_url = "%s://%s" % (schema, request.get_host())
 
     redirect_uri = base_url + reverse('facebook_save_invitee')
-    message = "Join my team %s please!" % team.name
+    message = "Join my team %s!" % team.name
 
     return "http://www.facebook.com/dialog/apprequests?" \
             "app_id=%(app_id)s" \
