@@ -30,13 +30,14 @@
 
 {% if invite %}
   <div class="row invitations">
-    <div class="columns small-centered small-11 medium-8">
+    <div class="columns small-centered small-11 medium-8 text-center">
       <form action="" method="post">
-        <span class="lighter"><a href="{% url 'userfish' invite.inviter.id %}">{{ invite.inviter.first_name }} {{ invite.inviter.last_name }}</a> invite you to join this team</span>
+        <span class="lighter" style="line-height: 2;"><a href="{% url 'userfish' invite.inviter.id %}">{{ invite.inviter.first_name }} {{ invite.inviter.last_name }}</a> invite you to join this team</span>
         {% csrf_token %}
         <input type="hidden" name="invite_id" value="{{ invite.id }}">
-        <button name="action" value="join">Join</button>
-        <button name="action" value="reject" class="secondary">Not now</button>
+        &nbsp;
+        <button name="action" value="join" class="small">Join</button>
+        <button name="action" value="reject" class="small secondary">Not now</button>
       </form>
     </div>
   </div>

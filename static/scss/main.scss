@@ -257,6 +257,17 @@ body {
 .invitations {
     margin: rem-calc(16) 0;
     button { margin: 0; }
+
+    .alert-box {
+        background-color: scale-color($primary-color, $lightness: -50%);
+    }
+
+    button.small {
+        padding: rem-calc(4) rem-calc(10) rem-calc(5);
+        @media #{$medium-up} {
+            padding: rem-calc(6) rem-calc(12) rem-calc(7);
+        }
+    }
 }
 
 @import "pages/home";
