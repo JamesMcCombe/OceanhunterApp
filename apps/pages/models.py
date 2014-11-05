@@ -12,13 +12,13 @@ class Page(models.Model):
     content = models.TextField()
     template = models.CharField(max_length=50, default='pages/page.html')
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, editable=False)
     order = models.IntegerField(default=1000)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='published')
 
     create = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
-    touch  = models.DateTimeField(default=datetime.now)
+    touch  = models.DateTimeField(default=datetime.now, editable=False)
     publish  = models.DateTimeField(default=datetime.now)
 
     class Meta:
