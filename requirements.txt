@@ -1,4 +1,4 @@
-Django<1.7
+Django>=1.7
 bpython
 Pillow
 path.py
@@ -8,6 +8,6 @@ MySQL-python
 django-sekizai
 python-social-auth
 South
-sorl-thumbnail
+sorl-thumbnail==11.12.1b
 django-ad-code
 python-dateutil

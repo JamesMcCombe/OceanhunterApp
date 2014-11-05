@@ -33,7 +33,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'sekizai',
     'social.apps.django_app.default',
-    'south',
     'sorl.thumbnail',
     'adcode',
 

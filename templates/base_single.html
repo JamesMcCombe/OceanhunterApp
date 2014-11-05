@@ -1,9 +1,6 @@
 {# a template for some simple single column static pages #}
 {% extends "base.html" %}
 
-{% block content %}
-
-
 {% block nav %}
   {# remove the nav #}
 {% endblock nav %}
@@ -12,6 +9,8 @@
   <h2>{% block title %}{% endblock %}</h2>
 {% endblock %}
 
+
+{% block content %}
 
 <div class="row">
   <div class="columns small-centered small-11 medium-5">
