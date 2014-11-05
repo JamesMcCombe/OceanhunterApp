@@ -54,6 +54,7 @@
                   {% thumbnail f.image "900x900" crop="center" as im %}{{ im.url }} 900w{% endthumbnail %}"
           data-sizes="(min-width: 40em) {% if not enlarge %}25vw{% else %}45vw{% endif %},
                  100vw"
+          src="{% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
         >
         <div class="row collapse summaries">
           <div class="columns small-6 text-center">{{ f.species.name }}</div>
