@@ -122,11 +122,18 @@
       $('[name^="password"]').attr('type', this.checked ? 'text' : 'password');
     });
 
-    $('[name="dob"]').focus(function(e) {
-      if ($(this).attr('type') != 'date') {
-        $(this).blur().attr('type', 'date').focus();
-      }
-    });
+    if (Modernizr.touch) {
+      $('[name="dob"]').focus(function(e) {
+        if ($(this).attr('type') != 'date') {
+          $(this).blur().attr('type', 'date').focus();
+        }
+      });
+    } else {
+      $('[name="dob"]').fdatepicker({
+        format: 'dd/mm/yyyy',
+        startView: 'decade'
+      });
+    }
 
     $('.next').click(function(e) {
       $('body').addClass('step-2');

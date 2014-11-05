@@ -5,7 +5,7 @@
     .page-2, .submit { display: none; }
 
     &.step-2 {
-        .page-1, .next { display: none; }
+        .page-1, .button.next { display: none; }
         .page-2, .submit { display: block; }
     }
 }
