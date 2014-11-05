@@ -2,7 +2,11 @@
 {% load staticfiles sekizai_tags %}
 
 {% block header_h2 %}
+  {% if existing_team %}
     <h2>Invite friends</h2>
+  {% else %}
+    <h2>Create a Team</h2>
+  {% endif %}
 {% endblock %}
 
 {% block nav_title %}
