@@ -6,7 +6,11 @@ class SpeciesAdmin(admin.ModelAdmin):
 
 admin.site.register(m.Species, SpeciesAdmin)
 
+class CommentInline(admin.StackedInline):
+    model = m.Comment
+
 class FishAdmin(admin.ModelAdmin):
     list_display = ('user', 'species', 'weight', 'witness', 'points', 'create')
+    inlines = (CommentInline, )
 
 admin.site.register(m.Fish, FishAdmin)
