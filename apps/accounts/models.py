@@ -41,21 +41,6 @@ CITY_CHOICES = (
 )
 
 
-# send welcome email
-@receiver(post_save, sender=User)
-def send_welcome_email(sender, instance, created, **kwargs):
-    if created:
-        u = instance
-        email = '%s %s <%s>' % (u.first_name, u.last_name, u.email)
-        t = loader.get_template('emails/welcome-inline.html')
-        subject = 'Ocean Hunter Spearfishing Competition 2014/15'
-        c = Context({'SITE_URL': settings.SITE_URL, 'subject': subject, 'user': u})
-        html_content = t.render(c)
-        msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
-        msg.content_subtype = "html"
-        msg.send()
-
-
 class Profile(models.Model):
     user = AutoOneToOneField(User)
     avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
@@ -116,6 +101,22 @@ class Profile(models.Model):
         new_join = (_now - self.user.date_joined).seconds < 600 # 10 mins
 
         return not have_fish and new_join
+
+
+# send welcome email
+@receiver(post_save, sender=Profile)
+def send_welcome_email(sender, instance, created, **kwargs):
+    if created:
+        u = instance.user
+        email = '%s %s <%s>' % (u.first_name, u.last_name, u.email)
+        t = loader.get_template('emails/welcome-inline.html')
+        subject = 'Ocean Hunter Spearfishing Competition 2014/15'
+        c = Context({'SITE_URL': settings.SITE_URL, 'subject': subject, 'user': u})
+        html_content = t.render(c)
+        msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
+        msg.content_subtype = "html"
+        msg.send()
+
 
 TEAM_KINDS = (
     ('family', 'Family Team'),
