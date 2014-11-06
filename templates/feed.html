@@ -57,8 +57,8 @@
           src="{% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
         >
         <div class="row collapse summaries">
-          <div class="columns small-6 text-center">{{ f.species.name }}</div>
-          <div class="columns small-3 text-center">{{ f.weight }} Kg</div>
+          <div class="columns small-5 text-center">{{ f.species.name }}</div>
+          <div class="columns small-4 text-center">{{ f.weight }} Kg</div>
           <div class="columns small-3 text-center">{{ f.points|intcomma }} Pts</div>
         </div>
         {% if not enlarge %}</a>{% endif %}
