@@ -166,7 +166,7 @@
                     top: rem-calc(20); right: rem-calc(25);
                     font-size: $reveal-close-font-size;
                     line-height: 0.5;
-                    color: $$reveal-close-color;
+                    color: $reveal-close-color;
                     font-weight: $reveal-close-weight;
                     cursor: $cursor-pointer-value;
                 }
