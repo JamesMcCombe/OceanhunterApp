@@ -126,7 +126,7 @@
     <div class="columns small-3 text-center action icon-action delete" data-action data-title="Delete" data-reveal-id="feedDeleteModal"></div>
     {# <div class="columns small-3 text-center action edit" data-action data-title="Edit"></div> #}
     <div class="columns small-3 text-center action icon-action share" data-action data-title="Share"></div>
-    <div class="columns small-3 text-center action icomoon-action report" data-action data-title="Report" data-reveal-id="reportSuccessful"><i class="icomoon-report"></i></div>
+    <div class="columns small-3 text-center action icomoon-action report" data-action data-title="Report" data-reveal-id="reportConfirmModal"><i class="icomoon-report"></i></div>
   </div>
   <div class="row actions hide share-buttons">
     <div class="columns small-6 text-center action icomoon-action share-facebook" data-action data-title="Share on Facebook"><i class="icomoon-facebook"></i></div>
@@ -147,6 +147,21 @@
   <div class="row actions">
     <div class="columns small-6 text-center action no">NO</div>
     <div class="columns small-6 text-center action yes">YES</div>
+  </div>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+
+
+<div id="reportConfirmModal" class="reveal-modal oc-reveal-modal report-confirm-reveal-modal collapse small" data-reveal data-options="animation:fade" data-css-top="100">
+  <div class="row">
+    <div class="columns small-12">
+      <h2>Are you sure?</h2>
+    </div>
+  </div>
+  <div class="row actions">
+    <div class="columns small-6 text-center action no">NO</div>
+    <div class="columns small-6 text-center action yes" data-reveal-id="reportSuccessful">YES</div>
   </div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
@@ -223,9 +238,7 @@
 
 
     // click report button on reveal modal
-    $(document).on('click', '[data-action].report', function(e) {
-      $('#feedModal').foundation('reveal', 'close');
-
+    $(document).on('click', '.report-confirm-reveal-modal .action.yes', function(e) {
       var csrftoken = $.cookie('csrftoken');
       var payload = {
         csrfmiddlewaretoken: csrftoken,
@@ -242,7 +255,7 @@
       });
     });
     // click no button on delete modal
-    $(document).on('click', '.report-successful-reveal-modal .action.no', function(e) {
+    $(document).on('click', '.report-confirm-reveal-modal .action.no, .report-successful-reveal-modal .action.no', function(e) {
       $('#reportSuccessful').foundation('reveal', 'close');
     });
 
