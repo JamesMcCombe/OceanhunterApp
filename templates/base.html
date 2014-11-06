@@ -118,7 +118,7 @@
       <div class="">
         <div class="">
           <div data-alert class="alert-box text-center">
-            <a href="{% url 'team_alone' invite.team.id %}"><span class="lighter">{{ invite.inviter.first_name }} {{ invite.inviter.last_name }} invite you to join team</span> {{ invite.team.name }}</a>
+            <a href="{% url 'team_alone' invite.team.id %}"><span class="lighter">{{ invite.inviter.first_name }} {{ invite.inviter.last_name }} invite you to join team</span> {{ invite.team.name }}. <span style="text-decoration: underline;">Click here to join!</span></a>
             <a href="#" class="close">&times;</a>
           </div>
         </div>
