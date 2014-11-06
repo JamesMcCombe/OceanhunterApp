@@ -24,6 +24,7 @@
 
                 a { @include anchor-primary-color; }
             }
+            .close-enlarge { display: none; }
             .image-wrapper {
                 display: block;
                 position: relative;
@@ -126,6 +127,7 @@
 
         .feed {
             .wrap-for-medium {
+                position: relative;
                 @include clearfix;
                 padding: $column-gutter / 2;
                 // border: 3px solid scale-color($black, $lightness: 10%);
@@ -158,6 +160,17 @@
                 z-index: 10;
                 .wrap-for-medium {
                 }
+                .close-enlarge {
+                    position: absolute;
+                    display: block;
+                    top: rem-calc(20); right: rem-calc(25);
+                    font-size: $reveal-close-font-size;
+                    line-height: 0.5;
+                    color: $$reveal-close-color;
+                    font-weight: $reveal-close-weight;
+                    cursor: $cursor-pointer-value;
+                }
+
                 .image-wrapper {
                     @include grid-column(6);
                     $padding: $column-gutter / 3;

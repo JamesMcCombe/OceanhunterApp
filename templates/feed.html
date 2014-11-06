@@ -103,6 +103,9 @@
           <a href="#" class="more" data-reveal-id="feedModal" data-fish-id="{{ f.id }}" data-user-id="{{ f.user.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
         </div>
       </div>
+      {% if not enlarge %}
+        <a class="close-enlarge">&#215;</a>
+      {% endif %}
     </div> <!-- wrap for medium -->
     </li>
   {% endfor %}
@@ -393,7 +396,7 @@
 
 
     // enlarge one feed
-    $(document).on('click', '.link-to-enlarge', function(e) {
+    $(document).on('click', '.link-to-enlarge, .close-enlarge', function(e) {
       if (!oh.isSmallScreen()) {
         e.preventDefault();
         var feed = $(this).closest('.fish');
