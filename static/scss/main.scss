@@ -118,14 +118,14 @@ body {
                 display: inline-block;
                 vertical-align: middle;
                 width: $icon-height; height: $icon-height; background-size: $icon-height; margin-right: rem-calc(10);
-                background-position: top left;
+                background-position: 0 0;
                 background-repeat: no-repeat;
                 &.icon-home { background-image: url('../../img/icon-home.png'); }
                 &.icon-myfish-new { background-image: url('../../img/icon-myfish-new.png'); }
                 &.icon-myfish { background-image: url('../../img/icon-myfish.png'); }
                 &.icon-leaderboard { background-image: url('../../img/icon-leaderboard.png'); }
             }
-            .no-touch &:hover i { background-position-y: -$icon-height; }
+            .no-touch &:hover i { background-position: 0 (-$icon-height); }
         }
         opacity: 0;
         -webkit-transition: opacity 300ms ease;
@@ -176,7 +176,7 @@ body {
                     $icon-height: 70px;
 
                     i { width: $icon-height; height: $icon-height; background-size: $icon-height; margin-right: rem-calc(15); }
-                    .no-touch &:hover i { background-position-y: -$icon-height; }
+                    .no-touch &:hover i { background-position: 0 (-$icon-height); }
 
                 }
             }
