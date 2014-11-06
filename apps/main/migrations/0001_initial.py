@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
             name='Fish',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('weight', models.DecimalField(max_digits=5, decimal_places=3)),
+                ('weight', models.DecimalField(max_digits=5, decimal_places=2)),
                 ('witness', models.CharField(max_length=50)),
                 ('points', models.IntegerField(default=0)),
                 ('image', models.ImageField(upload_to=b'fish')),
