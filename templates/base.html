@@ -87,9 +87,11 @@
                   <li><a href="{% url 'leaderboard' %}"><i class="icon-leaderboard"></i>Leader board</a></li>
                 </ul>
                 <div class="menu-footer lighter">
-                    <a href="{% url 'terms-conditions' %}">Terms & Conditions</a> |
-                    <a href="{% url 'privacy-policy' %}">Privacy Policy</a> |
-                    <a href="{% url 'logout' %}">Log out</a>
+                    <a href="{% url 'terms-conditions' %}">Terms & Conditions</a>
+                    | <a href="{% url 'privacy-policy' %}">Privacy Policy</a>
+                    {% if user.is_authenticated %}
+                      | <a href="{% url 'logout' %}">Log out</a>
+                    {% endif %}
                 </div>
               </section>
             </nav>
@@ -141,8 +143,8 @@
         {% render_block 'fixed-to-bottom' %}
         {% block footer %}
         <footer>
-            <a href="/terms-conditions">Terms & Conditions</a> |
-            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="{% url 'terms-conditions' %}">Terms & Conditions</a> |
+            <a href="{% url 'privacy-policy' %}">Privacy Policy</a>
         </footer>
         {% endblock %}
     </div>
