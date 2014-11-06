@@ -487,7 +487,7 @@ def facebook_invite_link(request, team):
     base_url = "%s://%s" % (schema, request.get_host())
 
     redirect_uri = base_url + reverse('facebook_save_invitee')
-    message = "Join my team %s!" % team.name
+    message = "Ocean Hunter Spearfishing Competition 2014/15. Join my team %s!" % team.name
 
     return "http://www.facebook.com/dialog/apprequests?" \
             "app_id=%(app_id)s" \
