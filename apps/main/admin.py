@@ -8,6 +8,7 @@ admin.site.register(m.Species, SpeciesAdmin)
 
 class CommentInline(admin.StackedInline):
     model = m.Comment
+    extra = 1
 
 class FishAdmin(admin.ModelAdmin):
     list_display = ('user', 'species', 'weight', 'witness', 'points', 'create')
