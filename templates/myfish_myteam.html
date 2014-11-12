@@ -35,7 +35,7 @@
         <span class="lighter" style="line-height: 2;"><a href="{% url 'userfish' invite.inviter.id %}">{{ invite.inviter.first_name }} {{ invite.inviter.last_name }}</a> invite you to join this team</span>
         {% csrf_token %}
         <input type="hidden" name="invite_id" value="{{ invite.id }}">
-        &nbsp;
+        <div class="break"></div>
         <button name="action" value="join" class="small">Join</button>
         <button name="action" value="reject" class="small secondary">Not now</button>
       </form>
