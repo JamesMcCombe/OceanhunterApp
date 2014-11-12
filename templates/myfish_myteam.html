@@ -13,7 +13,7 @@
 {% block nav_title %}
 <li class="name">
   {% if team %}
-    <h1><a href="#">{{ team.name }} &nbsp;|&nbsp; Team Average Score {{ team.points|intcomma }} Pts</a></h1>
+    <h1><a href="#">{{ team.name }} &nbsp;|&nbsp; Team Avg {{ team.points|intcomma }} Pts</a></h1>
   {% else %}
     <h1><a href="#">{{ u.first_name }} {{ u.last_name }} &nbsp;|&nbsp; {{ u.profile.points|intcomma }} Pts</a></h1>
   {% endif %}
