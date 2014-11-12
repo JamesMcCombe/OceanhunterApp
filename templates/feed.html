@@ -56,11 +56,13 @@
                  100vw"
           src="{% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
         >
-        <div class="row collapse summaries">
-          <div class="columns small-5 text-center">{{ f.species.name }}</div>
-          <div class="columns small-4 text-center">{{ f.weight|floatformat:"-3" }} Kg</div>
-          <div class="columns small-3 text-center">{{ f.points|intcomma }} Pts</div>
-        </div>
+        <table class="summaries">
+          <tbody><tr>
+            <td width="40%">{{ f.species.name }}</td>
+            <td>{{ f.weight|floatformat:"-3" }} Kg</td>
+            <td>{{ f.points|intcomma }} Pts</td>
+          </tr></tbody>
+        </table>
         {% if not enlarge %}</a>{% endif %}
       </div>
       <div class="enlarge-medium-col">

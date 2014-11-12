@@ -35,17 +35,23 @@
                 }
 
                 .summaries {
-                    color: $white;
                     position: absolute;
                     bottom: 0;
                     width: 100%;
                     background-color: $primary-color;
                     opacity: 0.8;
-                    font-size: rem-calc(18);
 
-                    .columns {
+                    border: none;
+                    margin-bottom: 0;
+                    table-layout: auto;
+
+                    td {
                         padding: rem-calc(8) 0;
+                        font-size: rem-calc(18);
+                        line-height: 1.6;
+                        color: $white;
                         $border-width: 1px;
+                        text-align: center;
                         border-right: $border-width solid scale-color($primary-color, $lightness: 5%);
 
                         &:last-child { border-right: none; }
@@ -136,9 +142,9 @@
             }
             .image-wrapper {
                 .summaries {
-                    font-size: rem-calc(14);
                     position: relative;
                     opacity: 1;
+                    td { font-size: rem-calc(14); }
                 }
             }
             .actions {
