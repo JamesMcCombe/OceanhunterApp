@@ -61,7 +61,12 @@
                   {% thumbnail f.image "960x960" crop="center" as im %}{{ im.url }} 960w{% endthumbnail %}"
           data-sizes="(min-width: 40em) 45vw,
                  100vw"
+          {% if enlarge %}
           src="{% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+          {% else %}
+          {# For home screen enlarge not separate page, because now the 640w img already load #}
+          src="{% thumbnail f.image "640x640" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+          {% endif %}
         >
         <table class="summaries">
           <tbody><tr>
