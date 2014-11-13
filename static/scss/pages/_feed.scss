@@ -29,7 +29,8 @@
                 display: block;
                 position: relative;
 
-                .fish-image {
+                .fish-image-enlarge { display: none; }
+                .fish-image, .fish-image-enlarge {
                     // now just for iPhone
                     width: 100%;
                 }
@@ -182,6 +183,9 @@
                     $padding: $column-gutter / 3;
                     padding: $padding $padding 0;
                     background-color: $primary-color;
+
+                    .fish-image { display: none; }
+                    .fish-image-enlarge { display: block; }
 
                     .summaries { font-size: rem-calc(18); }
                 }
