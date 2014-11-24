@@ -30,11 +30,22 @@
       <meta property="og:description" content="{% include "_share_description.html" with f=f %}">
       {% endaddtoblock %}
     {% endif %}
-    {% if forloop.counter0|add:start|add:"2"|divisibleby:"5" %}
+    {% if forloop.counter0|add:start|add:"4"|divisibleby:"6" %}
       <li class="feed infinite-item">
         <div class="show-for-small-only text-center">
           {% render_placement 'mobile-banner' %}
         </div>
+      </li>
+    {% endif %}
+    {% if forloop.counter0|add:start|add:"1"|divisibleby:"6" %}
+      <li class="feed infinite-item">
+        <div class="show-for-small-only text-center">
+          {% render_placement 'medium-tile' %}
+        </div>
+      </li>
+    {% endif %}
+    {% if forloop.counter0|add:start|add:"2"|divisibleby:"5" %}
+      <li class="feed infinite-item">
         <div class="show-for-medium-up text-center">
           {% render_placement 'medium-tile' %}
         </div>

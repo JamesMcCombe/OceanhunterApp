@@ -42,10 +42,20 @@
 
 <ul class="solos small-block-grid-1 medium-block-grid-4">
   {% for obj in page.object_list %}
-  {% if forloop.counter0|add:start|add:"3"|divisibleby:"4" %}
+  {% if forloop.counter0|add:start|add:"5"|divisibleby:"6" %}
     <li class="ad text-center show-for-small-only infinite-item">
       {% render_placement 'mobile-banner' %}
     </li>
+  {% endif %}
+  {% if forloop.counter0|add:start|add:"2"|divisibleby:"6" %}
+    <li class="ad text-center show-for-small-only infinite-item">
+      {% render_placement 'medium-tile' %}
+    </li>
+  {% endif %}
+  {% if forloop.counter0|add:start|add:"4"|divisibleby:"8" %}
+    <div class="ad text-center show-for-medium-up infinite-item">
+      {% render_placement 'medium-leaderboard' %}
+    </div>
   {% endif %}
   <li class="solo infinite-item">
     <div class="row collapse wrap-medium">
@@ -148,9 +158,9 @@
 
 
 {% addtoblock 'fixed-to-bottom' %}
-  <div class="show-for-medium-up text-center">
-    {% render_placement 'medium-leaderboard' %}
-  </div>
+  {# <div class="show-for-medium-up text-center"> #}
+    {# {% render_placement 'medium-leaderboard' %} #}
+  {# </div> #}
 {% endaddtoblock %}
 
 
