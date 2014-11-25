@@ -242,9 +242,15 @@ def myfish(request, user_id):
     if user_id == 'me' or int(user_id) == request.user.id:
         u = request.user
         possessive = 'My'
+        team = get_object_or_None(am.Team, users=u)
+        if not team:
+            possessive_team = 'Create'
+        else:
+            possessive_team = possessive
     else:
         u = get_object_or_404(m.User, pk=user_id)
         possessive = u.profile.gender == 'male' and 'His' or 'Her'
+        possessive_team = possessive
 
     species_list = OrderedDict()
     for fish in u.fish_set.order_by('-create'):
@@ -258,6 +264,7 @@ def myfish(request, user_id):
         'u': u,
         'species_list':species_list,
         'possessive': possessive,
+        'possessive_team': possessive_team,
     }
 
 
@@ -287,6 +294,8 @@ def myteam(request, user_id):
 
     team = get_object_or_None(am.Team, users=u)
     possessive_team = possessive
+    if possessive == 'My' and not team:
+        possessive_team = 'Create'
 
     invite = get_object_or_None(am.Invite, invitee=request.user, team=team, status='new')
 
