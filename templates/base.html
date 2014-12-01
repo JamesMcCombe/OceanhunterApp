@@ -33,7 +33,7 @@
 		<![endif]-->
         <script src="{% static 'js/libs/modernizr.build.js' %}"></script>
 		<link rel="stylesheet" href="{% static 'build/css/main.css' %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static 'foundation-datepicker.css' %}">
+        <link rel="stylesheet" href="{% static 'foundation-datepicker.css' %}">
 
         <script>
             var OC = OC || {};
@@ -87,7 +87,7 @@
                   <li><a href="{% url 'leaderboard' %}"><i class="icon-leaderboard"></i>Leader board</a></li>
                 </ul>
                 <div class="menu-footer lighter">
-                    <a href="{% url 'terms-conditions' %}">Terms & Conditions</a>
+                    <a href="{% url 'rules-conditions' %}">Rules & Conditions</a>
                     | <a href="{% url 'privacy-policy' %}">Privacy Policy</a>
                     {% if user.is_authenticated %}
                       | <a href="{% url 'logout' %}">Log out</a>
@@ -143,7 +143,7 @@
         {% render_block 'fixed-to-bottom' %}
         {% block footer %}
         <footer>
-            <a href="{% url 'terms-conditions' %}">Terms & Conditions</a> |
+            <a href="{% url 'rules-conditions' %}">Rules & Conditions</a> |
             <a href="{% url 'privacy-policy' %}">Privacy Policy</a>
         </footer>
         {% endblock %}

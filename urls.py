@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^social/', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^privacy-policy$', 'pages.views.page', {'slug': 'privacy-policy'}, name='privacy-policy'),
-    url(r'^terms-conditions$', 'pages.views.page', {'slug': 'terms-conditions'}, name='terms-conditions'),
+    url(r'^rules-conditions$', 'pages.views.page', {'slug': 'rules-conditions'}, name='rules-conditions'),
     url(r'', include('main.urls')),
 )
 
