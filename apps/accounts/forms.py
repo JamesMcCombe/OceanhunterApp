@@ -44,6 +44,8 @@ class SignupForm(forms.ModelForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput, required=False)
 
+    # agree = forms.BooleanField()
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2')

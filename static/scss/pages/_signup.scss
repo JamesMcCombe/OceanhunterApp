@@ -2,10 +2,10 @@
 .page-signup {
     form { padding-top: rem-calc(20); }
 
-    .page-2, .submit { display: none; }
+    .page-2, .submit, .agree-wrap { display: none; }
 
     &.step-2 {
         .page-1, .button.next { display: none; }
-        .page-2, .submit { display: block; }
+        .page-2, .submit, .agree-wrap { display: block; }
     }
 }
