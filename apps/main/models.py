@@ -16,8 +16,8 @@ class Species(models.Model):
 
 
 class FishManager(models.Manager):
-    def get_query_set(self):
-        return super(FishManager, self).get_query_set().exclude(status='removed')
+    def get_queryset(self):
+        return super(FishManager, self).get_queryset().exclude(status='removed')
 
 
 class Fish(models.Model):
