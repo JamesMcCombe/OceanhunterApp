@@ -48,6 +48,8 @@ class Fish(models.Model):
 
     recalculate_points = save
 
+    def __unicode__(self):
+        return "%s" % self.pk
 
 class Comment(models.Model):
     user = models.ForeignKey(User)

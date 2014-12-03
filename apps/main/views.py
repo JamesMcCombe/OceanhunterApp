@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from datetime import datetime, date
+from itertools import chain
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
@@ -39,14 +40,19 @@ def home(request):
         # XXX Currently no feeds actually coz there is only one type of feed: fish
         # so dont need to add a news feed model right now.
         PERPAGE = 8
-        q = m.Fish.objects.order_by('-create')
+        EXAMPLE_FISH_ID = 1
+        q = m.Fish.objects.exclude(pk=EXAMPLE_FISH_ID).order_by('-create')
         paginator = Paginator(q, PERPAGE)
         p = request.GET.get('p', 1)
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
+        feeds = page.object_list
+        # put the example on the first
+        if p == 1:
+            feeds = chain(m.Fish.objects.filter(pk=EXAMPLE_FISH_ID), feeds)
         ctx['page'] = page
         ctx['start'] = start
-        ctx['feeds'] = page.object_list
+        ctx['feeds'] = feeds
         ctx['TEMPLATE'] = 'feed.html'
     return ctx
 
