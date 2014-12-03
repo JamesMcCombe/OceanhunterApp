@@ -8,8 +8,11 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from annoying.decorators import render_to, ajax_request
 from django.contrib import messages
+from annoying.functions import get_object_or_None
 from . import models as m
 from . import forms as f
+from pages import models as pm
+
 
 APP_ROOT = path(dirname(abspath(__file__)))
 APP_NAME = APP_ROOT.name
@@ -37,7 +40,7 @@ def signup(request):
                 invite.invitee = user
                 invite.save()
             return redirect('invite')
-    ctx = {'form': form}
+    ctx = {'form': form, 'rules': get_object_or_None(pm.Page, slug='rules-conditions')}
     return ctx
 
 

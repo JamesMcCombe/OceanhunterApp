@@ -95,6 +95,10 @@
             {{ form.gender.errors }}
           </div>
         </div>
+      </div> <!-- page-2 -->
+      <div class="page-3">
+        <h2>{{ rules.title }}</h2>
+        <div class="rules-content">{{ rules.content|safe }}</div>
       </div>
     </form>
   </div>
@@ -106,12 +110,11 @@
     <div class="column small-centered small-11 medium-5">
       <button class="button large expand next">Next</button>
     </div>
-    <div class="column small-centered small-11 medium-5 agree-wrap">
-      <input type="checkbox" name="agree" id="agree"><label for="agree" class="small">Read and agree <a href="{% url 'rules-conditions' %}" target="_blank">Rules & Conditions</a></label>
-      {{ form.agree.errors }}
+    <div class="column small-centered small-11 medium-5">
+      <button class="button large expand next2">Next</button>
     </div>
     <div class="column small-centered small-11 medium-5">
-      <button class="button large expand submit">Register</button>
+      <button class="button large expand submit">Agree & Register</button>
     </div>
   </div>
 </section>
@@ -144,6 +147,11 @@
       oh.reAdjustFixedBottom();
       // focus to region because two step switch too fast no body realize what to do
       $('[name="city"]').focus();
+    });
+
+    $('.next2').click(function(e) {
+      $('body').addClass('step-3');
+      oh.reAdjustFixedBottom();
     });
 
     $('.submit').click(function() {
