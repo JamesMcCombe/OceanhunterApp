@@ -26,39 +26,45 @@
     {# {{ form }} #}
 
     <form action="" method="post">
-      {{ form.non_field_errors }}
-      {% csrf_token %}
-      <input type="submit" class="hide">
-      {% comment %} <!-- Get area from city. Do not need to input this. -->
-      <div class="row">
-        <div class="columns">
-          {{ form.area.errors }}
-          {% for radio in form.area %}
-            <input type="radio" name="{{ radio.name }}" id="{{form.area.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.area.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
-          {% endfor %}
+      <div class="page-2">
+        {{ form.non_field_errors }}
+        {% csrf_token %}
+        <input type="submit" class="hide">
+        {% comment %} <!-- Get area from city. Do not need to input this. -->
+        <div class="row">
+          <div class="columns">
+            {{ form.area.errors }}
+            {% for radio in form.area %}
+              <input type="radio" name="{{ radio.name }}" id="{{form.area.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.area.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
+            {% endfor %}
+          </div>
         </div>
+        {% endcomment %}
+        <div class="row">
+          <div class="columns">
+            {{ form.city.errors }}
+            {{ form.city }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns">
+            {{ form.dob.errors }}
+            <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns">
+            {{ form.gender.errors }}
+            {% for radio in form.gender %}
+              <input type="radio" name="{{ radio.name }}" id="{{form.gender.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.gender.auto_id }}_{{ radio.index }}" class="small">{{ radio.choice_label }}</label>
+            {% endfor %}
+          </div>
+        </div>
+      </div> <!-- page-2 -->
+      <div class="page-3">
+        <h2>{{ rules.title }}</h2>
+        <div class="rules-content">{{ rules.content|safe }}</div>
       </div>
-      {% endcomment %}
-      <div class="row">
-        <div class="columns">
-          {{ form.city.errors }}
-          {{ form.city }}
-        </div>
-      </div>
-      <div class="row">
-        <div class="columns">
-          {{ form.dob.errors }}
-          <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">
-        </div>
-      </div>
-      <div class="row">
-        <div class="columns">
-          {{ form.gender.errors }}
-          {% for radio in form.gender %}
-            <input type="radio" name="{{ radio.name }}" id="{{form.gender.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.gender.auto_id }}_{{ radio.index }}" class="small">{{ radio.choice_label }}</label>
-          {% endfor %}
-        </div>
-        </div>
     </form>
   </div>
 </div>
@@ -67,7 +73,12 @@
 <section class="bottom-btns">
   <div class="row">
     <div class="column small-centered small-11 medium-5">
-      <button class="button large expand submit">Ok</button>
+      <button class="button large expand next2">Next</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column small-centered small-11 medium-5">
+      <button class="button large expand submit">Agree & Register</button>
     </div>
   </div>
 </section>
@@ -95,11 +106,9 @@
       });
     }
 
-    $('.next').click(function(e) {
-      $('body').addClass('step-2');
+    $('.next2').click(function(e) {
+      $('body').addClass('step-3');
       oh.reAdjustFixedBottom();
-      // focus to region because two step switch too fast no body realize what to do
-      $('[name="city"]').focus();
     });
 
     $('.submit').click(function() {

@@ -40,7 +40,8 @@ def signup(request):
                 invite.invitee = user
                 invite.save()
             return redirect('invite')
-    ctx = {'form': form, 'rules': get_object_or_None(pm.Page, slug='rules-conditions')}
+    rules = get_object_or_None(pm.Page, slug='rules-conditions')
+    ctx = {'form': form, 'rules': rules}
     return ctx
 
 
@@ -84,7 +85,8 @@ def extra_profile(request):
         if form.is_valid():
             form.save()
             return redirect('invite')
-    ctx = {'form': form}
+    rules = get_object_or_None(pm.Page, slug='rules-conditions')
+    ctx = {'form': form, 'rules': rules}
     return ctx
 
 
