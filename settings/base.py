@@ -16,11 +16,11 @@ SERVER_NAME = 'example.com'
 SECRET_KEY = '@w@4gg7^dy9z3(r%n0b&*rr)4cf0-b$=hpsyx5qo0r4l3b=i$8'
 
 ADMINS = (
-    ('Node Developers', 'developers@node.co.nz'), 
+    ('Node Developers', 'developers@node.co.nz'),
 )
 
 MANAGERS = (
-    ('Mike', 'mike@oceanhunter.co.nz'), 
+    ('Mike', 'mike@oceanhunter.co.nz'),
     ('James', 'james@node.co.nz'),
 )
 
@@ -52,6 +52,7 @@ INSTALLED_APPS = (
 AUTHENTICATION_BACKENDS = (
     'accounts.backends.EmailAuthBackend',
     'social.backends.facebook.Facebook2OAuth2',
+    'social.backends.facebook.Facebook2AppOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -141,11 +142,16 @@ SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1492664544305345'
 SOCIAL_AUTH_FACEBOOK_SECRET = '93a9494c3e3cfbe0e2a3ae952d51a2e6'
+SOCIAL_AUTH_FACEBOOK_APP_KEY = '1492664544305345'
+SOCIAL_AUTH_FACEBOOK_APP_SECRET = '93a9494c3e3cfbe0e2a3ae952d51a2e6'
+SOCIAL_AUTH_FACEBOOK_APP_NAMESPACE = 'nodeoceanhunter'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 #SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_location', 'user_birthday']
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email']
+
+X_FRAME_OPTIONS = "ALLOW-FROM https://apps.facebook.com/nodeoceanhunter"
 
 ROOT_URLCONF = 'urls'
 
