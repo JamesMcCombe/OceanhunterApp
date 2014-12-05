@@ -51,7 +51,7 @@
 <ul class="row species-list">
   <li class="column small-12 medium-11 medium-centered">
     <ul class="small-block-grid-2 medium-block-grid-4 fishes">
-      {% for u in team.users.all|slice:":3" %}
+      {% for u in team.users.all %}
         <li class="">
           <a class="fish" href="{% url 'userfish' u.id %}">
             <div class="image-wrapper">
