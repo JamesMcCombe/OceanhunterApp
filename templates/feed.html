@@ -389,21 +389,22 @@
     });
 
 
-    function reLayout() {
+    function _reLayout() {
       if (!oh.isSmallScreen()) {
-        $('.feeds').masonry();
-      }
-    }
-
-
-    // init masonry for iPad and PC
-    if (!oh.isSmallScreen()) {
-      $('.feeds').imagesLoaded(function() {
         $('.feeds').masonry({
           itemSelector: '.feed',
           transitionDuration: 0
         });
-      });
+      }
+    }
+
+    // throttle the relayout, cause it will be called when every image loaded
+    var reLayout = _.throttle(_reLayout, 100);
+
+
+    // init masonry for iPad and PC
+    if (!oh.isSmallScreen()) {
+      $('.feeds').imagesLoaded().progress(reLayout);
     }
 
     // Infinite scroll
@@ -422,7 +423,6 @@
           });
           container.masonry('appended', new_feeds);
           // FIXME: relayout after double click
-          container.imagesLoaded(reLayout);
         }
       }
     });
