@@ -13,9 +13,10 @@
             @include font-weight-lighter;
         }
         .feed {
-            &:not(:first-child) {
-                padding-bottom: rem-calc(25);
-            }
+            // XXX forget why I need this...
+            // &:not(:first-child) {
+                // padding-bottom: rem-calc(25);
+            // }
             h3 {
                 margin-top: $header-bottom-margin;
                 padding: 0 $column-gutter / 2;
