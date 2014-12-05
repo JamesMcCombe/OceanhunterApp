@@ -14,6 +14,20 @@ def unread_invites(request):
         return {}
 
 
+def statistics(request):
+    u = request.user
+
+    if u.is_staff:
+        return {
+            'USERS_COUNT': am.User.objects.count(),
+            'TEAMS_COUNT': am.Team.objects.count(),
+            'INVITES_COUNT': am.Invite.objects.count(),
+            'PENDING_INVITES_COUNT': am.Invite.objects.filter(status="New").count(),
+        }
+    else:
+        return {}
+
+
 def baseurl(request):
     """
     Return a BASE_URL template context for the current request.

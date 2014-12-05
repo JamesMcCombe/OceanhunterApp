@@ -82,6 +82,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'adcode.context_processors.current_placements',
     'main.context_processors.facebook_app_id',
     'main.context_processors.unread_invites',
+    'main.context_processors.statistics',
     'main.context_processors.baseurl',
 )
 
