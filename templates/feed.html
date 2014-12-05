@@ -111,8 +111,8 @@
           <a href="#" class="more show-for-small-only" data-reveal-id="feedModal" data-fish-id="{{ f.id }}" data-user-id="{{ f.user.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
         </div>
         <div class="meta show-for-medium-up">
-          <a href="{% url 'userfish' f.user.id %}">
-            <img class="lazyload"
+          <a class="title" href="{% url 'userfish' f.user.id %}">
+            <img class="avatar lazyload"
               data-src="{% thumbnail f.user.profile.biggest_fish.image "60x60" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
             >
             {{ f.user.first_name }} {{ f.user.last_name|first|capfirst }}.

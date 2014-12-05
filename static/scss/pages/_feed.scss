@@ -157,11 +157,19 @@
                 .expand { color: scale-color($white, $lightness: -30%); }
             }
             .meta {
+                $avatar-size: rem-calc(24);
                 padding-top: rem-calc(5);
                 font-size: rem-calc(13);
                 border-top: 1px solid scale-color($black, $lightness: 10%);
 
-                img { width: rem-calc(24); height: rem-calc(24); border-radius: 50%; }
+                .title {
+                    display: inline-block;
+                    min-height: $avatar-size;
+                    .avatar {
+                        width: $avatar-size;
+                        border-radius: 50%;
+                    }
+                }
                 .more { margin-right: rem-calc(-12); }
             }
 
