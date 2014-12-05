@@ -161,7 +161,7 @@
                 font-size: rem-calc(13);
                 border-top: 1px solid scale-color($black, $lightness: 10%);
 
-                img { height: rem-calc(24); border-radius: 50%; }
+                img { width: rem-calc(24); height: rem-calc(24); border-radius: 50%; }
                 .more { margin-right: rem-calc(-12); }
             }
 
