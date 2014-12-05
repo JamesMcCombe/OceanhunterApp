@@ -13,6 +13,9 @@
             @include font-weight-lighter;
         }
         .feed {
+            // no block-grid clear cause of hidden ads
+            clear: none !important;
+
             // XXX forget why I need this...
             // &:not(:first-child) {
                 // padding-bottom: rem-calc(25);
