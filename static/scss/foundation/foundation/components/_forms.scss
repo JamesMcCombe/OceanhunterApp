@@ -17,7 +17,7 @@ $form-spacing: rem-calc(16) !default;
 $form-label-pointer: pointer !default;
 $form-label-font-size: rem-calc(14) !default;
 $form-label-font-weight: $font-weight-normal !default;
-$form-label-letter-spacing: $letter-spacing-normal !default;
+$form-label-letter-spacing: normal !default;
 $form-label-line-height: 1.5 !default;
 $form-label-font-color: scale-color($black, $lightness: 30%) !default;
 $form-label-small-transform: capitalize !default;
