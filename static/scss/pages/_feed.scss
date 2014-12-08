@@ -129,6 +129,10 @@
                     }
                 }
             }
+
+            &.enlarge {
+                .new-comment { display: block; }
+            }
         }
 
     @media #{$medium-up} {
