@@ -86,46 +86,21 @@ $include-html-global-classes: $include-html-classes;
 // c. Global
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// We use these to define default font weights
-// $font-weight-normal: normal !default;
-// $font-weight-bold: bold !default;
-
-// Global
+// We use these to define default font stacks
+// $font-family-sans-serif: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+// $font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+// $font-family-monospace: Consolas, "Liberation Mono", Courier, monospace;
 
 // We use these to define default font weights
 $font-weight-lighter: lighter;
 $font-weight-normal: 300 !default;
 // $font-weight-bold: bold !default;
 
-// We use these to control various global styles
-$body-bg: #202020;
-$body-font-color: #ededed;
-// $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-// $body-font-weight: $font-weight-normal;
-// $body-font-style: normal;
-
-// We use this to control font-smoothing
-// $font-smoothing: antialiased;
-
-// We use these to control text direction settings
-// $text-direction: ltr;
-// $opposite-direction: right;
-// $default-float: left;
-// $last-child-float: $opposite-direction;
-
 $blue: #0185ac;
 $orange: #ee6822;
 $facebook-blue: #3c5a98;
 $green: #009640;
 $red: #ff1515;
-
-// We use these as default colors throughout
-$primary-color: $blue;
-// $secondary-color: #e7e7e7;
-$alert-color: $red;
-$success-color: $green;
-$warning-color: $orange;
-// $info-color: #a0d3e8;
 
 $white       : #FFFFFF;
 // $ghost       : #FAFAFA;
@@ -146,6 +121,30 @@ $silver      : #EFEFEF;
 $oil         : #333333;
 // $jet         : #222222;
 $black       : #111;
+
+// We use these as default colors throughout
+$primary-color: $blue;
+// $secondary-color: #e7e7e7;
+$alert-color: $red;
+$success-color: $green;
+$warning-color: $orange;
+// $info-color: #a0d3e8;
+
+// We use these to control various global styles
+$body-bg: #202020;
+$body-font-color: #ededed;
+// $body-font-family: $font-family-sans-serif;
+// $body-font-weight: $font-weight-normal;
+// $body-font-style: normal;
+
+// We use this to control font-smoothing
+// $font-smoothing: antialiased;
+
+// We use these to control text direction settings
+// $text-direction: ltr;
+// $opposite-direction: right;
+// $default-float: left;
+// $last-child-float: $opposite-direction;
 
 // We use these to make sure border radius matches unless we want it different.
 // $global-radius: 3px;
@@ -253,7 +252,7 @@ $small-font-weight: $font-weight-lighter;
 
 // We use these to style <code> tags
 // $code-color: $oil;
-// $code-font-family: Consolas, 'Liberation Mono', Courier, monospace;
+// $code-font-family: $font-family-monospace;
 // $code-font-weight: $font-weight-normal;
 // $code-background-color: scale-color($secondary-color, $lightness: 70%);
 // $code-border-size: 1px;
@@ -320,7 +319,6 @@ $anchor-font-color-hover: scale-color($primary-color, $lightness: 14%);
 // We use this to control abbr font styles
 // $microformat-abbr-font-weight: $font-weight-bold;
 // $microformat-abbr-font-decoration: none;
-
 
 // 01. Accordion
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -390,7 +388,6 @@ $alert-bottom-margin: rem-calc(10);
 // $block-grid-elements: 12;
 // $block-grid-default-spacing: rem-calc(20);
 // $align-block-grid-to-grid: false;
-
 
 // Enables media queries for block-grid classes. Set to false if writing semantic HTML.
 // $block-grid-media-queries: true;
@@ -562,6 +559,10 @@ $button-font-lrg: rem-calc(22.5);
 // We use this to control the styles for when the dropdown has custom content.
 // $f-dropdown-content-padding: rem-calc(20);
 
+// Default radius for dropdown.
+// $f-dropdown-radius: $global-radius;
+
+
 // 09. Dropdown Buttons
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -724,7 +725,7 @@ $select-bg-color: $black;
 // We use this to control the list items
 // $inline-list-display: block;
 
-// We use this to control any elments within list items
+// We use this to control any elements within list items
 // $inline-list-children-display: block;
 
 // 14. Joyride
@@ -740,7 +741,7 @@ $select-bg-color: $black;
 // $joyride-tip-radius: 4px;
 // $joyride-tip-position-offset: 22px;
 
-// Here, we're setting the tip dont styles
+// Here, we're setting the tip font styles
 // $joyride-tip-font-color: $white;
 // $joyride-tip-font-size: rem-calc(14);
 // $joyride-tip-header-weight: $font-weight-bold;
@@ -832,6 +833,7 @@ $select-bg-color: $black;
 // Off Canvas Menu Variables
 // $off-canvas-width: rem-calc(250);
 // $off-canvas-bg: $oil;
+// $off-canvas-bg-hover: scale-color($tabbar-bg, $lightness: -30%);
 
 // Off Canvas Menu List Variables
 // $off-canvas-label-padding: 0.3rem rem-calc(15);
@@ -1031,7 +1033,6 @@ $select-bg-color: $black;
 // $price-cta-align: center;
 // $price-cta-padding: rem-calc(20 20 0);
 
-
 // 23. Progress Bar
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -1062,7 +1063,7 @@ $select-bg-color: $black;
 
 // $include-html-range-slider-classes: $include-html-classes;
 
-// These variabels define the slider bar styles
+// These variables define the slider bar styles
 // $range-slider-bar-width: 100%;
 // $range-slider-bar-height: rem-calc(16);
 
@@ -1077,7 +1078,7 @@ $select-bg-color: $black;
 // $range-slider-vertical-bar-width: rem-calc(16);
 // $range-slider-vertical-bar-height: rem-calc(200);
 
-// These variabels define the slider handle styles
+// These variables define the slider handle styles
 // $range-slider-handle-width: rem-calc(32);
 // $range-slider-handle-height: rem-calc(22);
 // $range-slider-handle-position-top: rem-calc(-5);
@@ -1149,7 +1150,7 @@ $reveal-border-color: $oil;
 // $side-nav-font-weight: $font-weight-normal;
 // $side-nav-font-weight-active: $side-nav-font-weight;
 // $side-nav-font-family: $body-font-family;
-// $side-nav-active-font-family: $side-nav-font-family;
+// $side-nav-font-family-active: $side-nav-font-family;
 
 // We use these to control heading styles.
 // $side-nav-heading-color: $side-nav-link-color;
@@ -1220,7 +1221,6 @@ $reveal-border-color: $oil;
 // $sub-nav-border-radius: 3px;
 // $sub-nav-font-color-hover: scale-color($sub-nav-font-color, $lightness: -25%);
 
-
 // We use these to control the active item styles
 // $sub-nav-active-font-weight: $font-weight-normal;
 // $sub-nav-active-bg: $primary-color;
@@ -1231,7 +1231,6 @@ $reveal-border-color: $oil;
 
 // $sub-nav-item-divider: "";
 // $sub-nav-item-divider-margin: rem-calc(12);
-
 
 // 29. Switch
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1299,7 +1298,8 @@ $reveal-border-color: $oil;
 // $table-row-font-color: $jet;
 // $table-line-height: rem-calc(18);
 
-// These are for controlling the display and margin of tables
+// These are for controlling the layout, display and margin of tables
+// $table-layout: auto;
 // $table-display: table-cell;
 // $table-margin-bottom: rem-calc(20);
 
