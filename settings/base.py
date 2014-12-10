@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'sorl.thumbnail',
     'adcode',
+    'raven.contrib.django.raven_compat',
 
     'accounts',
     'main',
@@ -192,3 +193,8 @@ EMAIL_USE_SSL = True
 EMAIL_PORT = 465
 
 ADCODE_PLACEHOLDER_TEMPLATE = '//placehold.it/{width}x{height}'
+
+# Set your DSN value
+RAVEN_CONFIG = {
+    'dsn': 'http://93e63e0ddc3043d683429b7594e1b386:b4f25024ab0746458ea3ee89f73eeb0e@sentry.node.co.nz/2',
+}

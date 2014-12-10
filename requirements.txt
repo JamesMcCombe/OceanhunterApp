@@ -11,3 +11,4 @@ South
 sorl-thumbnail==11.12.1b
 django-ad-code
 python-dateutil
+raven
