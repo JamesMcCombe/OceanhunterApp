@@ -106,8 +106,8 @@ class Profile(models.Model):
 # send welcome email
 @receiver(post_save, sender=Profile)
 def send_welcome_email(sender, instance, created, **kwargs):
-    if created:
-        u = instance.user
+    u = instance.user
+    if created and u.email:
         email = '%s %s <%s>' % (u.first_name, u.last_name, u.email)
         t = loader.get_template('emails/welcome-inline.html')
         subject = 'Ocean Hunter Spearfishing Competition 2014/15'
