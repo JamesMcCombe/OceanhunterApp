@@ -60,17 +60,25 @@
                  100vw"
           src="{% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
         >
+        <img class="fish-image-enlarge nopadding lazyload"
+          data-srcset="{% thumbnail f.image "320" as im %}{{ im.url }} 320w{% endthumbnail %},
+                  {% thumbnail f.image "640" as im %}{{ im.url }} 640w{% endthumbnail %},
+                  {% thumbnail f.image "960" as im %}{{ im.url }} 960w{% endthumbnail %}"
+          data-sizes="(min-width: 40em) 25vw,
+                 100vw"
+          src="{% thumbnail f.image "320" as im %}{{ im.url }}{% endthumbnail %}"
+        >
         <img class="fish-image-enlarge lazyload"
-          data-srcset="{% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }} 320w{% endthumbnail %},
-                  {% thumbnail f.image "640x640" crop="center" as im %}{{ im.url }} 640w{% endthumbnail %},
-                  {% thumbnail f.image "960x960" crop="center" as im %}{{ im.url }} 960w{% endthumbnail %}"
+          data-srcset="{% thumbnail f.image "320x320" padding=True as im %}{{ im.url }} 320w{% endthumbnail %},
+                  {% thumbnail f.image "640x640" padding=True as im %}{{ im.url }} 640w{% endthumbnail %},
+                  {% thumbnail f.image "960x960" padding=True as im %}{{ im.url }} 960w{% endthumbnail %}"
           data-sizes="(min-width: 40em) 45vw,
                  100vw"
           {% if enlarge %}
-          src="{% thumbnail f.image "320x320" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+          src="{% thumbnail f.image "320x320" padding=True as im %}{{ im.url }}{% endthumbnail %}"
           {% else %}
           {# For home screen enlarge not separate page, because now the 640w img already load #}
-          src="{% thumbnail f.image "640x640" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+          src="{% thumbnail f.image "640x640" padding=True as im %}{{ im.url }}{% endthumbnail %}"
           {% endif %}
         >
         <table class="summaries">

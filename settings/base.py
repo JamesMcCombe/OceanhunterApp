@@ -198,3 +198,5 @@ ADCODE_PLACEHOLDER_TEMPLATE = '//placehold.it/{width}x{height}'
 RAVEN_CONFIG = {
     'dsn': 'http://93e63e0ddc3043d683429b7594e1b386:b4f25024ab0746458ea3ee89f73eeb0e@sentry.node.co.nz/2',
 }
+
+THUMBNAIL_PADDING_COLOR = '#000000'

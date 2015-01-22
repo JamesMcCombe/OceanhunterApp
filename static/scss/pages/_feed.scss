@@ -132,6 +132,12 @@
 
             &.enlarge {
                 .new-comment { display: block; }
+                .image-wrapper {
+                    .fish-image { display: none; }
+                    .fish-image-enlarge {
+                        &.nopadding { display: block; }
+                    }
+                }
             }
         }
 
@@ -201,7 +207,10 @@
                     background-color: $primary-color;
 
                     .fish-image { display: none; }
-                    .fish-image-enlarge { display: block; }
+                    .fish-image-enlarge {
+                        display: block;
+                        &.nopadding { display: none; }
+                    }
 
                     .summaries { font-size: rem-calc(18); }
                 }
