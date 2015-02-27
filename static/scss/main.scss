@@ -211,6 +211,7 @@ body {
     $border-style: 1px solid $oil;
     .actions {
         border-top: $border-style;
+        .share-buttons { display: none; }
     }
     .action {
         $icon-size: rem-calc(30);
