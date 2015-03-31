@@ -73,7 +73,7 @@ class Profile(models.Model):
             'South Island': (
                 'Blue Cod',
                 'Butter Fish',
-                'Trumperter',
+                'Trumpeter',
                 'Blue Moki',
                 'Kahawai',
                 'Tarakihi',
