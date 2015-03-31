@@ -418,9 +418,9 @@ def leaderboard(request):
 
             junior_dob = date.today() - relativedelta(years=18)
             if filters['age'] == 'junior':
-                q = q.filter(user__profile__dob__lt=junior_dob)
+                q = q.filter(user__profile__dob__gt=junior_dob)
             elif filters['age'] == 'open':
-                q = q.filter(user__profile__dob__gte=junior_dob)
+                q = q.filter(user__profile__dob__lte=junior_dob)
 
             if filters['gender']:
                 q = q.filter(user__profile__gender=filters['gender'])
@@ -452,9 +452,9 @@ def leaderboard(request):
 
             junior_dob = date.today() - relativedelta(years=18)
             if filters['age'] == 'junior':
-                q = q.filter(profile__dob__lt=junior_dob)
+                q = q.filter(profile__dob__gt=junior_dob)
             elif filters['age'] == 'open':
-                q = q.filter(profile__dob__gte=junior_dob)
+                q = q.filter(profile__dob__lte=junior_dob)
 
             if filters['gender']:
                 q = q.filter(profile__gender=filters['gender'])
