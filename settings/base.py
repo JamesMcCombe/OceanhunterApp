@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'sorl.thumbnail',
     'adcode',
-    'raven.contrib.django.raven_compat',
+    # 'raven.contrib.django.raven_compat',
 
     'accounts',
     'main',

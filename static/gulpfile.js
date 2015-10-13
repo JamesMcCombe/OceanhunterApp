@@ -6,7 +6,8 @@ var bg = require("gulp-bg");
 // Include Our Plugins
 var jshint = require('gulp-jshint');
 //var sass = require('gulp-ruby-sass');
-// var sass = require('gulp-sass');
+var sass = require('gulp-sass');
+//var sass = require('node-sass');
 var coffee = require('gulp-coffee');
 var rjs = require('gulp-requirejs');
 var uglify = require('gulp-uglify');
@@ -21,24 +22,24 @@ gulp.task('lint', function () {
 });
 
 // Compile Our Sass
-// gulp.task('sass', function () {
-//    return gulp.src('scss/[^_]*.scss')
-//        .pipe(sourcemaps.init())
-//        .pipe(sass({outputStyle: 'compressed'}))
-//        .on('error', gutil.log)
-//        .pipe(sourcemaps.write('.'))
-//        .pipe(gulp.dest('build/css'));
-// });
+ gulp.task('sass', function () {
+    return gulp.src('scss/[^_]*.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass({outputStyle: 'compressed'}))
+        .on('error', gutil.log)
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('build/css'));
+ });
 // node-sass have a bug will crash when with sourcemap enabled,
 // So just run a node-sass command
-gulp.task("sass",
-  bg("node-sass",
-    "--source-map",
-    '--output-style', 'compressed',
-    'scss/main.scss',
-    'build/css/main.css'
-  )
-);
+//gulp.task("sass",
+//  bg("node-sass",
+//    "--source-map",
+//    '--output-style', 'compressed',
+//    'scss/main.scss',
+//    'build/css/main.css'
+//  )
+//);
 
 //coffee
 
