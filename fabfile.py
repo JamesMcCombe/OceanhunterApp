@@ -25,7 +25,7 @@ PROJ_ROOT = Path(APPLICATIONS_DIR, PROJ_NAME)
 
 
 env.use_ssh_config = True
-env.hosts = ['nodeweb']
+# env.hosts = ['nodeweb']
 PROJ_NAME = 'oceanhunter'
 env.activate = 'source %s' % ACTIVATE
 env.deploy_dir = PROJ_ROOT
