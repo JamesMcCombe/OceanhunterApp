@@ -1,7 +1,7 @@
 from path import path
 from os.path import abspath, dirname
 from django.shortcuts import redirect
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
@@ -9,9 +9,9 @@ from django.contrib.auth import logout as auth_logout
 from annoying.decorators import render_to, ajax_request
 from django.contrib import messages
 from annoying.functions import get_object_or_None
-from . import models as m
-from . import forms as f
-from pages import models as pm
+from apps.accounts.models import Invite
+from apps.accounts import forms as f
+from apps.pages.models import Page
 
 
 APP_ROOT = path(dirname(abspath(__file__)))
@@ -36,11 +36,11 @@ def signup(request):
             user = authenticate(email=email, password=password)
             auth_login(request, user)
             # save invite related to this user
-            for invite in m.Invite.objects.filter(via='email', ref=email):
+            for invite in Invite.objects.filter(via='email', ref=email):
                 invite.invitee = user
                 invite.save()
             return redirect('invite')
-    rules = get_object_or_None(pm.Page, slug='rules-conditions')
+    rules = get_object_or_None(Page, slug='rules-conditions')
     ctx = {'form': form, 'rules': rules}
     return ctx
 
@@ -85,7 +85,7 @@ def extra_profile(request):
         if form.is_valid():
             form.save()
             return redirect('invite')
-    rules = get_object_or_None(pm.Page, slug='rules-conditions')
+    rules = get_object_or_None(Page, slug='rules-conditions')
     ctx = {'form': form, 'rules': rules}
     return ctx
 
@@ -105,7 +105,7 @@ def fbuser(request):
     if not username:
         return {'ret': False, 'msg': 'No id'}
     password = '!'
-    u, _ = m.User.objects.get_or_create(username=username)
+    u, _ = User.objects.get_or_create(username=username)
     u.set_password(password)
     u.first_name = data.get('first_name')
     u.last_name = data.get('last_name')

@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.conf import settings
@@ -9,7 +10,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from annoying.fields import AutoOneToOneField
-from main import models as mm
+from apps.main.models import Division
+
 
 AREA_CHOICES = (('North Island', 'North Island',), ('South Island', 'South Island',))
 GENDER_CHOICES = (('female', 'Female',), ('male', 'Male',))
@@ -45,20 +47,11 @@ class Profile(models.Model):
     user = AutoOneToOneField(User)
     avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    area = models.CharField(max_length=50, choices=AREA_CHOICES)
-    city = models.CharField(max_length=50, choices=CITY_CHOICES)
+    # area = models.CharField(max_length=50, choices=AREA_CHOICES)
+    # city = models.CharField(max_length=50, choices=CITY_CHOICES)
+    division = models.ForeignKey(Division, blank=False, null=True)
     dob = models.DateField(null=True)
-    points = models.IntegerField(default=0)
-
-    def save(self, *a, **kw):
-        # get area of city
-        for area, cities in CITY_CHOICES:
-            for city in cities:
-                if self.city == city[0]:
-                    self.area = area
-                    break
-
-        super(Profile, self).save(*a, **kw)
+    # points = models.IntegerField(default=0)
 
     def recalculate_points(self):
         species_in_count = {
@@ -102,6 +95,13 @@ class Profile(models.Model):
 
         return not have_fish and new_join
 
+    @property
+    def profile_completed(self):
+        return self.division
+
+    @property
+    def points(self):
+        return self.user.fish_set.aggregate(total_points=Sum('points'))['total_points']
 
 # send welcome email
 @receiver(post_save, sender=Profile)

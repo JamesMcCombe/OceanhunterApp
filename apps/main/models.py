@@ -7,12 +7,26 @@ class Species(models.Model):
         verbose_name_plural = 'Species'
 
     name = models.CharField(max_length=255)
-    logo = models.ImageField(upload_to="species")
-    k = models.IntegerField(help_text='Weight of calculating points')
-    base = models.IntegerField(help_text='Base of calculating points')
+    logo = models.ImageField(upload_to="species", null=True)
+    # k = models.IntegerField(help_text='Weight of calculating points')
+    # the size of the biggest catch of this species
+    base = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True,
+                               help_text='Base of calculating points')
 
     def __unicode__(self):
         return self.name
+
+    def recalculate_all(self):
+        from django.db.models import F
+        self.fish_set.update(points=F('weight') * 100 / self.base)
+
+
+class Division(models.Model):
+    name = models.CharField(max_length=255)
+    species = models.ManyToManyField(Species, related_name='division')
+
+    def __unicode__(self):
+        return u', '.join(map(unicode, self.species.all()))
 
 
 class FishManager(models.Manager):
@@ -25,10 +39,10 @@ class Fish(models.Model):
         verbose_name_plural = 'Fish'
 
     user = models.ForeignKey(User)
-    weight = models.DecimalField(max_digits=5, decimal_places=3)
+    weight = models.DecimalField(max_digits=6, decimal_places=3)
     witness = models.CharField(max_length=50)
     species = models.ForeignKey(Species)
-    points = models.IntegerField(default=0)
+    points = models.DecimalField(max_digits=6, decimal_places=3, default=0)
     image = models.ImageField(upload_to="fish")
 
     STATUS = (
@@ -42,14 +56,27 @@ class Fish(models.Model):
     objects = FishManager()
 
     def save(self, *a, **kw):
-        self.points = int(round(self.species.base + (self.weight * self.species.k)))
-        super(Fish, self).save(*a, **kw)
-        self.user.profile.recalculate_points()
+        if not self.pk:
+            if self.weight > self.species.base:
+                self.species.base = self.weight
+                self.species.save()
+                self.species.recalculate_all()
 
-    recalculate_points = save
+        if not self.status == 'removed':
+            self.recalculate_points()
+
+        super(Fish, self).save(*a, **kw)
+
+    def delete(self, using=None):
+        self.status = 'removed'
+        self.save()
+
+    def recalculate_points(self):
+        self.points = (self.weight / self.species.base) * 100
 
     def __unicode__(self):
         return "%s" % self.pk
+
 
 class Comment(models.Model):
     user = models.ForeignKey(User)
@@ -60,3 +87,13 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return self.content
+
+
+
+
+# Divisions
+# Snapper, Terakihi, Giant Boarfish, Pink Maomao, Trevally, John Dory
+#
+# Snapper, Butterfish, Blue Moki, Kahawai, Trevally, John Dory
+#
+# Blue Cod, Terakihi, Butter Fish, Blue Moki, Kahawai, Trevally

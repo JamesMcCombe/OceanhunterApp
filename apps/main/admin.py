@@ -1,17 +1,22 @@
 from django.contrib import admin
-from . import models as m
+from apps.main.models import Division, Species, Fish, Comment
 
 class SpeciesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'base', 'k')
+    list_display = ('name', 'base')  #, 'k')
 
-admin.site.register(m.Species, SpeciesAdmin)
+admin.site.register(Species, SpeciesAdmin)
 
 class CommentInline(admin.StackedInline):
-    model = m.Comment
+    model = Comment
     extra = 1
 
 class FishAdmin(admin.ModelAdmin):
     list_display = ('user', 'species', 'weight', 'witness', 'points', 'create')
     inlines = (CommentInline, )
 
-admin.site.register(m.Fish, FishAdmin)
+admin.site.register(Fish, FishAdmin)
+
+
+class DivisionAdmin(admin.ModelAdmin):
+    filter_horizontal = ('species', )
+admin.site.register(Division, DivisionAdmin)

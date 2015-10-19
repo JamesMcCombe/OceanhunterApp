@@ -43,10 +43,11 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'adcode',
     # 'raven.contrib.django.raven_compat',
+    'debug_toolbar',
 
-    'accounts',
-    'main',
-    'pages',
+    'apps.accounts',
+    'apps.main',
+    'apps.pages',
 )
 
 
