@@ -8,7 +8,6 @@ class Species(models.Model):
 
     name = models.CharField(max_length=255)
     logo = models.ImageField(upload_to="species", null=True)
-    # k = models.IntegerField(help_text='Weight of calculating points')
     # the size of the biggest catch of this species
     base = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True,
                                help_text='Base of calculating points')

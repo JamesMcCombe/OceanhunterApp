@@ -103,6 +103,11 @@ class Profile(models.Model):
     def points(self):
         return self.user.fish_set.aggregate(total_points=Sum('points'))['total_points']
 
+    def get_species(self):
+        from apps.main.models import Species
+        qs = self.division.species.all() | Species.objects.filter(name__in=['Kingfish', 'Crayfish'])
+        return qs
+
 # send welcome email
 @receiver(post_save, sender=Profile)
 def send_welcome_email(sender, instance, created, **kwargs):
@@ -177,3 +182,6 @@ class Invite(models.Model):
 
     def __unicode__(self):
         return 'Invitation from %s' % self.inviter.first_name
+
+
+

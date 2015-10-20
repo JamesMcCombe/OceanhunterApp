@@ -28,10 +28,8 @@ class FishForm(forms.ModelForm):
         self.request = request
         super(FishForm, self).__init__(*args, **kwargs)
 
-        self.fields['species'].queryset = self.get_species_for_user()
+        self.fields['species'].queryset = self.request.user.profile.get_species()
 
-    def get_species_for_user(self):
-        return self.request.user.profile.division.species.all()
 
 class CommentForm(forms.ModelForm):
     class Meta:

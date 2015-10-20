@@ -87,7 +87,7 @@ def invite(request):
         messages.error(request, 'Sorry only admin can invite new member.')
         return redirect('home')
 
-    if date.today() >= date(2015, 2, 1):
+    if date.today() >= date(2016, 2, 1):
         messages.error(request, 'Sorry you cannot create team after 1st February')
         return redirect('home')
 
@@ -112,7 +112,7 @@ def invite_email(request):
                 return {'form': form}
 
             team = form.save(commit=False)
-            teadmin = u
+            team.admin = u
             team.save()
             team.users = [u]
             team.recalculate_points()
