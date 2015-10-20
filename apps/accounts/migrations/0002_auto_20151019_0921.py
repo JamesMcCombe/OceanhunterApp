@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='division',
-            field=models.ForeignKey(default=0, to='main.Division'),
+            field=models.ForeignKey(default=None, to='main.Division'),
             preserve_default=False,
         ),
     ]
