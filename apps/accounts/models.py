@@ -10,7 +10,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from annoying.fields import AutoOneToOneField
-from apps.main.models import Division
+from apps.main.models import Division, Fish
 
 
 AREA_CHOICES = (('North Island', 'North Island',), ('South Island', 'South Island',))
@@ -131,12 +131,12 @@ TEAM_KINDS = (
 class Team(models.Model):
     name = models.CharField(max_length=50)
     logo = models.ImageField(upload_to="team_logos", blank=True, null=True)
-    kind = models.CharField(max_length=10, choices=TEAM_KINDS)
+    # kind = models.CharField(max_length=10, choices=TEAM_KINDS)
 
     # creater is default admin, but can transfer to some one else
     admin = models.ForeignKey(User, related_name='+')
     users = models.ManyToManyField(User)
-    points = models.IntegerField(default=0)
+    # points = models.IntegerField(default=0)
     text = models.TextField(blank=True)
 
     create = models.DateTimeField(auto_now_add=True)
@@ -149,7 +149,7 @@ class Team(models.Model):
         self.save()
 
     def biggest_fish(self):
-        return mm.Fish.objects \
+        return Fish.objects \
             .filter(user=self.users.all()) \
             .order_by('-points') \
             .first()
@@ -177,7 +177,7 @@ class Invite(models.Model):
         ('fb', 'Facebook'),
     )
     via = models.CharField(max_length=10, default='email')
-    ref = models.CharField(max_length=30) # email or social id
+    ref = models.CharField(max_length=30)  # email or social id
     text = models.TextField(blank=True)
 
     def __unicode__(self):

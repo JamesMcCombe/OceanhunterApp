@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage, send_mail, mail_managers
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.shortcuts import redirect, get_object_or_404
 from django.template import Context, RequestContext, loader
 
@@ -234,7 +234,6 @@ def myfish_new(request):
         fish = form.save(commit=False)
         fish.user = u
         fish.save()
-        # u.profile.recalculate_points()
         return redirect('home')
 
     species = form.fields['species'].queryset
@@ -397,10 +396,6 @@ def leaderboard(request):
     if not form_data.get('unit'):
         form_data['unit'] = 'solo'
 
-    # area and city can not be setup both
-    # if form_data.get('area') and form_data.get('city'):
-    #     del form_data['city']
-
     if form_data.get('unit') == 'solo' and form_data.get('team_kind'):
         del form_data['team_kind']
 
@@ -408,68 +403,63 @@ def leaderboard(request):
     if form.is_valid():
         filters = form.cleaned_data
 
-        if filters['species']:
-            type = 'fish'
-            q = m.Fish.objects \
-                .filter(species=filters['species']) \
-                .order_by('-points')
-            if filters['city']:
-                q = q.filter(user__profile__city=filters['city'])
-            if filters['area']:
-                q = q.filter(user__profile__area=filters['area'])
-
+        def fish_junior_gender_filter(q):
             junior_dob = date.today() - relativedelta(years=18)
             if filters['age'] == 'junior':
                 q = q.filter(user__profile__dob__gt=junior_dob)
             elif filters['age'] == 'open':
                 q = q.filter(user__profile__dob__lte=junior_dob)
-
             if filters['gender']:
                 q = q.filter(user__profile__gender=filters['gender'])
+            return q
 
-        elif filters['unit'] == 'team':
-            type = 'team'
-            q = Team.objects \
-                .exclude(points=0) \
-                .order_by('-points')
-
-            if filters['team_kind']:
-                q = q.filter(kind=filters['team_kind'])
-
-            # if filters['city']:
-            #     q = q.filter(admin__profile__city=filters['city'])
-            # if filters['area']:
-            #     q = q.filter(admin__profile__area=filters['area'])
-
-        else: # elif filters['unit'] == 'team'
-            type = 'solo'
-            q = User.objects.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('total_points')
-
-            # if filters['city']:
-            #     q = q.filter(profile__city=filters['city'])
-            # if filters['area']:
-            #     q = q.filter(profile__area=filters['area'])
-
+        def user_junior_gender_filter(q):
             junior_dob = date.today() - relativedelta(years=18)
             if filters['age'] == 'junior':
                 q = q.filter(profile__dob__gt=junior_dob)
             elif filters['age'] == 'open':
                 q = q.filter(profile__dob__lte=junior_dob)
-
             if filters['gender']:
                 q = q.filter(profile__gender=filters['gender'])
+            return q
+
+        obj_type = 'user'
+
+        if filters['unit'] == 'solo':
+            if filters['species']:
+                obj_type = 'fish'
+                q = m.Fish.objects \
+                    .filter(species=filters['species']) \
+                    .order_by('-points')
+                q = fish_junior_gender_filter(q)
+
+            elif filters['division']:
+                users = User.objects.filter(profile__division=filters['division'])
+                q = users.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
+                q = user_junior_gender_filter(q)
+            else:
+                q = User.objects.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
+                q = user_junior_gender_filter(q)
+        else:
+            obj_type = 'team'
+            teams = Team.objects.annotate(num_users=Count('users', distinct=True)).exclude(num_users__lt=2)
+            if filters['division']:
+                teams = teams.filter(users__profile__division=filters['division'])
+            q = teams.annotate(total_points=Sum('users__fish__points')).exclude(total_points=0).order_by('-total_points')
 
         paginator = Paginator(q, PERPAGE)
+
+        print q
 
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
 
-        radios = (form[name] for name in ['unit', 'team_kind', 'age', 'gender'])
+        radios = (form[name] for name in ['unit', 'age', 'gender'])
         return {
             'page': page,
             'start': start,
             'form': form,
-            'type': type,
+            'obj_type': obj_type,
             'radios': radios,
         }
     else:

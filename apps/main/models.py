@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 from django.contrib.auth.models import User
 
 
@@ -17,7 +18,7 @@ class Species(models.Model):
 
     def recalculate_all(self):
         from django.db.models import F
-        self.fish_set.update(points=F('weight') * 100 / self.base)
+        self.fish_set.update(points=F('weight') * 100. / self.base)
 
 
 class Division(models.Model):
@@ -67,8 +68,16 @@ class Fish(models.Model):
         super(Fish, self).save(*a, **kw)
 
     def delete(self, using=None):
+        points = self.points
+
         self.status = 'removed'
+        self.points = 0
         self.save()
+
+        if points == 100:
+            self.species.base = Fish.objects.filter(species=self.species).aggregate(max_weight=Max('weight'))['max_weight']
+            self.species.save()
+            self.species.recalculate_all()
 
     def recalculate_points(self):
         self.points = (self.weight / self.species.base) * 100

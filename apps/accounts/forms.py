@@ -17,7 +17,26 @@ class LoginForm(forms.Form):
         return email
 
 
-class SignupForm(forms.ModelForm):
+DOB_INPUT_FORMATS = ['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d']
+
+
+class ExtraProfileForm(forms.ModelForm):
+    division = forms.ModelChoiceField(queryset=Division.objects)
+    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
+    dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
+
+    class Meta:
+        model = Profile
+        fields = ('gender', 'division', 'dob')
+
+    def clean_division(self):
+        if self.instance and self.instance.division and self.instance.division != self.cleaned_data['division']:
+            raise forms.ValidationError('Once set, division can not be changed.')
+        else:
+            return self.cleaned_data['division']
+
+
+class SignupForm(ExtraProfileForm):
     error_css_class = 'error'
     required_css_class = 'required'
 
@@ -31,8 +50,8 @@ class SignupForm(forms.ModelForm):
     last_name = forms.CharField(label="Last name")
 
     gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
-    division = forms.ModelChoiceField(queryset=Division.objects)
-    dob = forms.DateField(label="Date of Birth", input_formats=['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d'])
+
+    dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
     email = forms.EmailField(label="Email address")
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
@@ -68,19 +87,4 @@ class SignupForm(forms.ModelForm):
             p.save()
         return user
 
-
-class ExtraProfileForm(forms.ModelForm):
-    # other fields
-    # address = forms.CharField(label="Address")
-    #suburb = forms.CharField(label="Surburb")
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
-    # area = forms.ChoiceField(widget=forms.RadioSelect, choices=m.AREA_CHOICES)
-    # division = forms.ModelChoiceField(queryset=Division.objects)
-    dob = forms.DateField(label="Date of Birth", input_formats=['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d'])
-    #postcode = forms.CharField(label="Postcode")
-    #phone = forms.CharField(label="Phone Number")
-
-    class Meta:
-        model = Profile
-        fields = ('gender', 'division', 'dob')
 

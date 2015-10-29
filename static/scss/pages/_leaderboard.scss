@@ -99,7 +99,10 @@
                 background-color: $black;
                 color: $primary-color;
             }
+        }
 
+        select.in-use {
+            color: $primary-color;
         }
 
         .close, .submit {
