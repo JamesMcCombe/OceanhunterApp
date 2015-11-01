@@ -198,7 +198,7 @@ def invite_facebook(request):
 @login_required
 def facebook_save_invitee(request):
     u = request.user
-    team = get_object_or_404(am.Team, admin=u)
+    team = get_object_or_404(Team, admin=u)
 
     facebook_ids = [v for k, v in request.GET.items() if k.startswith('to[') and k.endswith(']')]
     for id in facebook_ids:
