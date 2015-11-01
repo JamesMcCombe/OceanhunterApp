@@ -53,34 +53,6 @@ class Profile(models.Model):
     dob = models.DateField(null=True)
     # points = models.IntegerField(default=0)
 
-    def recalculate_points(self):
-        species_in_count = {
-            'North Island': (
-                'Snapper',
-                'Butter Fish',
-                'Tarakihi',
-                'Kahawai',
-                'Giant Boarfish',
-                'Pink Maomao',
-            ),
-            'South Island': (
-                'Blue Cod',
-                'Butter Fish',
-                'Trumpeter',
-                'Blue Moki',
-                'Kahawai',
-                'Tarakihi',
-            ),
-        }
-        self.points = sum(
-            f.points
-            for f in self.user.fish_set.all()
-            if f.species.name in species_in_count[self.area]
-        )
-        self.save()
-        for team in self.user.team_set.all():
-            team.recalculate_points()
-
     def biggest_fish(self):
         return self.user.fish_set.order_by('-points').first()
 

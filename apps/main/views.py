@@ -190,7 +190,6 @@ def invite_facebook(request):
             team.admin = u
             team.save()
             team.users = [u]
-            team.recalculate_points()
             link = facebook_invite_link(request, team)
             return redirect(link)
     return {'form': form}
