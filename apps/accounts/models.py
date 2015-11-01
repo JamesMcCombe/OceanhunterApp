@@ -184,4 +184,9 @@ class Invite(models.Model):
         return 'Invitation from %s' % self.inviter.first_name
 
 
+class FacebookAdminToken(models.Model):
+    access_token = models.TextField()
+    obtained = models.DateTimeField(auto_now_add=True)
+
+
 

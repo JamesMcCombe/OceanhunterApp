@@ -13,6 +13,12 @@ from django.db.models import Sum, Count
 from django.shortcuts import redirect, get_object_or_404
 from django.template import Context, RequestContext, loader
 
+from open_facebook import OpenFacebook
+from apps.accounts.models import FacebookAdminToken
+from social.p3 import urlencode
+from social.backends.facebook import Facebook2OAuth2
+from django.http import HttpResponseRedirect
+
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
 
@@ -498,3 +504,34 @@ def facebook_invite_link(request, team):
             "app_id=%(app_id)s" \
             "&message=%(message)s" \
             "&redirect_uri=%(redirect_uri)s" % locals()
+
+
+def get_admin_access_token(request):
+    backend = Facebook2OAuth2()
+
+    params = {
+        'app_id': settings.SOCIAL_AUTH_FACEBOOK_APP_KEY,
+        'scope': 'public_profile,email,manage_pages,publish_pages,publish_actions',
+        'next': request.build_absolute_uri(reverse('get_admin_access_token_complete')),
+    }
+    params = urlencode(params)
+
+    redirect_url = '{0}?{1}'.format(backend.authorization_url(), params)
+
+    return HttpResponseRedirect(redirect_url)
+
+
+def get_admin_access_token_complete(request):
+    code = request.GET['code']
+
+    graph = OpenFacebook()
+    params = {
+        'code': code,
+        'client_id': settings.SOCIAL_AUTH_FACEBOOK_APP_KEY,
+        'client_secret': settings.SOCIAL_AUTH_FACEBOOK_SECRET,
+        'redirect_uri': request.build_absolute_uri(reverse('get_admin_access_token_complete'))
+    }
+    resp = graph.get('oauth/access_token', **params)
+
+    FacebookAdminToken(access_token=resp['access_token']).save()
+    return HttpResponseRedirect('/admin/')

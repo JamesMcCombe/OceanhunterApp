@@ -23,5 +23,8 @@ urlpatterns = patterns('main.views',
 
     url(r'^leaderboard/$', 'leaderboard', name='leaderboard'),
 
+    url(r'^get_admin_access_token/$', 'get_admin_access_token', name='get_admin_access_token'),
+    url(r'^get_admin_access_token_complete/$', 'get_admin_access_token_complete', name='get_admin_access_token_complete'),
+
 )
 
