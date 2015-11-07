@@ -10,7 +10,9 @@ python-social-auth
 django_facebook
 South
 sorl-thumbnail==11.12.1b
-django-ad-code
+
+git+https://github.com/IlianIliev/django-ad-code.git
+
 python-dateutil
 raven
 fabric
