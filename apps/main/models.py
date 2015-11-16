@@ -10,7 +10,7 @@ class Species(models.Model):
     name = models.CharField(max_length=255)
     logo = models.ImageField(upload_to="species", null=True)
     # the size of the biggest catch of this species
-    base = models.DecimalField(max_digits=6, decimal_places=3, null=True, blank=True,
+    base = models.DecimalField(max_digits=5, decimal_places=3, null=True, blank=True,
                                help_text='Base of calculating points')
 
     def __unicode__(self):
@@ -39,7 +39,7 @@ class Fish(models.Model):
         verbose_name_plural = 'Fish'
 
     user = models.ForeignKey(User)
-    weight = models.DecimalField(max_digits=6, decimal_places=3)
+    weight = models.DecimalField(max_digits=5, decimal_places=3)
     witness = models.CharField(max_length=50)
     species = models.ForeignKey(Species)
     points = models.DecimalField(max_digits=6, decimal_places=3, default=0)
