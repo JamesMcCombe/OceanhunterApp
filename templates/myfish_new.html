@@ -375,7 +375,7 @@
 
       var kgs = parseInt($('[name="weight_kgs"]').val()) || 0;
       var grams = parseInt($('[name="weight_grams"]').val()) || 0;
-      var weight = kgs + grams/1000;
+      var weight = Math.round((kgs + grams/1000)*1000) / 1000;
       $('[name="weight"]').val(weight);
 
       var any_invalid = $('.invalid').length > 0;
