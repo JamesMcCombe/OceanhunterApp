@@ -68,6 +68,13 @@
                 src="{% thumbnail fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
               >
               <i class="icon-enlarge icomoon-search"></i>
+
+                <div class="columns small-8 medium-12 content" style="background: #000000;">
+                    <div class="name">
+                        <span class="show-for-small-only">1st | </span>
+                    </div>
+                    <div class="points">{{ fish.points }} Points</div>
+                </div>
             </div>
           </a>
         </li>

@@ -266,7 +266,7 @@ def myfish(request, user_id):
         possessive_team = possessive
 
     species_list = OrderedDict()
-    for fish in u.fish_set.order_by('-create'):
+    for fish in u.fish_set.order_by('-points'):
         species_list.setdefault(fish.species, [])
         species_list[fish.species].append(fish)
 
