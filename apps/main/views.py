@@ -272,6 +272,7 @@ def myfish(request, user_id):
 
     for species, fishes in species_list.items():
         species.points = sum(f.points for f in fishes)
+        species.weight = sum(f.weight for f in fishes)
 
     return {
         'u': u,
