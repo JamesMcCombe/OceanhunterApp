@@ -10,7 +10,7 @@ class Species(models.Model):
     name = models.CharField(max_length=255)
     logo = models.ImageField(upload_to="species", null=True)
     # the size of the biggest catch of this species
-    base = models.DecimalField(max_digits=5, decimal_places=3, null=True, blank=True,
+    base = models.DecimalField(max_digits=5, decimal_places=3, null=True, blank=True, default=0,
                                help_text='Base of calculating points')
 
     def __unicode__(self):
