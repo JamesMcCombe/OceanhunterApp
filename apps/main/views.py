@@ -2,23 +2,32 @@ from collections import OrderedDict
 from datetime import datetime, date
 from itertools import chain
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
-from django.core.paginator import Paginator
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.template import Context, RequestContext, loader
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.mail import EmailMessage, send_mail, mail_managers
+from django.core.paginator import Paginator
+from django.core.urlresolvers import reverse
+from django.db.models import Sum, Count
+from django.shortcuts import redirect, get_object_or_404
+from django.template import Context, RequestContext, loader
+
+from open_facebook import OpenFacebook
+from apps.accounts.models import FacebookAdminToken
+from social.p3 import urlencode
+from social.backends.facebook import Facebook2OAuth2
+from django.http import HttpResponseRedirect
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
 
 from dateutil.relativedelta import relativedelta
 
-from accounts import models as am
-from . import models as m
-from . import forms as f
+from apps.accounts.models import Team, Invite
+from apps.main import models as m
+from apps.main import forms as f
+
 
 APP_NAME = 'main'
 
@@ -26,34 +35,36 @@ APP_NAME = 'main'
 def T(t, ext='html'):
     return '{}/{}.{}'.format(APP_NAME, t, ext)
 
-
+@login_required()
 @render_to()
 def home(request):
+    if not request.user.profile.profile_completed:
+        return redirect('extra_profile')
     ctx = {}
-    if not request.user.is_authenticated():
-        ctx['TEMPLATE'] = 'home.html'
-    else:
-        # if login from facebook but no extra data have to go to fill all data
-        if not request.user.profile.area:
-            return redirect('extra_profile')
+    # if not request.user.is_authenticated():
+    #     ctx['TEMPLATE'] = 'home.html'
+    # else:
+    #     # if login from facebook but no extra data have to go to fill all data
+    #     if not request.user.profile.area:
+    #         return redirect('extra_profile')
 
-        # XXX Currently no feeds actually coz there is only one type of feed: fish
-        # so dont need to add a news feed model right now.
-        PERPAGE = 8
-        EXAMPLE_FISH_ID = 1
-        q = m.Fish.objects.exclude(pk=EXAMPLE_FISH_ID).order_by('-create')
-        paginator = Paginator(q, PERPAGE)
-        p = request.GET.get('p', 1)
-        page = paginator.page(p)
-        start = PERPAGE * (int(p) - 1)
-        feeds = page.object_list
-        # put the example on the first
-        if p == 1:
-            feeds = chain(m.Fish.objects.filter(pk=EXAMPLE_FISH_ID), feeds)
-        ctx['page'] = page
-        ctx['start'] = start
-        ctx['feeds'] = feeds
-        ctx['TEMPLATE'] = 'feed.html'
+    # XXX Currently no feeds actually coz there is only one type of feed: fish
+    # so dont need to add a news feed model right now.
+    PERPAGE = 8
+    EXAMPLE_FISH_ID = 1
+    q = m.Fish.objects.exclude(pk=EXAMPLE_FISH_ID).order_by('-create')
+    paginator = Paginator(q, PERPAGE)
+    p = request.GET.get('p', 1)
+    page = paginator.page(p)
+    start = PERPAGE * (int(p) - 1)
+    feeds = page.object_list
+    # put the example on the first
+    if p == 1:
+        feeds = chain(m.Fish.objects.filter(pk=EXAMPLE_FISH_ID), feeds)
+    ctx['page'] = page
+    ctx['start'] = start
+    ctx['feeds'] = feeds
+    ctx['TEMPLATE'] = 'feed.html'
     return ctx
 
 
@@ -74,7 +85,7 @@ def go(request):
 @render_to('invite.html')
 def invite(request):
     u = request.user
-    existing_team = get_object_or_None(am.Team, users=u)
+    existing_team = get_object_or_None(Team, users=u)
     isadmin = existing_team and existing_team.admin == u
     isfull = existing_team and existing_team.users.count() == 4
 
@@ -82,7 +93,7 @@ def invite(request):
         messages.error(request, 'Sorry only admin can invite new member.')
         return redirect('home')
 
-    if date.today() >= date(2015, 2, 1):
+    if date.today() >= date(2016, 2, 1):
         messages.error(request, 'Sorry you cannot create team after 1st February')
         return redirect('home')
 
@@ -95,7 +106,7 @@ def invite_email(request):
     """I know this code of invitation is shit. Even me dont wanna see it again. Dont blame me."""
     u = request.user
 
-    existing_team = get_object_or_None(am.Team, admin=u)
+    existing_team = get_object_or_None(Team, admin=u)
 
     F = f.TeamForm
     if request.method == 'GET':
@@ -117,17 +128,17 @@ def invite_email(request):
         emails = [email.strip() for email in emails if email.strip()]
         success_invitions = []
         for email in emails:
-            email_user = get_object_or_None(am.User, email=email)
+            email_user = get_object_or_None(User, email=email)
             # already in a team can not invite
-            if email_user and get_object_or_None(am.Team, users=email_user):
+            if email_user and get_object_or_None(Team, users=email_user):
                 messages.error(request, 'You cannot invite %s who already has a team.' % email)
                 continue
             success_invitions.append(email)
             data = dict(inviter=u, team=existing_team, via='email', ref=email, status='new')
-            existing_invite = get_object_or_None(am.Invite, **data)
+            existing_invite = get_object_or_None(Invite, **data)
 
             if not existing_invite:
-                invite = am.Invite(**data)
+                invite = Invite(**data)
                 invite.save()
                 # this email user already our user
                 if email_user:
@@ -164,7 +175,7 @@ def invite_email(request):
 def invite_facebook(request):
     u = request.user
 
-    existing_team = get_object_or_None(am.Team, admin=u)
+    existing_team = get_object_or_None(Team, admin=u)
     if existing_team:
         link = facebook_invite_link(request, existing_team)
         return redirect(link)
@@ -179,7 +190,6 @@ def invite_facebook(request):
             team.admin = u
             team.save()
             team.users = [u]
-            team.recalculate_points()
             link = facebook_invite_link(request, team)
             return redirect(link)
     return {'form': form}
@@ -188,19 +198,19 @@ def invite_facebook(request):
 @login_required
 def facebook_save_invitee(request):
     u = request.user
-    team = get_object_or_404(am.Team, admin=u)
+    team = get_object_or_404(Team, admin=u)
 
     facebook_ids = [v for k, v in request.GET.items() if k.startswith('to[') and k.endswith(']')]
     for id in facebook_ids:
-        fb_user = get_object_or_None(am.User, social_auth__provider='facebook', social_auth__uid=id)
+        fb_user = get_object_or_None(User, social_auth__provider='facebook', social_auth__uid=id)
         # already in a team can not invite
-        if fb_user and get_object_or_None(am.Team, users=fb_user):
+        if fb_user and get_object_or_None(Team, users=fb_user):
             continue
 
         data = dict(inviter=u, team=team, via='facebook', ref=id, status='new')
-        existing_invite = get_object_or_None(am.Invite, **data)
+        existing_invite = get_object_or_None(Invite, **data)
         if not existing_invite:
-            invite = am.Invite(**data)
+            invite = Invite(**data)
             invite.save()
             # this facebook user already our user
             if fb_user:
@@ -223,18 +233,15 @@ def facebook_save_invitee(request):
 def myfish_new(request):
     u = request.user
     F = f.FishForm
-    if request.method == 'GET':
-        form = F()
-    else:
-        form = F(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            fish = form.save(commit=False)
-            fish.user = u
-            fish.save()
-            u.profile.recalculate_points()
-            return redirect('home')
 
-    species = m.Species.objects.all()
+    form = F(request, data=request.POST or None, files=request.FILES or None)
+    if form.is_valid():
+        fish = form.save(commit=False)
+        fish.user = u
+        fish.save()
+        return redirect('home')
+
+    species = form.fields['species'].queryset
     for s in species:
         s.count_of_user = m.Fish.objects.filter(user=u, species=s).count()
     ctx = {'form': form, 'species': species}
@@ -248,23 +255,24 @@ def myfish(request, user_id):
     if user_id == 'me' or int(user_id) == request.user.id:
         u = request.user
         possessive = 'My'
-        team = get_object_or_None(am.Team, users=u)
+        team = get_object_or_None(Team, users=u)
         if not team:
             possessive_team = 'Create'
         else:
             possessive_team = possessive
     else:
-        u = get_object_or_404(m.User, pk=user_id)
+        u = get_object_or_404(User, pk=user_id)
         possessive = u.profile.gender == 'male' and 'His' or 'Her'
         possessive_team = possessive
 
     species_list = OrderedDict()
-    for fish in u.fish_set.order_by('-create'):
+    for fish in u.fish_set.order_by('-points'):
         species_list.setdefault(fish.species, [])
         species_list[fish.species].append(fish)
 
     for species, fishes in species_list.items():
         species.points = sum(f.points for f in fishes)
+        species.weight = sum(f.weight for f in fishes)
 
     return {
         'u': u,
@@ -280,8 +288,7 @@ def myfish_delete(request):
     if request.method == 'POST':
         fish_id = request.POST.get('id')
         fish = get_object_or_404(m.Fish, pk=fish_id, user=u)
-        fish.status = 'removed'
-        fish.save()
+        fish.delete()
         return redirect('home')
 
 
@@ -292,18 +299,18 @@ def myteam(request, user_id):
         u = request.user
         possessive = 'My'
     else:
-        u = get_object_or_404(m.User, pk=user_id)
+        u = get_object_or_404(User, pk=user_id)
         possessive = u.profile.gender == 'male' and 'His' or 'Her'
 
     if request.method == 'POST':
         do_team_invite_post(request)
 
-    team = get_object_or_None(am.Team, users=u)
+    team = get_object_or_None(Team, users=u)
     possessive_team = possessive
     if possessive == 'My' and not team:
         possessive_team = 'Create'
 
-    invite = get_object_or_None(am.Invite, invitee=request.user, team=team, status='new')
+    invite = get_object_or_None(Invite, invitee=request.user, team=team, status='new')
 
     return {
         'u': u,
@@ -321,13 +328,13 @@ def team_alone(request, team_id):
         do_team_invite_post(request)
 
     u = request.user
-    team = get_object_or_404(am.Team, pk=team_id)
+    team = get_object_or_404(Team, pk=team_id)
     if request.user in team.users.all():
         possessive_team = 'My'
     else:
         possessive_team = 'Open'
 
-    invite = get_object_or_None(am.Invite, invitee=u, team=team, status='new')
+    invite = get_object_or_None(Invite, invitee=u, team=team, status='new')
 
     return {
         'team': team,
@@ -341,7 +348,7 @@ def do_team_invite_post(request):
     u = request.user
     action = request.POST.get('action')
     invite_id = request.POST.get('invite_id')
-    invite = get_object_or_None(am.Invite, pk=invite_id, status='new')
+    invite = get_object_or_None(Invite, pk=invite_id, status='new')
 
     if not invite:
         return
@@ -354,7 +361,7 @@ def do_team_invite_post(request):
         messages.success(request, 'Congratulation! Now you are member of %s!' % invite.team.name)
 
         # disable all other invitations
-        for i in am.Invite.objects.filter(invitee=u, status='new').exclude(pk=invite_id).all():
+        for i in Invite.objects.filter(invitee=u, status='new').exclude(pk=invite_id).all():
             i.read = datetime.now()
             i.status = 'read'
             i.save()
@@ -395,10 +402,6 @@ def leaderboard(request):
     if not form_data.get('unit'):
         form_data['unit'] = 'solo'
 
-    # area and city can not be setup both
-    if form_data.get('area') and form_data.get('city'):
-        del form_data['city']
-
     if form_data.get('unit') == 'solo' and form_data.get('team_kind'):
         del form_data['team_kind']
 
@@ -406,70 +409,63 @@ def leaderboard(request):
     if form.is_valid():
         filters = form.cleaned_data
 
-        if filters['species']:
-            type = 'fish'
-            q = m.Fish.objects \
-                .filter(species=filters['species']) \
-                .order_by('-points')
-            if filters['city']:
-                q = q.filter(user__profile__city=filters['city'])
-            if filters['area']:
-                q = q.filter(user__profile__area=filters['area'])
-
+        def fish_junior_gender_filter(q):
             junior_dob = date.today() - relativedelta(years=18)
             if filters['age'] == 'junior':
                 q = q.filter(user__profile__dob__gt=junior_dob)
             elif filters['age'] == 'open':
                 q = q.filter(user__profile__dob__lte=junior_dob)
-
             if filters['gender']:
                 q = q.filter(user__profile__gender=filters['gender'])
+            return q
 
-        elif filters['unit'] == 'team':
-            type = 'team'
-            q = am.Team.objects \
-                .exclude(points=0) \
-                .order_by('-points')
-
-            if filters['team_kind']:
-                q = q.filter(kind=filters['team_kind'])
-
-            if filters['city']:
-                q = q.filter(admin__profile__city=filters['city'])
-            if filters['area']:
-                q = q.filter(admin__profile__area=filters['area'])
-
-        else: # elif filters['unit'] == 'team'
-            type = 'solo'
-            q = m.User.objects \
-                .exclude(profile__points=0) \
-                .order_by('-profile__points')
-
-            if filters['city']:
-                q = q.filter(profile__city=filters['city'])
-            if filters['area']:
-                q = q.filter(profile__area=filters['area'])
-
+        def user_junior_gender_filter(q):
             junior_dob = date.today() - relativedelta(years=18)
             if filters['age'] == 'junior':
                 q = q.filter(profile__dob__gt=junior_dob)
             elif filters['age'] == 'open':
                 q = q.filter(profile__dob__lte=junior_dob)
-
             if filters['gender']:
                 q = q.filter(profile__gender=filters['gender'])
+            return q
+
+        obj_type = 'user'
+
+        if filters['unit'] == 'solo':
+            if filters['species']:
+                obj_type = 'fish'
+                q = m.Fish.objects \
+                    .filter(species=filters['species']) \
+                    .order_by('-points')
+                q = fish_junior_gender_filter(q)
+
+            elif filters['division']:
+                users = User.objects.filter(profile__division=filters['division'])
+                q = users.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
+                q = user_junior_gender_filter(q)
+            else:
+                q = User.objects.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
+                q = user_junior_gender_filter(q)
+        else:
+            obj_type = 'team'
+            teams = Team.objects.annotate(num_users=Count('users', distinct=True)).exclude(num_users__lt=2)
+            if filters['division']:
+                teams = teams.filter(users__profile__division=filters['division'])
+            q = teams.annotate(total_points=Sum('users__fish__points')).exclude(total_points=0).order_by('-total_points')
 
         paginator = Paginator(q, PERPAGE)
+
+        print q
 
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
 
-        radios = (form[name] for name in ['area', 'unit', 'team_kind', 'age', 'gender'])
+        radios = (form[name] for name in ['unit', 'age', 'gender'])
         return {
             'page': page,
             'start': start,
             'form': form,
-            'type': type,
+            'obj_type': obj_type,
             'radios': radios,
         }
     else:
@@ -508,3 +504,34 @@ def facebook_invite_link(request, team):
             "app_id=%(app_id)s" \
             "&message=%(message)s" \
             "&redirect_uri=%(redirect_uri)s" % locals()
+
+
+def get_admin_access_token(request):
+    backend = Facebook2OAuth2()
+
+    params = {
+        'app_id': settings.SOCIAL_AUTH_FACEBOOK_APP_KEY,
+        'scope': 'public_profile,email,manage_pages,publish_pages,publish_actions',
+        'next': request.build_absolute_uri(reverse('get_admin_access_token_complete')),
+    }
+    params = urlencode(params)
+
+    redirect_url = '{0}?{1}'.format(backend.authorization_url(), params)
+
+    return HttpResponseRedirect(redirect_url)
+
+
+def get_admin_access_token_complete(request):
+    code = request.GET['code']
+
+    graph = OpenFacebook()
+    params = {
+        'code': code,
+        'client_id': settings.SOCIAL_AUTH_FACEBOOK_APP_KEY,
+        'client_secret': settings.SOCIAL_AUTH_FACEBOOK_SECRET,
+        'redirect_uri': request.build_absolute_uri(reverse('get_admin_access_token_complete'))
+    }
+    resp = graph.get('oauth/access_token', **params)
+
+    FacebookAdminToken(access_token=resp['access_token']).save()
+    return HttpResponseRedirect('/admin/')

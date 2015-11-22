@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.conf import settings
@@ -9,7 +10,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from annoying.fields import AutoOneToOneField
-from main import models as mm
+from apps.main.models import Division, Fish
+
 
 AREA_CHOICES = (('North Island', 'North Island',), ('South Island', 'South Island',))
 GENDER_CHOICES = (('female', 'Female',), ('male', 'Male',))
@@ -45,48 +47,11 @@ class Profile(models.Model):
     user = AutoOneToOneField(User)
     avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    area = models.CharField(max_length=50, choices=AREA_CHOICES)
-    city = models.CharField(max_length=50, choices=CITY_CHOICES)
+    # area = models.CharField(max_length=50, choices=AREA_CHOICES)
+    # city = models.CharField(max_length=50, choices=CITY_CHOICES)
+    division = models.ForeignKey(Division, blank=False, null=True)
     dob = models.DateField(null=True)
-    points = models.IntegerField(default=0)
-
-    def save(self, *a, **kw):
-        # get area of city
-        for area, cities in CITY_CHOICES:
-            for city in cities:
-                if self.city == city[0]:
-                    self.area = area
-                    break
-
-        super(Profile, self).save(*a, **kw)
-
-    def recalculate_points(self):
-        species_in_count = {
-            'North Island': (
-                'Snapper',
-                'Butter Fish',
-                'Tarakihi',
-                'Kahawai',
-                'Giant Boarfish',
-                'Pink Maomao',
-            ),
-            'South Island': (
-                'Blue Cod',
-                'Butter Fish',
-                'Trumpeter',
-                'Blue Moki',
-                'Kahawai',
-                'Tarakihi',
-            ),
-        }
-        self.points = sum(
-            f.points
-            for f in self.user.fish_set.all()
-            if f.species.name in species_in_count[self.area]
-        )
-        self.save()
-        for team in self.user.team_set.all():
-            team.recalculate_points()
+    # points = models.IntegerField(default=0)
 
     def biggest_fish(self):
         return self.user.fish_set.order_by('-points').first()
@@ -102,6 +67,18 @@ class Profile(models.Model):
 
         return not have_fish and new_join
 
+    @property
+    def profile_completed(self):
+        return self.division
+
+    @property
+    def points(self):
+        return self.user.fish_set.aggregate(total_points=Sum('points'))['total_points']
+
+    def get_species(self):
+        from apps.main.models import Species
+        qs = self.division.species.all() | Species.objects.filter(name__in=['Kingfish', 'Crayfish'])
+        return qs
 
 # send welcome email
 @receiver(post_save, sender=Profile)
@@ -126,12 +103,12 @@ TEAM_KINDS = (
 class Team(models.Model):
     name = models.CharField(max_length=50)
     logo = models.ImageField(upload_to="team_logos", blank=True, null=True)
-    kind = models.CharField(max_length=10, choices=TEAM_KINDS)
+    # kind = models.CharField(max_length=10, choices=TEAM_KINDS)
 
     # creater is default admin, but can transfer to some one else
     admin = models.ForeignKey(User, related_name='+')
     users = models.ManyToManyField(User)
-    points = models.IntegerField(default=0)
+    # points = models.IntegerField(default=0)
     text = models.TextField(blank=True)
 
     create = models.DateTimeField(auto_now_add=True)
@@ -144,7 +121,7 @@ class Team(models.Model):
         self.save()
 
     def biggest_fish(self):
-        return mm.Fish.objects \
+        return Fish.objects \
             .filter(user=self.users.all()) \
             .order_by('-points') \
             .first()
@@ -172,8 +149,16 @@ class Invite(models.Model):
         ('fb', 'Facebook'),
     )
     via = models.CharField(max_length=10, default='email')
-    ref = models.CharField(max_length=30) # email or social id
+    ref = models.CharField(max_length=30)  # email or social id
     text = models.TextField(blank=True)
 
     def __unicode__(self):
         return 'Invitation from %s' % self.inviter.first_name
+
+
+class FacebookAdminToken(models.Model):
+    access_token = models.TextField()
+    obtained = models.DateTimeField(auto_now_add=True)
+
+
+

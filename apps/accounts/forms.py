@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from . import models as m
+from apps.accounts.models import Division, GENDER_CHOICES, CITY_CHOICES, Profile
 
 
 class LoginForm(forms.Form):
@@ -11,13 +11,32 @@ class LoginForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data['email']
         try:
-            m.User.objects.get(email=email)
+            User.objects.get(email=email)
         except Exception, e:
             raise forms.ValidationError(str(e))
         return email
 
 
-class SignupForm(forms.ModelForm):
+DOB_INPUT_FORMATS = ['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d']
+
+
+class ExtraProfileForm(forms.ModelForm):
+    division = forms.ModelChoiceField(queryset=Division.objects)
+    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
+    dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
+
+    class Meta:
+        model = Profile
+        fields = ('gender', 'division', 'dob')
+
+    def clean_division(self):
+        if self.instance and self.instance.division and self.instance.division != self.cleaned_data['division']:
+            raise forms.ValidationError('Once set, division can not be changed.')
+        else:
+            return self.cleaned_data['division']
+
+
+class SignupForm(ExtraProfileForm):
     error_css_class = 'error'
     required_css_class = 'required'
 
@@ -30,15 +49,9 @@ class SignupForm(forms.ModelForm):
     first_name = forms.CharField(label="First name")
     last_name = forms.CharField(label="Last name")
 
-    # other fields
-    # address = forms.CharField(label="Address")
-    #suburb = forms.CharField(label="Surburb")
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=m.GENDER_CHOICES)
-    # area = forms.ChoiceField(widget=forms.RadioSelect, choices=m.AREA_CHOICES)
-    city = forms.ChoiceField(label="City", choices=m.CITY_CHOICES)
-    dob = forms.DateField(label="Date of Birth", input_formats=['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d'])
-    #postcode = forms.CharField(label="Postcode")
-    #phone = forms.CharField(label="Phone Number")
+    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
+
+    dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
     email = forms.EmailField(label="Email address")
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
@@ -57,16 +70,6 @@ class SignupForm(forms.ModelForm):
             )
         return email
 
-    # def clean_password2(self):
-    #     password1 = self.cleaned_data.get("password1")
-    #     password2 = self.cleaned_data.get("password2")
-    #     if password1 and password2 and password1 != password2:
-    #         raise forms.ValidationError(
-    #             self.error_messages['password_mismatch'],
-    #             code='password_mismatch',
-    #         )
-    #     return password2
-
     def save(self, commit=True):
         user = super(SignupForm, self).save(commit=False)
         data = self.cleaned_data
@@ -77,32 +80,11 @@ class SignupForm(forms.ModelForm):
             user.last_name = data['last_name']
             user.save()
             p = user.profile
-            # other fields here
-            #p.address = data['address']
-            #p.suburb = data['suburb']
-            #p.city = data['city']
-            #p.postcode = data['postcode']
-            #p.phone = data['phone']
+
             p.gender = data['gender']
-            # p.area = data['area']
-            p.city = data['city']
+            p.division = data['division']
             p.dob = data['dob']
             p.save()
         return user
 
-
-class ExtraProfileForm(forms.ModelForm):
-    # other fields
-    # address = forms.CharField(label="Address")
-    #suburb = forms.CharField(label="Surburb")
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=m.GENDER_CHOICES)
-    # area = forms.ChoiceField(widget=forms.RadioSelect, choices=m.AREA_CHOICES)
-    city = forms.ChoiceField(label="City", choices=m.CITY_CHOICES)
-    dob = forms.DateField(label="Date of Birth", input_formats=['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d'])
-    #postcode = forms.CharField(label="Postcode")
-    #phone = forms.CharField(label="Phone Number")
-
-    class Meta:
-        model = m.Profile
-        fields = ('gender', 'city', 'dob')
 

@@ -2,13 +2,14 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 from . import models as m
-from accounts import models as am
+from apps.accounts import models as am
+from apps.main.models import Division
 
 
 class TeamForm(forms.ModelForm):
     class Meta:
         model = am.Team
-        fields = ('name', 'kind')
+        fields = ('name',)
 
 
 class FishForm(forms.ModelForm):
@@ -23,6 +24,13 @@ class FishForm(forms.ModelForm):
             'witness': 'Enter name',
         }
 
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(FishForm, self).__init__(*args, **kwargs)
+
+        self.fields['species'].queryset = self.request.user.profile.get_species()
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = m.Comment
@@ -33,9 +41,10 @@ class FilterForm(forms.Form):
     UNIT_CHOICES = (('solo', 'Solo'), ('team', 'Team'))
     AGE_CHOICES = (('junior', 'Junior'), ('open', 'Open Age'))
 
-    city = forms.ChoiceField(label="City", choices=am.CITY_CHOICES, required=False)
+    # city = forms.ChoiceField(label="City", choices=am.CITY_CHOICES, required=False)
     species = forms.ModelChoiceField(queryset=m.Species.objects, label="Fish Species", required=False)
-    area = forms.ChoiceField(widget=forms.RadioSelect, choices=am.AREA_CHOICES, required=False)
+    # area = forms.ChoiceField(widget=forms.RadioSelect, choices=am.AREA_CHOICES, required=False)
+    division = forms.ModelChoiceField(queryset=Division.objects, required=False)
     unit = forms.ChoiceField(widget=forms.RadioSelect, choices=UNIT_CHOICES, initial='solo')
     team_kind = forms.ChoiceField(widget=forms.RadioSelect, choices=am.TEAM_KINDS, required=False)
     age = forms.ChoiceField(widget=forms.RadioSelect, choices=AGE_CHOICES, required=False)

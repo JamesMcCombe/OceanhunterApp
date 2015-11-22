@@ -274,9 +274,14 @@
 
       $('.summaries .weight .value').text(weight);
 
-      var base = activeSlide.data('base');
+      var base = parseFloat(activeSlide.data('base'));
       var k = activeSlide.data('k');
-      var points = Math.round(base + (k * weight));
+      var points;
+      if (!base || weight > base ) {
+          points = 100;
+      } else {
+          points = (Math.round(weight * 100 * 1000 / base) ) / 1000;  // 1000 for round to 3 decimal signs
+      }
       $('.summaries .points .value').text(points);
 
       var count_of_user = activeSlide.data('count-of-user');
@@ -370,7 +375,7 @@
 
       var kgs = parseInt($('[name="weight_kgs"]').val()) || 0;
       var grams = parseInt($('[name="weight_grams"]').val()) || 0;
-      var weight = kgs + grams/1000;
+      var weight = Math.round((kgs + grams/1000)*1000) / 1000;
       $('[name="weight"]').val(weight);
 
       var any_invalid = $('.invalid').length > 0;

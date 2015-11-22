@@ -42,11 +42,12 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'sorl.thumbnail',
     'adcode',
-    'raven.contrib.django.raven_compat',
+    # 'raven.contrib.django.raven_compat',
+    'debug_toolbar',
 
-    'accounts',
-    'main',
-    'pages',
+    'apps.accounts',
+    'apps.main',
+    'apps.pages',
 )
 
 
@@ -144,9 +145,11 @@ SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1492664544305345'
 SOCIAL_AUTH_FACEBOOK_SECRET = '93a9494c3e3cfbe0e2a3ae952d51a2e6'
+
 SOCIAL_AUTH_FACEBOOK_APP_KEY = '1492664544305345'
 SOCIAL_AUTH_FACEBOOK_APP_SECRET = '93a9494c3e3cfbe0e2a3ae952d51a2e6'
 SOCIAL_AUTH_FACEBOOK_APP_NAMESPACE = 'nodeoceanhunter'
+
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False

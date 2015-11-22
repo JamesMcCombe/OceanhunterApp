@@ -65,20 +65,10 @@
         </div>
       </div>
       <div class="page-2">
-        {% comment %} <!-- Get area from city. Do not need to input this. -->
         <div class="row">
           <div class="columns">
-            {{ form.area.errors }}
-            {% for radio in form.area %}
-              <input type="radio" name="{{ radio.name }}" id="{{form.area.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.area.auto_id }}_{{ radio.index }}">{{ radio.choice_label }}</label>
-            {% endfor %}
-          </div>
-        </div>
-        {% endcomment %}
-        <div class="row">
-          <div class="columns">
-            {{ form.city }}
-            {{ form.city.errors }}
+            {{ form.division }}
+            {{ form.division.errors }}
           </div>
         </div>
         <div class="row">

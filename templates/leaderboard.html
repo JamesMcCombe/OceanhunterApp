@@ -40,104 +40,101 @@
 {# wrap of row and columns #}
 <div class="row"> <div class="columns small-12">
 
-<ul class="solos small-block-grid-1 medium-block-grid-4">
-  {% for obj in page.object_list %}
-  {% if forloop.counter0|add:start|add:"5"|divisibleby:"6" %}
-    <li class="ad text-center show-for-small-only infinite-item">
-      {% render_placement 'mobile-banner' %}
-    </li>
-  {% endif %}
-  {% if forloop.counter0|add:start|add:"2"|divisibleby:"6" %}
-    <li class="ad text-center show-for-small-only infinite-item">
-      {% render_placement 'medium-tile' %}
-    </li>
-  {% endif %}
-  {% if forloop.counter0|add:start|add:"4"|divisibleby:"8" %}
-    <div class="ad text-center show-for-medium-up infinite-item">
-      {% render_placement 'medium-leaderboard' %}
-    </div>
-  {% endif %}
-  <li class="solo infinite-item">
-    <div class="row collapse wrap-medium">
-      <div class="columns show-for-medium-up rank">
-        {{ forloop.counter|add:start|ordinal }}
-      </div>
-      <div class="columns small-4 medium-12">
-        {% if type == 'fish' %}
-        <a href="{% url 'fish_enlarge' obj.id %}" class="image-wrapper">
-          <img class="fish-image lazyload"
-            data-srcset="{% thumbnail obj.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
-                    {% thumbnail obj.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
-                    {% thumbnail obj.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
-                    {% thumbnail obj.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
-            data-sizes="(min-width: 40em) 21vw,
-                   31vw"
-            src="{% thumbnail obj.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
-          >
-        </a>
-        {% elif type == 'solo' %}
-        <a href="{% url 'userfish' obj.id %}" class="image-wrapper">
-          <img class="fish-image lazyload"
-            data-srcset="{% thumbnail obj.profile.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
-                    {% thumbnail obj.profile.biggest_fish.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
-                    {% thumbnail obj.profile.biggest_fish.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
-                    {% thumbnail obj.profile.biggest_fish.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
-            data-sizes="(min-width: 40em) 21vw,
-                   31vw"
-            src="{% thumbnail obj.profile.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
-          >
-        </a>
-        {% else %}
-        <a href="{% url 'team_alone' obj.id %}" class="image-wrapper">
-          <img class="fish-image lazyload"
-            data-srcset="{% thumbnail obj.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
-                    {% thumbnail obj.biggest_fish.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
-                    {% thumbnail obj.biggest_fish.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
-                    {% thumbnail obj.biggest_fish.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
-            data-sizes="(min-width: 40em) 21vw,
-                   31vw"
-            src="{% thumbnail obj.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
-          >
-        </a>
-        {% endif %}
-      </div>
-      <div class="columns small-8 medium-12 content">
-        <div class="name">
-          <span class="show-for-small-only">{{ forloop.counter|add:start|ordinal }} | </span>
-          {% if type == 'fish' %}
-          <a href="{% url 'userfish' obj.user.id %}">{{ obj.user.first_name }} {{ obj.user.last_name }}</a>
-          {% elif type == 'solo' %}
-          <a href="{% url 'userfish' obj.id %}">{{ obj.first_name }} {{ obj.last_name }}</a>
-          {% else %}
-          <a href="{% url 'team_alone' obj.id %}">{{ obj.name }}</a>
-          {% endif %}
+  <ul class="solos small-block-grid-1 medium-block-grid-4">
+    {% for obj in page.object_list %}
+      {% if forloop.counter0|add:start|add:"5"|divisibleby:"6" %}
+        <li class="ad text-center show-for-small-only infinite-item">
+          {% render_placement 'mobile-banner' %}
+        </li>
+      {% endif %}
+      {% if forloop.counter0|add:start|add:"2"|divisibleby:"6" %}
+        <li class="ad text-center show-for-small-only infinite-item">
+          {% render_placement 'medium-tile' %}
+        </li>
+      {% endif %}
+      {% if forloop.counter0|add:start|add:"4"|divisibleby:"8" %}
+        <div class="ad text-center show-for-medium-up infinite-item">
+          {% render_placement 'medium-leaderboard' %}
         </div>
-        {% if type == 'fish' %}
-        <div class="city">{{ obj.user.profile.city }}</div>
-        {% elif type == 'solo' %}
-        <div class="city">{{ obj.profile.city }}</div>
-        {% endif %}
-        {% if type == 'solo' %}
-        <div class="points">{{ obj.profile.points|intcomma }} Points</div>
-        {% else %}
-        <div class="points">{{ obj.points|intcomma }} Points</div>
-        {% endif %}
-      </div>
-  </li>
-  {% endfor %}
-  {% if page.has_next %}
-    <a href="{% url 'leaderboard' %}?p={{ page.next_page_number }}" class="infinite-more-link hide">Next page</a>
-  {% endif %}
-  </div>
-</ul>
+      {% endif %}
+      <li class="solo infinite-item">
+        <div class="row collapse wrap-medium">
+          <div class="columns show-for-medium-up rank">
+            {{ forloop.counter|add:start|ordinal }}
+          </div>
+          <div class="columns small-4 medium-12">
+            {% if obj_type == 'fish' %}
+              <a href="{% url 'fish_enlarge' obj.id %}" class="image-wrapper">
+                <img class="fish-image lazyload"
+                  data-srcset="{% thumbnail obj.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
+                          {% thumbnail obj.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
+                          {% thumbnail obj.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
+                          {% thumbnail obj.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
+                  data-sizes="(min-width: 40em) 21vw,
+                         31vw"
+                  src="{% thumbnail obj.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+                >
+              </a>
+            {% elif obj_type == 'user' %}
+              <a href="{% url 'userfish' obj.id %}" class="image-wrapper">
+                <img class="fish-image lazyload"
+                  data-srcset="{% thumbnail obj.profile.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
+                          {% thumbnail obj.profile.biggest_fish.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
+                          {% thumbnail obj.profile.biggest_fish.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
+                          {% thumbnail obj.profile.biggest_fish.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
+                  data-sizes="(min-width: 40em) 21vw,
+                         31vw"
+                  src="{% thumbnail obj.profile.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+                >
+              </a>
+            {% else %} {# Team #}
+              <a href="{% url 'team_alone' obj.id %}" class="image-wrapper">
+                <img class="fish-image lazyload"
+                  data-srcset="{% thumbnail obj.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }} 120w{% endthumbnail %},
+                          {% thumbnail obj.biggest_fish.image "240x240" crop="center" as im %}{{ im.url }} 240w{% endthumbnail %},
+                          {% thumbnail obj.biggest_fish.image "360x360" crop="center" as im %}{{ im.url }} 360w{% endthumbnail %},
+                          {% thumbnail obj.biggest_fish.image "480x480" crop="center" as im %}{{ im.url }} 480w{% endthumbnail %}"
+                  data-sizes="(min-width: 40em) 21vw,
+                         31vw"
+                  src="{% thumbnail obj.biggest_fish.image "120x120" crop="center" as im %}{{ im.url }}{% endthumbnail %}"
+                >
+              </a>
+            {% endif %}
+          </div>
+          <div class="columns small-8 medium-12 content">
+            <div class="name">
+              <span class="show-for-small-only">{{ forloop.counter|add:start|ordinal }} | </span>
+              {% if obj_type == 'fish' %}
+                  <a href="{% url 'userfish' obj.user.id %}">{{ obj.user.first_name }} {{ obj.user.last_name }}</a>
+              {% elif obj_type == 'user' %}
+                  <a href="{% url 'userfish' obj.id %}">{{ obj.first_name }} {{ obj.last_name }}</a>
+              {% else %}
+                  <a href="{% url 'team_alone' obj.id %}">{{ obj.name }}</a>
+              {% endif %}
+            </div>
+
+            {% if obj_type == 'user' %}
+                <div class="points">{{ obj.profile.points|intcomma }} Points</div>
+            {% elif obj_type == 'fish' %}
+                <div class="points">{{ obj.points|intcomma }} Points</div>
+            {% else %}
+                <div class="points">{{ obj.total_points|intcomma }} Points</div>
+            {% endif %}
+          </div>
+      </li>
+    {% endfor %}
+    {% if page.has_next %}
+      <a href="{% url 'leaderboard' %}?p={{ page.next_page_number }}" class="infinite-more-link hide">Next page</a>
+    {% endif %}
+  </ul>
 
 </div> </div> {# wrap of row and columns #}
 
 <div id="filterModal" class="reveal-modal oc-reveal-modal oc-reveal-modal-full oc-reveal-modal-blur filter-reveal-modal collapse" data-reveal data-options="animation:fade">
   <form method="get">
     <div class="row">
-      <div class="columns small-6"><label>{{ form.city.label }}{{ form.city }}</label></div>
       <div class="columns small-6"><label>{{ form.species.label }}{{ form.species }}</label></div>
+      <div class="columns small-6"><label>{{ form.division.label }}{{ form.division }}</label></div>
     </div>
     {% for field in radios %}
       <div class="row">
@@ -174,6 +171,20 @@
     $('.close').click(function(e) {
       e.preventDefault();
       $('#filterModal').foundation('reveal', 'close');
+    });
+
+    $('#id_division').on('change', function () {
+        if($(this).val()) {
+          $('#id_species').removeClass('in-use');
+          $(this).addClass('in-use');
+        }
+    });
+
+    $('#id_species').on('change', function () {
+        if($(this).val()) {
+          $('#id_division').removeClass('in-use');
+          $(this).addClass('in-use');
+        }
     });
 
 
@@ -302,6 +313,7 @@
 
     // Infinite scroll
     $('.solos').waypoint('infinite');
+
 
   });
 </script>
