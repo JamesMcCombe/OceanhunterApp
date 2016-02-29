@@ -16,7 +16,8 @@ SERVER_NAME = 'example.com'
 SECRET_KEY = '@w@4gg7^dy9z3(r%n0b&*rr)4cf0-b$=hpsyx5qo0r4l3b=i$8'
 
 ADMINS = (
-    ('Node Developers', 'developers@node.co.nz'),
+    ('Ilian Iliev', 'ilian@ilian.io'),
+    ('info', 'info@oceanhunter.node.co.nz'),
 )
 
 MANAGERS = (
@@ -187,13 +188,9 @@ FIXTURE_DIRS = (
     PROJ_ROOT/"fixtures",
 )
 
-EMAIL_HOST = 'smtp.officemail.co.nz'
-SERVER_EMAIL = DEFAULT_FROM_EMAIL = 'Ocean Hunter <comp@oceanhunter.co.nz>'
-EMAIL_HOST_USER = 'oceanhunter06'
-EMAIL_HOST_PASSWORD = '123455' # TODO: fill this in local.py
-EMAIL_SUBJECT_PREFIX='[%s]' % PROJ_NAME
-EMAIL_USE_SSL = True
-EMAIL_PORT = 465
+
+SERVER_EMAIL = DEFAULT_FROM_EMAIL = 'Ocean Hunter <info@oceanhunter.node.co.nz>'
+
 
 ADCODE_PLACEHOLDER_TEMPLATE = '//placehold.it/{width}x{height}'
 
