@@ -5,8 +5,9 @@ TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
 
-# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
+PAGE_ID = '122099687931206'
 
 WWW_ROOT = PROJ_ROOT/'public-www'
 MEDIA_ROOT = WWW_ROOT/'media'
