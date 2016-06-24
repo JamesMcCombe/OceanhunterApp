@@ -30,10 +30,8 @@ class Command(NoArgsCommand):
         graph = OpenFacebook(self.page_token)
 
         img_url = '{}{}'.format(settings.BASE_URL, fish.image.url)
-        img_url = 'https://static-c.imgix.net/feature-retina.png?auto=format&bg=212B32&cs=srgb&dpr=2&fit=min&fm=png8&ixjsv=1.2.0&q=50&w=280'
 
         url = '{}{}'.format(settings.BASE_URL, reverse('fish_enlarge', args=[fish.pk]))
-        url = 'http://www.ilian.io'
         message = 'Fish of the week - {} {}kg. '.format(fish.species.name, fish.weight)
         graph.set('me/feed', picture=img_url, link=url, message=message)
 
@@ -54,7 +52,6 @@ class Command(NoArgsCommand):
             url = 'http://www.ilian.io'
 
             resp = graph.set(graph_url, url=img_url, link=url)
-            print resp
 
     def handle(self, *args, **options):
         now = timezone.now()
