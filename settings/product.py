@@ -2,6 +2,15 @@ from base import *
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+THUMBNAIL_DEBUG = DEBUG
+
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
+
+
+WWW_ROOT = PROJ_ROOT/'public-www'
+MEDIA_ROOT = WWW_ROOT/'media'
+STATIC_ROOT = WWW_ROOT/'static'
 
 # # this is the default backend
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
