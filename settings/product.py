@@ -8,6 +8,7 @@ THUMBNAIL_DEBUG = DEBUG
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
 PAGE_ID = '122099687931206'
+BASE_URL = 'http://oceanhunter.node.co.nz'
 
 WWW_ROOT = PROJ_ROOT/'public-www'
 MEDIA_ROOT = WWW_ROOT/'media'
