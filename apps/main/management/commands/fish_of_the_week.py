@@ -22,6 +22,7 @@ class Command(NoArgsCommand):
         for row in result['data']:
             if row['id'] == settings.PAGE_ID:
                 self.page_token = row['access_token']
+                print('Page Token: ', self.page_token, ' ***')
                 break
 
     def post_catch_of_the_week(self):
