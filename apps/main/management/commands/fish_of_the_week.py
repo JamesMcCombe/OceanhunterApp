@@ -46,11 +46,7 @@ class Command(NoArgsCommand):
 
         for fish in self.queryset:
             img_url = '{}{}'.format(settings.BASE_URL, fish.image.url)
-            img_url = 'https://static-c.imgix.net/feature-retina.png?auto=format&bg=212B32&cs=srgb&dpr=2&fit=min&fm=png8&ixjsv=1.2.0&q=50&w=280'
-
             url = '{}{}'.format(settings.BASE_URL, reverse('fish_enlarge', args=[fish.pk]))
-            url = 'http://www.ilian.io'
-
             resp = graph.set(graph_url, url=img_url, link=url)
 
     def handle(self, *args, **options):
@@ -67,6 +63,6 @@ class Command(NoArgsCommand):
         self.set_page_token()
 
         self.post_catch_of_the_week()
-        self.post_weekly_gallery()
+        # self.post_weekly_gallery()
 
 
