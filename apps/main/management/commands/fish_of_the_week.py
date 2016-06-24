@@ -8,8 +8,8 @@ from django.utils import timezone
 from apps.accounts.models import FacebookAdminToken
 from apps.main.models import Fish
 
-# settings.BASE_URL = 'http://localhost:8000'
-# settings.PAGE_ID = '1482028545461176'
+
+settings.PAGE_ID = '1482028545461176'
 
 
 class Command(NoArgsCommand):
