@@ -52,7 +52,7 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
         now = timezone.now()
 
-        assert now.weekday() == 0
+        # assert now.weekday() == 0
 
         last_week = now - timezone.timedelta(days=7)
         start_of_last_week = last_week.date()
