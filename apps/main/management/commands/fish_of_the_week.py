@@ -39,9 +39,9 @@ class Command(NoArgsCommand):
     def post_weekly_gallery(self):
         graph = OpenFacebook(self.page_token)
 
-        # resp = graph.set('me/albums', name='Week 12', privacy={'value': 'SELF'})
-        # album_id = resp['id']
-        album_id = '1482194405444590'
+        resp = graph.set('me/albums', name='Week {}'.format(timezone.now().strftime('%W')), privacy={'value': 'SELF'})
+        album_id = resp['id']
+        # album_id = '1482194405444590'
 
         graph_url = '{}/photos'.format(album_id)
 
