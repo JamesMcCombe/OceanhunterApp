@@ -64,6 +64,6 @@ class Command(NoArgsCommand):
         self.set_page_token()
 
         self.post_catch_of_the_week()
-        # self.post_weekly_gallery()
+        self.post_weekly_gallery()
 
 
