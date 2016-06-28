@@ -42,7 +42,7 @@ class Fish(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=3)
     witness = models.CharField(max_length=50)
     species = models.ForeignKey(Species)
-    points = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    points = models.DecimalField(max_digits=10, decimal_places=3, default=0)
     image = models.ImageField(upload_to="fish")
 
     STATUS = (
