@@ -64,7 +64,7 @@
       <div class="columns small-6 medium-3">
         <input type="hidden" name="{{ form.weight.html_name }}" value="{{ form.weight.value|default_if_none:"" }}">
         <label>{{ form.weight.label }}
-          <input type="number" step="1" min="0" max="99" name="weight_kgs" value="" placeholder="_ _ Kgs">
+          <input type="number" step="1" min="0" max="9" name="weight_kgs" value="" placeholder="_  Kgs">
         </label>
         {{ form.weight.errors }}
       </div>
@@ -232,7 +232,7 @@
 <script>
   $(function() {
     // only scroll on small screen
-    if (oh.isSmallScreen()) {
+    if (oh.isSmallScreen() && false) {
       var mySwiper = $('.swiper-container').swiper({
         mode: 'horizontal',
         centeredSlides: true,
