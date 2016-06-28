@@ -217,7 +217,7 @@
   <div class="row">
     <div class="columns small-12">
       <h2>Maximum fish reached!</h2>
-      <p>You can only enter 3 fish per species. If you want to replace a fish with another, please delete one fish first. This will remove the entry and points from your fish.</p>
+      <p>You can only enter 6 fish per species. If you want to replace a fish with another, please delete one fish first. This will remove the entry and points from your fish.</p>
     </div>
   </div>
   <div class="row actions">
@@ -285,7 +285,7 @@
       $('.summaries .points .value').text(points);
 
       var count_of_user = activeSlide.data('count-of-user');
-      if (count_of_user >= 3) {
+      if (count_of_user >= 6) {
         // reach maximun
         var href = $('#fishMax').find('.yes').attr('href');
         // remove existing # added by last reveal
