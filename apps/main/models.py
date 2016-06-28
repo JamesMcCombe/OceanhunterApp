@@ -56,31 +56,15 @@ class Fish(models.Model):
     objects = FishManager()
 
     def save(self, *a, **kw):
-        if not self.pk:
-            if self.weight > self.species.base:
-                self.species.base = self.weight
-                self.species.save()
-                self.species.recalculate_all()
-
-        if not self.status == 'removed':
-            self.recalculate_points()
-
+        self.calculate_points()
         super(Fish, self).save(*a, **kw)
 
     def delete(self, using=None):
-        points = self.points
-
         self.status = 'removed'
-        self.points = 0
         self.save()
 
-        if points == 100:
-            self.species.base = Fish.objects.filter(species=self.species).aggregate(max_weight=Max('weight'))['max_weight']
-            self.species.save()
-            self.species.recalculate_all()
-
-    def recalculate_points(self):
-        self.points = (self.weight / self.species.base) * 100
+    def calculate_points(self):
+        self.points = 100 + int(self.weight * 100)  # 100 points per species + 1 point per 10 grams
 
     def __unicode__(self):
         return "%s" % self.pk
