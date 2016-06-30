@@ -93,9 +93,9 @@ def invite(request):
         messages.error(request, 'Sorry only admin can invite new member.')
         return redirect('home')
 
-    if date.today() >= date(2016, 2, 1):
-        messages.error(request, 'Sorry you cannot create team after 1st February')
-        return redirect('home')
+    # if date.today() >= date(2016, 2, 1):
+    #     messages.error(request, 'Sorry you cannot create team after 1st February')
+    #     return redirect('home')
 
     return {'existing_team': existing_team}
 
@@ -431,8 +431,8 @@ def leaderboard(request):
 
         obj_type = 'user'
 
-        if filters['unit'] == 'solo':
-            if filters['species']:
+        if filters.get('unit', 'solo') == 'solo':
+            if filters.get('species'):
                 obj_type = 'fish'
                 q = m.Fish.objects \
                     .filter(species=filters['species']) \
@@ -455,12 +455,10 @@ def leaderboard(request):
 
         paginator = Paginator(q, PERPAGE)
 
-        print q
-
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
 
-        radios = (form[name] for name in ['unit', 'age', 'gender'])
+        radios = (form[name] for name in ['age', 'gender'])
         return {
             'page': page,
             'start': start,

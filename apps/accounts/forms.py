@@ -70,6 +70,12 @@ class SignupForm(ExtraProfileForm):
             )
         return email
 
+    def clean_division(self):
+        if self.instance.pk and self.instance.profile.division and self.instance.profile.division != self.cleaned_data['division']:
+            raise forms.ValidationError('Once set, division can not be changed.')
+        else:
+            return self.cleaned_data['division']
+
     def save(self, commit=True):
         user = super(SignupForm, self).save(commit=False)
         data = self.cleaned_data
