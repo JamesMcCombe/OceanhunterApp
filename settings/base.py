@@ -232,3 +232,5 @@ LOGGING = {
     }
 }
 
+
+SITE_URL = 'http://oceanhunter.node.co.nz'

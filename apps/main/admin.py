@@ -18,5 +18,10 @@ admin.site.register(Fish, FishAdmin)
 
 
 class DivisionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'species_list')
     filter_horizontal = ('species', )
+
+    def species_list(self, obj):
+        return ', '.join([s.name for s in obj.species.all()])
+
 admin.site.register(Division, DivisionAdmin)

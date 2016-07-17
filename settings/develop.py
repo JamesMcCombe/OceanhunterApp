@@ -27,4 +27,4 @@ X_FRAME_OPTIONS = "ALLOW-FROM https://apps.facebook.com/1505895249648941"
 
 ADCODE_CACHE_TIMEOUT = 10 # seconds
 
-SITE_URL = 'http://oceanhunter.local.node.co.nz:8000'
+SITE_URL = 'http://oceanhunter.local.node.co.nz'

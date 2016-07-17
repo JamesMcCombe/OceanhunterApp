@@ -280,7 +280,7 @@
       if (!base || weight > base ) {
           points = 100;
       } else {
-          points = (Math.round(weight * 100 * 1000 / base) ) / 1000;  // 1000 for round to 3 decimal signs
+          points = 100 + parseInt(weight * 100);  // 1000 for round to 3 decimal signs
       }
       $('.summaries .points .value').text(points);
 
