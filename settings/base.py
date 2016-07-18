@@ -234,3 +234,5 @@ LOGGING = {
 
 
 SITE_URL = 'http://oceanhunter.node.co.nz'
+
+LOGIN_URL = '/go/'
