@@ -71,12 +71,12 @@
             {{ form.division.errors }}
           </div>
         </div>
-        <div class="row">
-          <div class="columns">
-            <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">
-            {{ form.dob.errors }}
-          </div>
-        </div>
+{#        <div class="row">#}
+{#          <div class="columns">#}
+{#            <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">#}
+{#            {{ form.dob.errors }}#}
+{#          </div>#}
+{#        </div>#}
         <div class="row">
           <div class="columns">
             {% for radio in form.gender %}
