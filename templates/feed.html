@@ -93,11 +93,11 @@
       <div class="enlarge-medium-col">
         <h4 class="comments-title">Comments</h4>
         <ul class="comments">
-          {% if f.comment_set.count > 3 %}
+          {% if f.comment_set.count > 2 %}
             <li><a href="#" class="expand">View previous comments</a></li>
           {% endif %}
           {% for c in f.comment_set.all %}
-            <li class="comment {% if forloop.revcounter > 3 %} hide {% endif %}">
+            <li class="comment {% if forloop.revcounter > 2 %} hide {% endif %}">
               <a class="name" href="{% url 'userfish' c.user.id %}">{{ c.user.first_name }} {{ c.user.last_name|first|capfirst }}.</a> | <span class="content">{{ c.content }}</span>
             </li>
           {% endfor %}
