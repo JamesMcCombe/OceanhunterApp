@@ -116,7 +116,9 @@
           </form>
         </div>
         <div class="actions">
-          <a href="#" class="more show-for-small-only" data-reveal-id="feedModal" data-fish-id="{{ f.id }}" data-user-id="{{ f.user.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
+          <a href="#" class="more show-for-small-only" data-reveal-id="feedModal" data-fish-id="{{ f.id }}" data-user-id="{{ f.user.id }}">
+              OPTIONS
+          </a>
         </div>
         <div class="meta show-for-medium-up">
           <a class="title" href="{% url 'userfish' f.user.id %}">
@@ -127,7 +129,9 @@
           </a>
           <br>
           <span class="lighter">{{ f.create|naturaltime }}</span>
-          <a href="#" class="more" data-reveal-id="feedModal" data-fish-id="{{ f.id }}" data-user-id="{{ f.user.id }}"> <small>&#8226;&#8226;&#8226;</small> </a>
+          <a href="#" class="more" data-reveal-id="feedModal" data-fish-id="{{ f.id }}" data-user-id="{{ f.user.id }}">
+              OPTIONS
+          </a>
         </div>
       </div>
       {% if not enlarge %}
