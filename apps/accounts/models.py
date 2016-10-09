@@ -77,9 +77,7 @@ class Profile(models.Model):
 
     def get_species(self):
         from apps.main.models import Species
-        # TODO: uncomment this one to enable other species
-        # qs = self.division.species.all() | Species.objects.filter(name__in=['Kingfish', 'Crayfish'])
-        qs = Species.objects.filter(name='Crayfish')
+        qs = self.division.species.all() | Species.objects.filter(name__in=['Kingfish', 'Crayfish'])
         return qs
 
 # send welcome email
