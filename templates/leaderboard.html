@@ -124,7 +124,7 @@
       </li>
     {% endfor %}
     {% if page.has_next %}
-      <a href="{% url 'leaderboard' %}?p={{ page.next_page_number }}" class="infinite-more-link hide">Next page</a>
+      <a href="{% url 'leaderboard' %}?{{ next_page_params | safe }}" class="infinite-more-link hide">Next page</a>
     {% endif %}
   </ul>
 
