@@ -437,13 +437,21 @@ def leaderboard(request):
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
 
-        radios = (form[name] for name in ['unit'])
+        radios = (form[name] for name in ['type'])
+        if page.has_next():
+            query_params = request.GET.copy()
+            query_params['p'] = page.next_page_number()
+            query_params_str = query_params.urlencode()
+        else:
+            query_params_str = None
+
         return {
             'page': page,
             'start': start,
             'form': form,
             'obj_type': obj_type,
             'radios': radios,
+            'next_page_params': query_params_str,
         }
     else:
         # for debug only
