@@ -41,14 +41,20 @@ class FilterForm(forms.Form):
     UNIT_CHOICES = (('solo', 'Solo'), ('team', 'Team'))
     AGE_CHOICES = (('junior', 'Junior'), ('open', 'Open Age'))
 
+    TYPE_CHOICES = [
+        ('total', 'Total score'),
+        ('biggest', 'Biggest crayfish')
+    ]
+
     # city = forms.ChoiceField(label="City", choices=am.CITY_CHOICES, required=False)
     # species = forms.ModelChoiceField(queryset=m.Species.objects, label="Fish Species", required=False)
     # area = forms.ChoiceField(widget=forms.RadioSelect, choices=am.AREA_CHOICES, required=False)
-    division = forms.ModelChoiceField(queryset=Division.objects, required=False)
+    division = forms.ModelChoiceField(queryset=Division.objects, required=False, empty_label='All New Zealand')
     # unit = forms.ChoiceField(widget=forms.RadioSelect, choices=UNIT_CHOICES, initial='solo')
-    team_kind = forms.ChoiceField(widget=forms.RadioSelect, choices=am.TEAM_KINDS, required=False)
-    age = forms.ChoiceField(widget=forms.RadioSelect, choices=AGE_CHOICES, required=False)
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=am.GENDER_CHOICES, required=False)
+    # team_kind = forms.ChoiceField(widget=forms.RadioSelect, choices=am.TEAM_KINDS, required=False)
+    # age = forms.ChoiceField(widget=forms.RadioSelect, choices=AGE_CHOICES, required=False)
+    # gender = forms.ChoiceField(widget=forms.RadioSelect, choices=am.GENDER_CHOICES, required=False)
+    type = forms.ChoiceField(widget=forms.RadioSelect, choices=TYPE_CHOICES, initial='total')
 
     def filters(self):
         """For leader board. Get non empty field and get the label of the choice
