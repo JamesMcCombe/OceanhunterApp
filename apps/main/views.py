@@ -402,17 +402,16 @@ def leaderboard(request):
     if not form_data.get('type'):
         form_data['type'] = 'total'
 
-    form = F(form_data or None)
+    form = F(form_data or None, request=request)
     if form.is_valid():
         filters = form.cleaned_data
 
         obj_type = 'user'
 
-        users = User.objects.all()
-        if filters['division']:
-            users = User.objects.filter(profile__division=filters['division'])
-
         if filters.get('type') == 'total':
+            users = User.objects.all()
+            if filters['division']:
+                users = User.objects.filter(profile__division=filters['division'])
             q = users.annotate(total_points=Sum(
                 Case(
                     When(fish__status='normal', then='fish__points'),
@@ -423,6 +422,8 @@ def leaderboard(request):
         else:
             obj_type = 'fish'
             q = m.Fish.objects.filter(status='normal').order_by('-points')
+            if filters['division']:
+                q = q.filter(user__profile__division=filters['division'])
 
         paginator = Paginator(q, PERPAGE)
 

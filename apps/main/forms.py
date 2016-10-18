@@ -49,7 +49,7 @@ class FilterForm(forms.Form):
     # city = forms.ChoiceField(label="City", choices=am.CITY_CHOICES, required=False)
     # species = forms.ModelChoiceField(queryset=m.Species.objects, label="Fish Species", required=False)
     # area = forms.ChoiceField(widget=forms.RadioSelect, choices=am.AREA_CHOICES, required=False)
-    division = forms.ModelChoiceField(queryset=Division.objects, required=False, empty_label='All New Zealand')
+    division = forms.ModelChoiceField(queryset=Division.objects, required=False)
     # unit = forms.ChoiceField(widget=forms.RadioSelect, choices=UNIT_CHOICES, initial='solo')
     # team_kind = forms.ChoiceField(widget=forms.RadioSelect, choices=am.TEAM_KINDS, required=False)
     # age = forms.ChoiceField(widget=forms.RadioSelect, choices=AGE_CHOICES, required=False)
@@ -68,6 +68,15 @@ class FilterForm(forms.Form):
                 field.choice_label = choice_label
                 filters.append(field)
         return filters
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        data = kwargs.get('data') or args[0]
+        if not data.get('division'):
+            data['division'] = str(self.request.user.profile.division.pk)
+
+        print('********', args, kwargs)
+        super(FilterForm, self).__init__(*args, **kwargs)
 
 
 def get_choice_label(choices, value):
