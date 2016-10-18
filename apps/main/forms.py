@@ -42,7 +42,7 @@ class FilterForm(forms.Form):
     AGE_CHOICES = (('junior', 'Junior'), ('open', 'Open Age'))
 
     TYPE_CHOICES = [
-        ('total', 'Total score'),
+        ('total', 'Biggest six'),
         ('biggest', 'Biggest crayfish')
     ]
 
@@ -75,7 +75,6 @@ class FilterForm(forms.Form):
         if not data.get('division'):
             data['division'] = str(self.request.user.profile.division.pk)
 
-        print('********', args, kwargs)
         super(FilterForm, self).__init__(*args, **kwargs)
 
 
