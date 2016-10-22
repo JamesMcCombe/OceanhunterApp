@@ -72,7 +72,7 @@ class FilterForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
         data = kwargs.get('data') or args[0]
-        if not data.get('division') and self.request.user.is_authenticated:
+        if not data.get('division') and self.request.user.is_authenticated():
             data['division'] = str(self.request.user.profile.division.pk)
 
         super(FilterForm, self).__init__(*args, **kwargs)
