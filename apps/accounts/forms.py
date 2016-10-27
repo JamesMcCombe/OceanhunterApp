@@ -22,7 +22,6 @@ DOB_INPUT_FORMATS = ['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d']
 
 class ExtraProfileForm(forms.ModelForm):
     division = forms.ModelChoiceField(queryset=Division.objects, empty_label='Select Region')
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
     # dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
     class Meta:
@@ -48,8 +47,6 @@ class SignupForm(ExtraProfileForm):
 
     first_name = forms.CharField(label="First name")
     last_name = forms.CharField(label="Last name")
-
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
 
     # dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
@@ -87,7 +84,6 @@ class SignupForm(ExtraProfileForm):
             user.save()
             p = user.profile
 
-            p.gender = data['gender']
             p.division = data['division']
             # p.dob = data['dob']
             p.save()
