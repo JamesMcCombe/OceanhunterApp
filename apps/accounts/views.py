@@ -39,7 +39,7 @@ def signup(request):
             for invite in Invite.objects.filter(via='email', ref=email):
                 invite.invitee = user
                 invite.save()
-            return redirect('invite')
+            return redirect('home')
     rules = get_object_or_None(Page, slug='rules-conditions')
     ctx = {'form': form, 'rules': rules}
     return ctx
