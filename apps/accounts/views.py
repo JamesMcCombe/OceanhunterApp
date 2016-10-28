@@ -84,7 +84,7 @@ def extra_profile(request):
         form = F(data=request.POST, instance=u.profile)
         if form.is_valid():
             form.save()
-            return redirect('invite')
+            return redirect('home')
     rules = get_object_or_None(Page, slug='rules-conditions')
     ctx = {'form': form, 'rules': rules}
     return ctx
