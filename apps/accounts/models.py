@@ -89,7 +89,7 @@ def send_welcome_email(sender, instance, created, **kwargs):
     if created and u.email:
         email = '%s %s <%s>' % (u.first_name, u.last_name, u.email)
         t = loader.get_template('emails/welcome-inline.html')
-        subject = 'Ocean Hunter Spearfishing Competition 2014/15'
+        subject = 'Ocean Hunter King of Crays Competition 2016'
         c = Context({'SITE_URL': settings.SITE_URL, 'subject': subject, 'user': u})
         html_content = t.render(c)
         msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
