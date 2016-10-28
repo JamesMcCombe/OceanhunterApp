@@ -26,7 +26,7 @@ class ExtraProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('gender', 'division')
+        fields = ('division', )
 
     def clean_division(self):
         if self.instance and self.instance.division and self.instance.division != self.cleaned_data['division']:
