@@ -262,7 +262,7 @@ def myfish(request, user_id):
             possessive_team = possessive
     else:
         u = get_object_or_404(User, pk=user_id)
-        possessive = u.profile.gender == 'male' and 'His' or 'Her'
+        possessive = 'Their'
         possessive_team = possessive
 
     species_list = OrderedDict()
@@ -300,7 +300,7 @@ def myteam(request, user_id):
         possessive = 'My'
     else:
         u = get_object_or_404(User, pk=user_id)
-        possessive = u.profile.gender == 'male' and 'His' or 'Her'
+        possessive = 'Their'
 
     if request.method == 'POST':
         do_team_invite_post(request)
