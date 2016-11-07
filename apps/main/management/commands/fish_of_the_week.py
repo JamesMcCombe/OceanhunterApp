@@ -9,9 +9,6 @@ from apps.accounts.models import FacebookAdminToken
 from apps.main.models import Fish
 
 
-settings.PAGE_ID = '1482028545461176'
-
-
 class Command(NoArgsCommand):
     def set_page_token(self):
         token = FacebookAdminToken.objects.last()
