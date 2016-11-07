@@ -30,7 +30,7 @@ class Command(NoArgsCommand):
         img_url = '{}{}'.format(settings.BASE_URL, fish.image.url)
 
         url = '{}{}'.format(settings.BASE_URL, reverse('fish_enlarge', args=[fish.pk]))
-        message = 'Fish of the week - {} {}kg. '.format(fish.species.name, fish.weight)
+        message = 'Crayfish of the week - {} {}kg. '.format(fish.species.name, fish.weight)
         graph.set('me/feed', picture=img_url, link=url, message=message)
 
     def post_weekly_gallery(self):
