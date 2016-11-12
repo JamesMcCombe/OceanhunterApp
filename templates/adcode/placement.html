@@ -1,12 +1,12 @@
 {% load staticfiles %}
 
-{% if debug %}
+{#{% if debug %}#}
     {% with 'BEUCHAT CRESSI FREEDIVERS MARES MORAY RIFFE RUKU WIDOWMAKER' as ADS %}
       <img alt="{{ placement }}" src="{% static 'img/ads/' %}{{ placement.slug }}/{{ ADS.split|random }}.jpg">
     {% endwith %}
     {# <img alt="{{ placement }}" src="{{ placement.placeholder }}"> #}
     {# {% endif %} #}
 
-{% else %}
-    <div data-trigger="gpt" data-path='{{ placement.remote_id }}' data-size="[{{ placement.width }}, {{ placement.height }}]"></div>
-{% endif %}
+{#{% else %}#}
+{#    <div data-trigger="gpt" data-path='{{ placement.remote_id }}' data-size="[{{ placement.width }}, {{ placement.height }}]"></div>#}
+{#{% endif %}#}
