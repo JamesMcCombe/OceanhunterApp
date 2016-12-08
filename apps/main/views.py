@@ -93,8 +93,8 @@ def invite(request):
         messages.error(request, 'Sorry only admin can invite new member.')
         return redirect('home')
 
-    if date.today() >= date(2016, 2, 1):
-        messages.error(request, 'Sorry you cannot create team after 1st February')
+    if date.today() >= date(2017, 2, 1):
+        messages.error(request, 'Sorry you cannot create team after 1st of February')
         return redirect('home')
 
     return {'existing_team': existing_team}
