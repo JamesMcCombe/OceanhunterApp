@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from apps.accounts.models import Division, GENDER_CHOICES, CITY_CHOICES, Profile
+from apps.accounts.models import Division, Profile
 
 
 class LoginForm(forms.Form):
@@ -22,12 +22,11 @@ DOB_INPUT_FORMATS = ['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d']
 
 class ExtraProfileForm(forms.ModelForm):
     division = forms.ModelChoiceField(queryset=Division.objects)
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
     dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
     class Meta:
         model = Profile
-        fields = ('gender', 'division', 'dob')
+        fields = ('division', 'dob')
 
     def clean_division(self):
         if self.instance and self.instance.division and self.instance.division != self.cleaned_data['division']:
@@ -50,7 +49,6 @@ class SignupForm(forms.ModelForm):
     last_name = forms.CharField(label="Last name")
 
     division = forms.ModelChoiceField(queryset=Division.objects)
-    gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
     dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
     email = forms.EmailField(label="Email address")
@@ -81,7 +79,6 @@ class SignupForm(forms.ModelForm):
             user.save()
             p = user.profile
 
-            p.gender = data['gender']
             p.division = data['division']
             p.dob = data['dob']
             p.save()
