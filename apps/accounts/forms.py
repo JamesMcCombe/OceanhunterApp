@@ -36,7 +36,7 @@ class ExtraProfileForm(forms.ModelForm):
             return self.cleaned_data['division']
 
 
-class SignupForm(ExtraProfileForm):
+class SignupForm(forms.ModelForm):
     error_css_class = 'error'
     required_css_class = 'required'
 
@@ -49,8 +49,8 @@ class SignupForm(ExtraProfileForm):
     first_name = forms.CharField(label="First name")
     last_name = forms.CharField(label="Last name")
 
+    division = forms.ModelChoiceField(queryset=Division.objects)
     gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES)
-
     dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
     email = forms.EmailField(label="Email address")
