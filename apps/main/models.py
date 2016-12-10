@@ -69,10 +69,7 @@ class Fish(models.Model):
 
     def delete(self, using=None):
         points = self.points
-
-        self.status = 'removed'
-        self.points = 0
-        self.save()
+        super(Fish, self).delete()
 
         if points == 100:
             self.species.base = Fish.objects.filter(species=self.species).aggregate(max_weight=Max('weight'))['max_weight']
