@@ -21,8 +21,8 @@ DOB_INPUT_FORMATS = ['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d']
 
 
 class ExtraProfileForm(forms.ModelForm):
-    division = forms.ModelChoiceField(queryset=Division.objects)
-    dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
+    division = forms.ModelChoiceField(empty_label='Choose category', queryset=Division.objects)
+    dob = forms.DateField(label="Date of Birth", empty_label='Date of Birth', input_formats=DOB_INPUT_FORMATS)
 
     class Meta:
         model = Profile
@@ -48,7 +48,7 @@ class SignupForm(forms.ModelForm):
     first_name = forms.CharField(label="First name")
     last_name = forms.CharField(label="Last name")
 
-    division = forms.ModelChoiceField(queryset=Division.objects)
+    division = forms.ModelChoiceField(empty_label='Choose category', queryset=Division.objects)
     dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
     email = forms.EmailField(label="Email address")
