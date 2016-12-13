@@ -262,7 +262,7 @@ def myfish(request, user_id):
             possessive_team = possessive
     else:
         u = get_object_or_404(User, pk=user_id)
-        possessive = u.profile.gender == 'male' and 'His' or 'Her'
+        possessive = 'Their'
         possessive_team = possessive
 
     species_list = OrderedDict()
@@ -409,26 +409,6 @@ def leaderboard(request):
     if form.is_valid():
         filters = form.cleaned_data
 
-        def fish_junior_gender_filter(q):
-            junior_dob = date.today() - relativedelta(years=18)
-            if filters['age'] == 'junior':
-                q = q.filter(user__profile__dob__gt=junior_dob)
-            elif filters['age'] == 'open':
-                q = q.filter(user__profile__dob__lte=junior_dob)
-            if filters['gender']:
-                q = q.filter(user__profile__gender=filters['gender'])
-            return q
-
-        def user_junior_gender_filter(q):
-            junior_dob = date.today() - relativedelta(years=18)
-            if filters['age'] == 'junior':
-                q = q.filter(profile__dob__gt=junior_dob)
-            elif filters['age'] == 'open':
-                q = q.filter(profile__dob__lte=junior_dob)
-            if filters['gender']:
-                q = q.filter(profile__gender=filters['gender'])
-            return q
-
         obj_type = 'user'
 
         if filters['unit'] == 'solo':
@@ -437,15 +417,12 @@ def leaderboard(request):
                 q = m.Fish.objects \
                     .filter(species=filters['species']) \
                     .order_by('-points')
-                q = fish_junior_gender_filter(q)
 
             elif filters['division']:
                 users = User.objects.filter(profile__division=filters['division'])
                 q = users.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
-                q = user_junior_gender_filter(q)
             else:
                 q = User.objects.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
-                q = user_junior_gender_filter(q)
         else:
             obj_type = 'team'
             teams = Team.objects.annotate(num_users=Count('users', distinct=True)).exclude(num_users__lt=2)
@@ -460,7 +437,7 @@ def leaderboard(request):
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
 
-        radios = (form[name] for name in ['unit', 'age', 'gender'])
+        radios = (form[name] for name in ['unit'])
         return {
             'page': page,
             'start': start,
