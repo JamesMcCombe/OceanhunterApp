@@ -78,6 +78,7 @@ class Profile(models.Model):
     def get_species(self):
         from apps.main.models import Species
         qs = self.division.species.all() | Species.objects.filter(name__in=['Kingfish', 'Crayfish'])
+        qs = qs.distinct()
         return qs
 
 # send welcome email
