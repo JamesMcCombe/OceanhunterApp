@@ -117,7 +117,7 @@ class Team(models.Model):
         return self.name
 
     def recalculate_points(self):
-        self.points = sum(u.profile.points for u in self.users.all()) / self.users.count()
+        self.points = sum(u.profile.points for u in self.users.all() if u.profile.points) / self.users.count()
         self.save()
 
     def biggest_fish(self):
