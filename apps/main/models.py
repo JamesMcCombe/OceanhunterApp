@@ -26,7 +26,7 @@ class Division(models.Model):
     species = models.ManyToManyField(Species, related_name='division')
 
     def __unicode__(self):
-        return u', '.join(map(unicode, self.species.all()))
+        return self.name
 
 
 class FishManager(models.Manager):
