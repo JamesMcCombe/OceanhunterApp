@@ -73,7 +73,7 @@
         </div>
         <div class="row">
           <div class="columns">
-            <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:"" }}" required="">
+            <input type="text" name="{{ form.dob.html_name }}" placeholder="{{ form.dob.label }}" value="{{ form.dob.value|default_if_none:''|safe}}" required="">
             {{ form.dob.errors }}
           </div>
         </div>
@@ -127,7 +127,7 @@
       });
     } else {
       $('[name="dob"]').fdatepicker({
-        format: 'dd/mm/yyyy',
+        format: 'yyyy-mm-dd',
         startView: 'decade'
       });
     }

@@ -21,7 +21,7 @@ DOB_INPUT_FORMATS = ['%d/%m/%Y', '%d/%m/%y', '%Y-%m-%d']
 
 
 class ExtraProfileForm(forms.ModelForm):
-    division = forms.ModelChoiceField(queryset=Division.objects)
+    division = forms.ModelChoiceField(queryset=Division.objects, empty_label='Choose category')
     dob = forms.DateField(label="Date of Birth", input_formats=DOB_INPUT_FORMATS)
 
     class Meta:
