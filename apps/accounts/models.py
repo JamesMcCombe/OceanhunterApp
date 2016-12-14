@@ -73,7 +73,7 @@ class Profile(models.Model):
 
     @property
     def points(self):
-        return self.user.fish_set.aggregate(total_points=Sum('points'))['total_points']
+        return self.user.fish_set.exclude(species__name='Kingfish').aggregate(total_points=Sum('points'))['total_points']
 
     def get_species(self):
         from apps.main.models import Species
