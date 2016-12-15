@@ -79,6 +79,23 @@
         </div>
         <div class="row">
           <div class="columns">
+            <h4>Choose a species best suited to your diving!</h4><br />
+
+            <h5>Group One</h5>
+            <p>Snapper, Tarakihi, Giant Boarfish, Pink Maomao, Trevally, John Dory</p>
+
+
+            <h5>Group Two</h5>
+            <p>Snapper, Butterfish, Blue Moki,Kahawai, Trevally, John Dory</p>
+
+
+            <h5>Group Three</h5>
+            <p>Blue Cod, Tarakihi, Buttefish, Blue Moki, Kahawai, Trevally</p>
+          </div>
+        </div>
+        </div>
+        <div class="row">
+          <div class="columns">
             {% for radio in form.gender %}
               <input type="radio" name="{{ radio.name }}" id="{{form.gender.auto_id}}_{{radio.index}}" value="{{ radio.choice_value }}" {% if radio.is_checked %}checked=checked{% endif %} ><label for="{{ form.gender.auto_id }}_{{ radio.index }}" class="small">{{ radio.choice_label }}</label>
             {% endfor %}
