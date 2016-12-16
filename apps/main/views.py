@@ -405,7 +405,7 @@ def leaderboard(request):
     if form_data.get('unit') == 'solo' and form_data.get('team_kind'):
         del form_data['team_kind']
 
-    form = F(form_data or None)
+    form = F(form_data or None, request=request)
     if form.is_valid():
         filters = form.cleaned_data
 
@@ -437,7 +437,7 @@ def leaderboard(request):
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
 
-        radios = (form[name] for name in ['type'])
+        radios = (form[name] for name in ['unit'])
         if page.has_next():
             query_params = request.GET.copy()
             query_params['p'] = page.next_page_number()

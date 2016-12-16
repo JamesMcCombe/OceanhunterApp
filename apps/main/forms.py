@@ -63,6 +63,14 @@ class FilterForm(forms.Form):
                 filters.append(field)
         return filters
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        data = kwargs.get('data') or args[0]
+        if not data.get('division') and self.request.user.is_authenticated():
+            data['division'] = str(self.request.user.profile.division.pk)
+
+        super(FilterForm, self).__init__(*args, **kwargs)
+
 
 def get_choice_label(choices, value):
     """ Get label from django form choices
