@@ -26,9 +26,9 @@ def T(name, ext='html'):
 def signup(request):
     F = f.SignupForm
     if request.method == 'GET':
-        form = F()
+        form = F(request=request)
     else:
-        form = F(data=request.POST)
+        form = F(data=request.POST, request=request)
         if form.is_valid():
             form.save()
             email = form.cleaned_data['email']

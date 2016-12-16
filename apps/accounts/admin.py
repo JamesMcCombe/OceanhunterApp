@@ -4,8 +4,10 @@ from django.contrib.auth.admin import UserAdmin
 from django.db.models import Sum
 from . import models as m
 
+
 class ProfileInline(admin.StackedInline):
     model = m.Profile
+
 
 class UserAdmin(UserAdmin):
         inlines = (ProfileInline, )
@@ -31,6 +33,6 @@ admin.site.register(m.Team, TeamAdmin)
 
 
 class InviteAdmin(admin.ModelAdmin):
-    list_display = ('inviter', 'invitee', 'team', 'status', 'via', 'ref', 'create')
+    list_display = ('inviter', 'invitee', 'team', 'status', 'via', 'ref', 'create', 'key')
 
 admin.site.register(m.Invite, InviteAdmin)

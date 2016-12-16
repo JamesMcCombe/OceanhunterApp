@@ -148,7 +148,8 @@ def invite_email(request):
                     (u.first_name, u.last_name, existing_team.name)
                 # TODO make a real email
                 t = loader.get_template('emails/invitation-inline.html')
-                c = RequestContext(request, {'subject': subject, 'user': u, 'team': existing_team})
+                c = RequestContext(request, {'subject': subject, 'user': u, 'team': existing_team,
+                                             'invitation_code': invite.key})
                 html_content = t.render(c)
                 msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
                 msg.content_subtype = "html"

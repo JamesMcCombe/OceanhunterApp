@@ -48,7 +48,10 @@
         </div>
         <div class="row">
           <div class="columns">
-            <input type="email" name="{{ form.email.html_name }}" placeholder="{{ form.email.label }}" value="{{ form.email.value|default_if_none:"" }}" autocorrect="off" autocapitalize="off" required="">
+            <input type="email" name="{{ form.email.html_name }}" placeholder="{{ form.email.label }}"
+                   value="{{ form.email.value|default_if_none:"" }}" autocorrect="off" autocapitalize="off" required=""
+                   {% if form.email.field.widget.attrs.readonly %}readonly="readonly"{% endif %}
+            >
             {{ form.email.errors }}
           </div>
         </div>

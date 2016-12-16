@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from apps.accounts.models import Division, Profile
+from apps.accounts.models import Invite
 
 
 class LoginForm(forms.Form):
@@ -58,6 +59,26 @@ class SignupForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+
+    def get_invite(self):
+        invitation_code = self.request.GET.get('invitation')
+        invite = None
+        if invitation_code:
+            invite = Invite.objects.filter(key=invitation_code).first()
+
+        return invite
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+
+        super(SignupForm, self).__init__(*args, **kwargs)
+
+        invite = self.get_invite()
+        if invite:
+            self.fields['email'].initial = invite.ref
+            self.fields['email'].widget.attrs['readonly'] = True
+            self.fields['division'].initial = invite.inviter.profile.division
+            self.fields['division'].widget.attrs['disabled'] = True
 
     def clean_email(self):
         email = self.cleaned_data.get("email")

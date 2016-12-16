@@ -1,3 +1,4 @@
+import hashlib
 import datetime
 from django.db import models
 from django.db.models import Sum
@@ -152,9 +153,16 @@ class Invite(models.Model):
     via = models.CharField(max_length=10, default='email')
     ref = models.CharField(max_length=30)  # email or social id
     text = models.TextField(blank=True)
+    key = models.CharField(max_length=255, null=True)
 
     def __unicode__(self):
         return 'Invitation from %s' % self.inviter.first_name
+
+    def save(self, **kwargs):
+        if not self.pk:
+            string = '{}{}'.format(self.inviter.pk, self.ref)
+            self.key = hashlib.md5(string).hexdigest()
+        super(Invite, self).save(**kwargs)
 
 
 class FacebookAdminToken(models.Model):
