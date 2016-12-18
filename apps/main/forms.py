@@ -47,7 +47,7 @@ class FilterForm(forms.Form):
     division = forms.ModelChoiceField(queryset=Division.objects, required=False)
     unit = forms.ChoiceField(widget=forms.RadioSelect, choices=UNIT_CHOICES, initial='solo')
     team_kind = forms.ChoiceField(widget=forms.RadioSelect, choices=am.TEAM_KINDS, required=False)
-    # age = forms.ChoiceField(widget=forms.RadioSelect, choices=AGE_CHOICES, required=False)
+    age = forms.ChoiceField(widget=forms.RadioSelect, choices=AGE_CHOICES, required=False)
     # gender = forms.ChoiceField(widget=forms.RadioSelect, choices=am.GENDER_CHOICES, required=False)
 
     def filters(self):

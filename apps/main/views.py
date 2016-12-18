@@ -406,6 +406,22 @@ def leaderboard(request):
     if form_data.get('unit') == 'solo' and form_data.get('team_kind'):
         del form_data['team_kind']
 
+    def fish_junior_gender_filter(q):
+        junior_dob = date.today() - relativedelta(years=18)
+        if filters['age'] == 'junior':
+            q = q.filter(user__profile__dob__gt=junior_dob)
+        elif filters['age'] == 'open':
+            q = q.filter(user__profile__dob__lte=junior_dob)
+        return q
+
+    def user_junior_gender_filter(q):
+        junior_dob = date.today() - relativedelta(years=18)
+        if filters['age'] == 'junior':
+            q = q.filter(profile__dob__gt=junior_dob)
+        elif filters['age'] == 'open':
+            q = q.filter(profile__dob__lte=junior_dob)
+        return q
+
     form = F(form_data or None, request=request)
     if form.is_valid():
         filters = form.cleaned_data
@@ -418,12 +434,14 @@ def leaderboard(request):
                 q = m.Fish.objects \
                     .filter(species=filters['species']) \
                     .order_by('-points')
-
+                q = fish_junior_gender_filter(q)
             elif filters['division']:
                 users = User.objects.filter(profile__division=filters['division'])
                 q = users.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
+                q = user_junior_gender_filter(q)
             else:
                 q = User.objects.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
+                q = user_junior_gender_filter(q)
         else:
             obj_type = 'team'
             teams = Team.objects.annotate(num_users=Count('users', distinct=True)).exclude(num_users__lt=2)
@@ -438,7 +456,7 @@ def leaderboard(request):
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
 
-        radios = (form[name] for name in ['unit'])
+        radios = (form[name] for name in ['unit', 'age'])
         if page.has_next():
             query_params = request.GET.copy()
             query_params['p'] = page.next_page_number()
