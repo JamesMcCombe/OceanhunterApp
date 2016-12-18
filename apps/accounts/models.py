@@ -128,6 +128,10 @@ class Team(models.Model):
             .order_by('-points') \
             .first()
 
+    @property
+    def points(self):
+        return sum([u.profile.points for u in self.users.all() if u.profile.points])
+
 
 class Invite(models.Model):
     inviter = models.ForeignKey(User, related_name='invited_users')

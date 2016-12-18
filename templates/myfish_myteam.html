@@ -75,7 +75,7 @@
                 <p class="city">{{ u.profile.city }}</p>
               </div>
             </div>
-            <p class="pts">{{ u.profile.points|intcomma }} Points</p>
+            <p class="pts">{{ u.profile.points|default_if_none:0|intcomma }} Points</p>
           </a>
         </li>
       {% endfor %}
