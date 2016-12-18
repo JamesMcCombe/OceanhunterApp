@@ -71,9 +71,14 @@ class SignupForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
 
+        invite = self.get_invite()
+
+        if invite and 'data' in kwargs:
+            kwargs['data'] = kwargs['data'].copy()
+            kwargs['data']['division'] = invite.inviter.profile.division.pk
+
         super(SignupForm, self).__init__(*args, **kwargs)
 
-        invite = self.get_invite()
         if invite:
             self.fields['email'].initial = invite.ref
             self.fields['email'].widget.attrs['readonly'] = True
