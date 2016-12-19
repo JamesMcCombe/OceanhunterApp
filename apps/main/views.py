@@ -121,7 +121,6 @@ def invite_email(request):
             team.admin = u
             team.save()
             team.users = [u]
-            team.recalculate_points()
             existing_team = team
 
         emails = request.POST.getlist('email')
@@ -358,7 +357,6 @@ def do_team_invite_post(request):
         invite.status = 'accepted'
         invite.accept = datetime.now()
         invite.team.users.add(u)
-        invite.team.recalculate_points()
         messages.success(request, 'Congratulation! Now you are member of %s!' % invite.team.name)
 
         # disable all other invitations
