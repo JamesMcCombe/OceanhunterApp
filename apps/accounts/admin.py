@@ -10,7 +10,11 @@ class ProfileInline(admin.StackedInline):
 
 
 class UserAdmin(UserAdmin):
-        inlines = (ProfileInline, )
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'profile_dob')
+    inlines = (ProfileInline, )
+
+    def profile_dob(self, obj):
+        return obj.profile.dob
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
