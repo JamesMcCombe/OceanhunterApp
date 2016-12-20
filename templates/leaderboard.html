@@ -175,14 +175,14 @@
 
     $('#id_division').on('change', function () {
         if($(this).val()) {
-          $('#id_species').removeClass('in-use');
+          $('#id_species').removeClass('in-use').val(null);
           $(this).addClass('in-use');
         }
     });
 
     $('#id_species').on('change', function () {
         if($(this).val()) {
-          $('#id_division').removeClass('in-use');
+          $('#id_division').removeClass('in-use').val(null);
           $(this).addClass('in-use');
         }
     });
