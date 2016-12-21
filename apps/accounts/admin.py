@@ -6,6 +6,7 @@ from . import models as m
 
 
 class ProfileInline(admin.StackedInline):
+    exclude = ('gender', )
     model = m.Profile
 
 
