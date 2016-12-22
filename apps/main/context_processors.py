@@ -8,7 +8,7 @@ def facebook_app_id(request):
 
 def unread_invites(request):
     u = request.user
-    if u.is_authenticated():
+    if u.is_authenticated() and not u.team_set.exists():
         unread_invites = Invite.objects.filter(invitee=u, status='new', inviter__profile__division=u.profile.division)
         return {'unread_invites': unread_invites}
     else:

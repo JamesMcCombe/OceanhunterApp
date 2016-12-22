@@ -84,6 +84,8 @@ def go(request):
 @login_required
 @render_to('invite.html')
 def invite(request):
+    if not request.user.profile.profile_completed:
+        return redirect('extra_profile')
     u = request.user
     existing_team = get_object_or_None(Team, users=u)
     isadmin = existing_team and existing_team.admin == u
@@ -104,6 +106,8 @@ def invite(request):
 @render_to('invite_email.html')
 def invite_email(request):
     """I know this code of invitation is shit. Even me dont wanna see it again. Dont blame me."""
+    if not request.user.profile.profile_completed:
+        return redirect('extra_profile')
     u = request.user
 
     existing_team = get_object_or_None(Team, admin=u)
@@ -173,6 +177,8 @@ def invite_email(request):
 @login_required
 @render_to('invite_facebook.html')
 def invite_facebook(request):
+    if not request.user.profile.profile_completed:
+        return redirect('extra_profile')
     u = request.user
 
     existing_team = get_object_or_None(Team, admin=u)
@@ -231,6 +237,9 @@ def facebook_save_invitee(request):
 @login_required
 @render_to('myfish_new.html')
 def myfish_new(request):
+    if not request.user.profile.profile_completed:
+        return redirect('extra_profile')
+
     u = request.user
     F = f.FishForm
 
