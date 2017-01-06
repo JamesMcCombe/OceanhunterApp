@@ -446,19 +446,20 @@ def leaderboard(request):
                 users = User.objects.filter(profile__division=filters['division'])
                 q = users.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
                 q = user_junior_gender_filter(q)
+                q = q.extra(where=['main_fish.species_id != 12'])  # filter out the kingfish
             else:
                 q = User.objects.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
                 q = user_junior_gender_filter(q)
+                q = q.extra(where=['main_fish.species_id != 12'])  # filter out the kingfish
         else:
             obj_type = 'team'
             teams = Team.objects.annotate(num_users=Count('users', distinct=True)).exclude(num_users__lt=2)
             if filters['division']:
                 teams = teams.filter(users__profile__division=filters['division'])
             q = teams.annotate(total_points=Sum('users__fish__points')).exclude(total_points=0).order_by('-total_points')
+            q = q.extra(where=['main_fish.species_id != 12'])  # filter out the kingfish
 
         paginator = Paginator(q, PERPAGE)
-
-        print q
 
         page = paginator.page(p)
         start = PERPAGE * (int(p) - 1)
