@@ -1,7 +1,12 @@
 from django.conf.urls import patterns, url
 
+from django.views.generic.base import RedirectView
+
+
+redirect_view = RedirectView.as_view(url='/leaderboard')
+
 urlpatterns = patterns('main.views',
-    url(r'^$', 'home', name='home'),
+    url(r'^$', redirect_view, name='home'),
     url(r'^go/$', 'go', name='go'),
 
     url(r'^invite/$', 'invite', name='invite'),
@@ -14,7 +19,7 @@ urlpatterns = patterns('main.views',
     url(r'^~/team/$', 'myteam', {'user_id': 'me'}, name='myteam'),
     url(r'^~(?P<user_id>\d+)/team/$', 'myteam', name='userteam'),
     url(r'^team/(?P<team_id>\d+)/$', 'team_alone', name='team_alone'),
-    url(r'^fish/new/$', 'myfish_new', name='myfish_new'),
+    url(r'^fish/new/$', redirect_view, name='myfish_new'),
     url(r'^fish/(?P<fish_id>\d+)/$', 'fish_enlarge', name='fish_enlarge'),
     url(r'^fish/delete/$', 'myfish_delete', name='myfish_delete'),
 

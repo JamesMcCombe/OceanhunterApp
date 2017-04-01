@@ -17,14 +17,17 @@
 {% addtoblock 'fixed-to-bottom' %}
 <section class="bottom-btns">
   <div class="row">
+{#    <div class="column small-centered small-11 medium-5">#}
+{#      <a class="button large expand" href="{% url 'signup' %}">Register</a>#}
+{#    </div>#}
+{#    <div class="column small-centered small-11 medium-5">#}
+{#      <p class="text-center or">OR</p>#}
+{#    </div>#}
+{#    <div class="column small-centered small-11 medium-5">#}
+{#      <a class="button large expand orange" href="{% url 'login' %}">Login</a>#}
+{#    </div>#}
     <div class="column small-centered small-11 medium-5">
-      <a class="button large expand" href="{% url 'signup' %}">Register</a>
-    </div>
-    <div class="column small-centered small-11 medium-5">
-      <p class="text-center or">OR</p>
-    </div>
-    <div class="column small-centered small-11 medium-5">
-      <a class="button large expand orange" href="{% url 'login' %}">Login</a>
+      <a class="button large expand orange" href="{% url 'leaderboard' %}">Leaderboard</a>
     </div>
   </div>
 </section>
