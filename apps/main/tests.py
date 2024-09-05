@@ -1,16 +1,14 @@
 from decimal import Decimal
-
 from django.contrib.auth.models import User
 from django.test import TestCase
-
 from apps.main.models import Species, Fish
 
 
 class TestAddFish(TestCase):
     def setUp(self):
-        self.user = User.objects.create()
-        self.species = Species.objects.create(name='a')
-        self.species2 = Species.objects.create(name='b')
+        self.user = User.objects.create(username='testuser')
+        self.species = Species.objects.create(name='a', base=Decimal('15.122'))
+        self.species2 = Species.objects.create(name='b', base=Decimal('7.561'))
 
     def test_add_fish(self):
         fish = Fish.objects.create(weight=Decimal('15.122'), user=self.user, species=self.species)
@@ -33,9 +31,3 @@ class TestAddFish(TestCase):
 
         with self.assertNumQueries(3):
             Fish.objects.create(weight=Decimal('50'), user=self.user, species=self.species)
-
-
-
-
-
-

@@ -1,4 +1,3 @@
-from path import path
 from os.path import abspath, dirname
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
@@ -14,12 +13,11 @@ from apps.accounts import forms as f
 from apps.pages.models import Page
 
 
-APP_ROOT = path(dirname(abspath(__file__)))
-APP_NAME = APP_ROOT.name
+APP_NAME = __name__.split('.')[0]
 
 
 def T(name, ext='html'):
-    return '{}/{}.{}'.format(APP_NAME, name, ext)
+    return f'{APP_NAME}/{name}.{ext}'
 
 
 @render_to(T('signup'))
@@ -35,11 +33,13 @@ def signup(request):
             password = form.cleaned_data['password1']
             user = authenticate(email=email, password=password)
             auth_login(request, user)
-            # save invite related to this user
             for invite in Invite.objects.filter(via='email', ref=email):
                 invite.invitee = user
                 invite.save()
             return redirect('invite')
+        else:
+            print("Form is not valid")
+            print(form.errors)
     rules = get_object_or_None(Page, slug='rules-conditions')
     ctx = {'form': form, 'rules': rules}
     return ctx
@@ -58,9 +58,9 @@ def login(request):
             user = authenticate(email=email, password=password)
             if user and user.is_active:
                 auth_login(request, user)
-                return redirect(request.POST['next'])
+                return redirect(request.POST.get('next', 'home'))
             else:
-                messages.error(request, 'The username and password were incorrect.');
+                messages.error(request, 'The username and password were incorrect.')
     ctx = {'form': form}
     ctx['public'] = 'public'
     ctx['next'] = request.GET.get('next', 'home')
@@ -92,15 +92,9 @@ def extra_profile(request):
 
 @ajax_request
 def fbuser(request):
-    # r = request.META['HTTP_REFERER']
-    # print 'HTTP_REFERER',r
-    #host = 'https://sonyaaa.node.co.nz'
-    # if not r.startswith(host):
-    # return {'ret': False,'msg': 'Invalid host'}
-
     data = request.GET
     if not data:
-        return {'ret': False, 'msg': 'No POST Data'}
+        return {'ret': False, 'msg': 'No GET Data'}
     username = data.get('id')
     if not username:
         return {'ret': False, 'msg': 'No id'}
@@ -117,7 +111,6 @@ def fbuser(request):
     u.verified = data.get('verified')
     u.save()
     u = authenticate(username=username, password=password)
-    if u is not None:
-        if u.is_active:
-            auth_login(request, u)
+    if u is not None and u.is_active:
+        auth_login(request, u)
     return {'ret': True, 'msg': 'ok!'}

@@ -6,17 +6,17 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.mail import EmailMessage, send_mail, mail_managers
+from django.core.mail import EmailMessage, mail_managers
 from django.core.paginator import Paginator
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Sum, Count
 from django.shortcuts import redirect, get_object_or_404
-from django.template import Context, RequestContext, loader
+from django.template import RequestContext, loader
 
 from open_facebook import OpenFacebook
 from apps.accounts.models import FacebookAdminToken
-from social.p3 import urlencode
-from social.backends.facebook import Facebook2OAuth2
+from social_core.utils import sanitize_redirect
+from social_core.backends.facebook import FacebookOAuth2
 from django.http import HttpResponseRedirect
 
 from annoying.decorators import render_to, ajax_request
@@ -35,21 +35,12 @@ APP_NAME = 'main'
 def T(t, ext='html'):
     return '{}/{}.{}'.format(APP_NAME, t, ext)
 
-@login_required()
+@login_required
 @render_to()
 def home(request):
     if not request.user.profile.profile_completed:
         return redirect('extra_profile')
     ctx = {}
-    # if not request.user.is_authenticated():
-    #     ctx['TEMPLATE'] = 'home.html'
-    # else:
-    #     # if login from facebook but no extra data have to go to fill all data
-    #     if not request.user.profile.area:
-    #         return redirect('extra_profile')
-
-    # XXX Currently no feeds actually coz there is only one type of feed: fish
-    # so dont need to add a news feed model right now.
     PERPAGE = 8
     EXAMPLE_FISH_ID = 1
     q = m.Fish.objects.exclude(pk=EXAMPLE_FISH_ID).order_by('-create')
@@ -58,7 +49,6 @@ def home(request):
     page = paginator.page(p)
     start = PERPAGE * (int(p) - 1)
     feeds = page.object_list
-    # put the example on the first
     if p == 1:
         feeds = chain(m.Fish.objects.filter(pk=EXAMPLE_FISH_ID), feeds)
     ctx['page'] = page
@@ -105,7 +95,6 @@ def invite(request):
 @login_required
 @render_to('invite_email.html')
 def invite_email(request):
-    """I know this code of invitation is shit. Even me dont wanna see it again. Dont blame me."""
     if not request.user.profile.profile_completed:
         return redirect('extra_profile')
     u = request.user
@@ -124,32 +113,29 @@ def invite_email(request):
             team = form.save(commit=False)
             team.admin = u
             team.save()
-            team.users = [u]
+            team.users.set([u])
             existing_team = team
 
         emails = request.POST.getlist('email')
         emails = [email.strip() for email in emails if email.strip()]
-        success_invitions = []
+        success_invitations = []
         for email in emails:
             email_user = get_object_or_None(User, email=email)
-            # already in a team can not invite
             if email_user and get_object_or_None(Team, users=email_user):
                 messages.error(request, 'You cannot invite %s who already has a team.' % email)
                 continue
-            success_invitions.append(email)
+            success_invitations.append(email)
             data = dict(inviter=u, team=existing_team, via='email', ref=email, status='new')
             existing_invite = get_object_or_None(Invite, **data)
 
             if not existing_invite:
                 invite = Invite(**data)
                 invite.save()
-                # this email user already our user
                 if email_user:
                     invite.invitee = email_user
                     invite.save()
                 subject = "%s %s has invited you to join the team %s" % \
                     (u.first_name, u.last_name, existing_team.name)
-                # TODO make a real email
                 t = loader.get_template('emails/invitation-inline.html')
                 c = RequestContext(request, {'subject': subject, 'user': u, 'team': existing_team,
                                              'invitation_code': invite.key})
@@ -158,9 +144,9 @@ def invite_email(request):
                 msg.content_subtype = "html"
                 msg.send()
 
-        if len(success_invitions) > 1:
+        if len(success_invitations) > 1:
             messages.success(request, 'Invites have been sent.')
-        elif len(success_invitions) == 1:
+        elif len(success_invitations) == 1:
             messages.success(request, 'Invite has been sent.')
 
         if u.profile.is_new():
@@ -195,7 +181,7 @@ def invite_facebook(request):
             team = form.save(commit=False)
             team.admin = u
             team.save()
-            team.users = [u]
+            team.users.set([u])
             link = facebook_invite_link(request, team)
             return redirect(link)
     return {'form': form}
@@ -209,7 +195,6 @@ def facebook_save_invitee(request):
     facebook_ids = [v for k, v in request.GET.items() if k.startswith('to[') and k.endswith(']')]
     for id in facebook_ids:
         fb_user = get_object_or_None(User, social_auth__provider='facebook', social_auth__uid=id)
-        # already in a team can not invite
         if fb_user and get_object_or_None(Team, users=fb_user):
             continue
 
@@ -218,7 +203,6 @@ def facebook_save_invitee(request):
         if not existing_invite:
             invite = Invite(**data)
             invite.save()
-            # this facebook user already our user
             if fb_user:
                 invite.invitee = fb_user
                 invite.save()
@@ -368,7 +352,6 @@ def do_team_invite_post(request):
         invite.team.users.add(u)
         messages.success(request, 'Congratulation! Now you are member of %s!' % invite.team.name)
 
-        # disable all other invitations
         for i in Invite.objects.filter(invitee=u, status='new').exclude(pk=invite_id).all():
             i.read = datetime.now()
             i.status = 'read'
@@ -403,10 +386,8 @@ def leaderboard(request):
     p = request.GET.get('p', 1)
     F = f.FilterForm
 
-    # make a copy for modify it
     form_data = request.GET.copy()
 
-    # unit always required and default is solo
     if not form_data.get('unit'):
         form_data['unit'] = 'solo'
 
@@ -446,18 +427,18 @@ def leaderboard(request):
                 users = User.objects.filter(profile__division=filters['division'])
                 q = users.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
                 q = user_junior_gender_filter(q)
-                q = q.extra(where=['main_fish.species_id != 12'])  # filter out the kingfish
+                q = q.extra(where=['main_fish.species_id != 12'])
             else:
                 q = User.objects.annotate(total_points=Sum('fish__points')).exclude(total_points=0).order_by('-total_points')
                 q = user_junior_gender_filter(q)
-                q = q.extra(where=['main_fish.species_id != 12'])  # filter out the kingfish
+                q = q.extra(where=['main_fish.species_id != 12'])
         else:
             obj_type = 'team'
             teams = Team.objects.annotate(num_users=Count('users', distinct=True)).exclude(num_users__lt=2)
             if filters['division']:
                 teams = teams.filter(users__profile__division=filters['division'])
             q = teams.annotate(total_points=Sum('users__fish__points')).exclude(total_points=0).order_by('-total_points')
-            q = q.extra(where=['main_fish.species_id != 12'])  # filter out the kingfish
+            q = q.extra(where=['main_fish.species_id != 12'])
 
         paginator = Paginator(q, PERPAGE)
 
@@ -481,9 +462,7 @@ def leaderboard(request):
             'next_page_params': query_params_str,
         }
     else:
-        # for debug only
-        # normally it should not have any errors
-        print form.errors
+        print(form.errors)
 
 
 @login_required
@@ -493,7 +472,7 @@ def ajax_report(request):
     if request.method == 'POST':
         fish = get_object_or_404(m.Fish, pk=request.POST.get('fish'))
 
-        schema = request.is_secure() and 'https' or 'http'
+        schema = 'https' if request.is_secure() else 'http'
         base_url = "%s://%s" % (schema, request.get_host())
 
         page_url = base_url + reverse('fish_enlarge', kwargs={'fish_id': fish.id})
@@ -506,7 +485,7 @@ def ajax_report(request):
 
 def facebook_invite_link(request, team):
     app_id = settings.SOCIAL_AUTH_FACEBOOK_KEY
-    schema = request.is_secure() and 'https' or 'http'
+    schema = 'https' if request.is_secure() else 'http'
     base_url = "%s://%s" % (schema, request.get_host())
 
     redirect_uri = base_url + reverse('facebook_save_invitee')
@@ -519,7 +498,7 @@ def facebook_invite_link(request, team):
 
 
 def get_admin_access_token(request):
-    backend = Facebook2OAuth2()
+    backend = FacebookOAuth2()
 
     params = {
         'app_id': settings.SOCIAL_AUTH_FACEBOOK_APP_KEY,
@@ -545,5 +524,5 @@ def get_admin_access_token_complete(request):
     }
     resp = graph.get('oauth/access_token', **params)
 
-    FacebookAdminToken(access_token=resp['access_token']).save()
+    FacebookAdminToken.objects.create(access_token=resp['access_token'])
     return HttpResponseRedirect('/admin/')

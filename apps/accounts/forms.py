@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from apps.accounts.models import Division, Profile
 from apps.accounts.models import Invite
 
@@ -13,7 +13,7 @@ class LoginForm(forms.Form):
         email = self.cleaned_data['email']
         try:
             User.objects.get(email=email)
-        except Exception, e:
+        except Exception as e:
             raise forms.ValidationError(str(e))
         return email
 
@@ -61,7 +61,9 @@ class SignupForm(forms.ModelForm):
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
 
     def get_invite(self):
+        print(" Im here - getinvite method")
         invitation_code = self.request.GET.get('invitation')
+        print("Invitation Code: ", invitation_code)
         invite = None
         if invitation_code:
             invite = Invite.objects.filter(key=invitation_code).first()
@@ -72,6 +74,7 @@ class SignupForm(forms.ModelForm):
         self.request = kwargs.pop('request')
 
         invite = self.get_invite()
+        print(" Im here - init method")
 
         if invite and 'data' in kwargs:
             kwargs['data'] = kwargs['data'].copy()
@@ -95,6 +98,7 @@ class SignupForm(forms.ModelForm):
         return email
 
     def save(self, commit=True):
+        print(" Im here - save method")
         user = super(SignupForm, self).save(commit=False)
         data = self.cleaned_data
         user.username = data['email']  # use email as username also

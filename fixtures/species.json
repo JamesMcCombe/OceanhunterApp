@@ -4,7 +4,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/tarakhi.png",
-        "k": 1,
         "name": "Tarakhi"
     }
 },
@@ -13,7 +12,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/blue cod.png",
-        "k": 2,
         "name": "Blue Cod"
     }
 },
@@ -22,7 +20,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/blue moki.png",
-        "k": 3,
         "name": "Blue Moki"
     }
 },
@@ -31,7 +28,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/kahawai.png",
-        "k": 4,
         "name": "Kahawai"
     }
 },
@@ -40,7 +36,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/butter fish.png",
-        "k": 5,
         "name": "Butter Fish"
     }
 },
@@ -49,7 +44,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/snapper.png",
-        "k": 6,
         "name": "Snapper"
     }
 },
@@ -58,7 +52,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/giant boar.png",
-        "k": 7,
         "name": "Giant Boarfish"
     }
 },
@@ -67,7 +60,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/kingfish.png",
-        "k": 8,
         "name": "Kingfish"
     }
 },
@@ -76,7 +68,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/pink maomao.png",
-        "k": 9,
         "name": "Pink Maomao"
     }
 },
@@ -85,7 +76,6 @@
     "model": "main.species",
     "fields": {
         "logo": "species/trumpeter.png",
-        "k": 10,
         "name": "Trumpeter"
     }
 }

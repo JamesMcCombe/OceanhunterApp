@@ -5,8 +5,8 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.conf import settings
-from django.template import Context, RequestContext, loader
-from django.core.mail import EmailMessage, send_mail, mail_managers
+from django.template import Context, loader
+from django.core.mail import EmailMessage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -45,14 +45,11 @@ CITY_CHOICES = (
 
 
 class Profile(models.Model):
-    user = AutoOneToOneField(User)
+    user = AutoOneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    # area = models.CharField(max_length=50, choices=AREA_CHOICES)
-    # city = models.CharField(max_length=50, choices=CITY_CHOICES)
-    division = models.ForeignKey(Division, blank=False, null=True)
+    division = models.ForeignKey(Division, blank=False, null=True, on_delete=models.SET_NULL)
     dob = models.DateField(null=True)
-    # points = models.IntegerField(default=0)
 
     def biggest_fish(self):
         return self.user.fish_set.order_by('-points').first()
@@ -63,14 +60,14 @@ class Profile(models.Model):
     def is_new(self):
         have_fish = self.user.fish_set.count() > 0
 
-        _now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+        _now = timezone.now()
         new_join = (_now - self.user.date_joined).seconds < 600 # 10 mins
 
         return not have_fish and new_join
 
     @property
     def profile_completed(self):
-        return self.division
+        return self.division is not None
 
     @property
     def points(self):
@@ -82,12 +79,12 @@ class Profile(models.Model):
         qs = qs.distinct()
         return qs
 
-# send welcome email
+
 @receiver(post_save, sender=Profile)
 def send_welcome_email(sender, instance, created, **kwargs):
     u = instance.user
     if created and u.email:
-        email = '%s %s <%s>' % (u.first_name, u.last_name, u.email)
+        email = f'{u.first_name} {u.last_name} <{u.email}>'
         t = loader.get_template('emails/welcome-inline.html')
         subject = 'Ocean Hunter Spearfishing Competition 2016/17'
         c = Context({'SITE_URL': settings.SITE_URL, 'subject': subject, 'user': u})
@@ -105,29 +102,20 @@ TEAM_KINDS = (
 class Team(models.Model):
     name = models.CharField(max_length=50)
     logo = models.ImageField(upload_to="team_logos", blank=True, null=True)
-    # kind = models.CharField(max_length=10, choices=TEAM_KINDS)
-
-    # creater is default admin, but can transfer to some one else
-    admin = models.ForeignKey(User, related_name='+')
+    admin = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
     users = models.ManyToManyField(User)
-    # points = models.IntegerField(default=0)
     text = models.TextField(blank=True)
 
     create = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def recalculate_points(self):
         pass
-        # self.points = sum(u.profile.points for u in self.users.all() if u.profile.points) / self.users.count()
-        # self.save()
 
     def biggest_fish(self):
-        return Fish.objects \
-            .filter(user=self.users.all()) \
-            .order_by('-points') \
-            .first()
+        return Fish.objects.filter(user__in=self.users.all()).order_by('-points').first()
 
     @property
     def points(self):
@@ -135,9 +123,9 @@ class Team(models.Model):
 
 
 class Invite(models.Model):
-    inviter = models.ForeignKey(User, related_name='invited_users')
-    invitee = models.ForeignKey(User, related_name='+', null=True)
-    team = models.ForeignKey(Team)
+    inviter = models.ForeignKey(User, related_name='invited_users', on_delete=models.CASCADE)
+    invitee = models.ForeignKey(User, related_name='+', null=True, on_delete=models.SET_NULL)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     create = models.DateTimeField(auto_now_add=True)
     read = models.DateTimeField(editable=False, null=True, help_text='when was this invite been read')
@@ -160,19 +148,16 @@ class Invite(models.Model):
     text = models.TextField(blank=True)
     key = models.CharField(max_length=255, null=True)
 
-    def __unicode__(self):
-        return 'Invitation from %s' % self.inviter.first_name
+    def __str__(self):
+        return f'Invitation from {self.inviter.first_name}'
 
     def save(self, **kwargs):
         if not self.pk:
-            string = '{}{}'.format(self.inviter.pk, self.ref)
-            self.key = hashlib.md5(string).hexdigest()
-        super(Invite, self).save(**kwargs)
+            string = f'{self.inviter.pk}{self.ref}'
+            self.key = hashlib.md5(string.encode('utf-8')).hexdigest()
+        super().save(**kwargs)
 
 
 class FacebookAdminToken(models.Model):
     access_token = models.TextField()
     obtained = models.DateTimeField(auto_now_add=True)
-
-
-

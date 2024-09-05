@@ -5,8 +5,8 @@ class PageAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'user', 'create', 'content')
 
     def save_model(self, request, obj, form, change):
-        u = request.user
-        obj.user = u
-        obj.save()
+        if not obj.user_id:
+            obj.user = request.user
+        super().save_model(request, obj, form, change)
 
 admin.site.register(m.Page, PageAdmin)

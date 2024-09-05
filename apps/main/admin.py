@@ -2,7 +2,7 @@ from django.contrib import admin
 from apps.main.models import Division, Species, Fish, Comment
 
 class SpeciesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'base')  #, 'k')
+    list_display = ('name', 'base')
 
 admin.site.register(Species, SpeciesAdmin)
 
@@ -16,7 +16,7 @@ class FishAdmin(admin.ModelAdmin):
 
 admin.site.register(Fish, FishAdmin)
 
-
 class DivisionAdmin(admin.ModelAdmin):
     filter_horizontal = ('species', )
+
 admin.site.register(Division, DivisionAdmin)

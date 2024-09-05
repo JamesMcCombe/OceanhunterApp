@@ -1,23 +1,23 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf.urls import patterns, include, url
-
+from django.urls import include, re_path, path
 from django.contrib import admin
-admin.autodiscover()
+from apps.pages import views as pages_views
 
-urlpatterns = patterns('',
-    url(r'^accounts/', include('accounts.urls')),
-    url(r'^social/', include('social.apps.django_app.urls', namespace='social')),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^privacy-policy$', 'pages.views.page', {'slug': 'privacy-policy'}, name='privacy-policy'),
-    url(r'^rules-conditions$', 'pages.views.page', {'slug': 'rules-conditions'}, name='rules-conditions'),
-    url(r'', include('main.urls')),
-)
+urlpatterns = [
+    re_path(r'^accounts/', include('accounts.urls')),
+    re_path(r'^social/', include('social_django.urls', namespace='social')),
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^privacy-policy$', pages_views.page, {'slug': 'privacy-policy'}, name='privacy-policy'),
+    re_path(r'^rules-conditions$', pages_views.page, {'slug': 'rules-conditions'}, name='rules-conditions'),
+    re_path(r'', include('main.urls')),
+]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL,  document_root=settings.MEDIA_ROOT)
-
-
-#urlpatterns += patterns('',
-    #url(r'', include('pages.urls')),
-#)
