@@ -14,6 +14,7 @@
 {% block content %}
 
 {% addtoblock 'body-class' %} page-home {% endaddtoblock %}
+{{request.user.username}}
 
 <section class="intro">
     <div class="row">
@@ -50,6 +51,11 @@
     <div class="column small-centered small-11 medium-5">
         <a class="button large expand" href="{% url 'go' %}">Let’s go!</a>
     </div>
+</div>
+<div class="row">
+  <div class="column small-centered small-11 medium-5">
+      <a class="button large expand" href="{% url 'logout' %}">Logout</a>
+  </div>
 </div>
 {% endaddtoblock %}
 

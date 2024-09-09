@@ -54,8 +54,7 @@ INSTALLED_APPS = [
 
 AUTHENTICATION_BACKENDS = (
     'accounts.backends.EmailAuthBackend',
-    'social_core.backends.facebook.FacebookOAuth2', 
-    'social_core.backends.facebook.FacebookAppOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -101,31 +100,29 @@ TEMPLATES = [
 
 
 
-SOCIAL_AUTH_PIPELINE = [
+SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    # 'social_core.pipeline.mail.mail_validation',  # If needed
-    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.social_auth.associate_by_email',  # This line is crucial if you want to auto-associate users by email
     'social_core.pipeline.user.create_user',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
-    'main.pipelines.assign_facebook_invitation',
-    'main.pipelines.save_profile',
-]
+)
 
-SOCIAL_AUTH_USER_MODEL = 'auth.User'
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['email', 'first_name', 'last_name', 'gender']
-SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
 SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY', '1492664544305345')
 SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET', '93a9494c3e3cfbe0e2a3ae952d51a2e6')
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']  # Get user email
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email'
+}
 
-X_FRAME_OPTIONS = "ALLOW-FROM https://apps.facebook.com/nodeoceanhunter"
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'urls'
 

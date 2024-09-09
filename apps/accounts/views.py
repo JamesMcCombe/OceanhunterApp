@@ -1,5 +1,5 @@
 from os.path import abspath, dirname
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
@@ -20,7 +20,6 @@ def T(name, ext='html'):
     return f'{APP_NAME}/{name}.{ext}'
 
 
-@render_to(T('signup'))
 def signup(request):
     F = f.SignupForm
     if request.method == 'GET':
@@ -42,7 +41,7 @@ def signup(request):
             print(form.errors)
     rules = get_object_or_None(Page, slug='rules-conditions')
     ctx = {'form': form, 'rules': rules}
-    return ctx
+    return render(request, T('signup'), ctx)
 
 
 @render_to(T('login'))
@@ -57,7 +56,7 @@ def login(request):
             password = form.cleaned_data['password']
             user = authenticate(email=email, password=password)
             if user and user.is_active:
-                auth_login(request, user)
+                auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return redirect(request.POST.get('next', 'home'))
             else:
                 messages.error(request, 'The username and password were incorrect.')

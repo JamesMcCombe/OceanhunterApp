@@ -87,8 +87,12 @@ def send_welcome_email(sender, instance, created, **kwargs):
         email = f'{u.first_name} {u.last_name} <{u.email}>'
         t = loader.get_template('emails/welcome-inline.html')
         subject = 'Ocean Hunter Spearfishing Competition 2016/17'
-        c = Context({'SITE_URL': settings.SITE_URL, 'subject': subject, 'user': u})
-        html_content = t.render(c)
+        context = {
+            'SITE_URL': settings.SITE_URL,
+            'subject': subject,
+            'user': u,
+        }
+        html_content = t.render(context)
         msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [email])
         msg.content_subtype = "html"
         msg.send()

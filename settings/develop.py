@@ -40,4 +40,8 @@ X_FRAME_OPTIONS = "ALLOW-FROM https://apps.facebook.com/1492664544305345"
 ADCODE_CACHE_TIMEOUT = 10  # seconds
 
 # Site URL for development
-SITE_URL = 'http://oceanhunter.local.node.co.nz:8000'
+SITE_URL = 'http://localhost:8000'
+
+import logging
+
+logging.basicConfig(level=logging.DEBUG)

@@ -28,7 +28,9 @@
       <div class="page-1">
         <div class="row">
           <div class="columns">
-            <a class="button large expand facebook" href="{% url 'social:begin' 'facebook' %}">Sign up with Facebook</a>
+            <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
+              Login with Facebook
+          </a>
           </div>
         </div>
 
