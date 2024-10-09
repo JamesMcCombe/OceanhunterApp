@@ -1,92 +1,83 @@
 [
-{
-    "pk": 1,
-    "model": "main.species",
-    "fields": {
+    {
+      "pk": 1,
+      "model": "main.species",
+      "fields": {
         "logo": "species/tarakhi.png",
-        "k": 1,
         "name": "Tarakhi"
-    }
-},
-{
-    "pk": 2,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 2,
+      "model": "main.species",
+      "fields": {
         "logo": "species/blue cod.png",
-        "k": 2,
         "name": "Blue Cod"
-    }
-},
-{
-    "pk": 3,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 3,
+      "model": "main.species",
+      "fields": {
         "logo": "species/blue moki.png",
-        "k": 3,
         "name": "Blue Moki"
-    }
-},
-{
-    "pk": 4,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 4,
+      "model": "main.species",
+      "fields": {
         "logo": "species/kahawai.png",
-        "k": 4,
         "name": "Kahawai"
-    }
-},
-{
-    "pk": 5,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 5,
+      "model": "main.species",
+      "fields": {
         "logo": "species/butter fish.png",
-        "k": 5,
         "name": "Butter Fish"
-    }
-},
-{
-    "pk": 6,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 6,
+      "model": "main.species",
+      "fields": {
         "logo": "species/snapper.png",
-        "k": 6,
         "name": "Snapper"
-    }
-},
-{
-    "pk": 7,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 7,
+      "model": "main.species",
+      "fields": {
         "logo": "species/giant boar.png",
-        "k": 7,
         "name": "Giant Boarfish"
-    }
-},
-{
-    "pk": 8,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 8,
+      "model": "main.species",
+      "fields": {
         "logo": "species/kingfish.png",
-        "k": 8,
         "name": "Kingfish"
-    }
-},
-{
-    "pk": 9,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 9,
+      "model": "main.species",
+      "fields": {
         "logo": "species/pink maomao.png",
-        "k": 9,
         "name": "Pink Maomao"
-    }
-},
-{
-    "pk": 10,
-    "model": "main.species",
-    "fields": {
+      }
+    },
+    {
+      "pk": 10,
+      "model": "main.species",
+      "fields": {
         "logo": "species/trumpeter.png",
-        "k": 10,
         "name": "Trumpeter"
+      }
     }
-}
-]
+  ]
+  

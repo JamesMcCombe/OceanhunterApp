@@ -10,7 +10,7 @@
         "publish": "2014-09-04T03:24:44Z", 
         "slug": "about", 
         "content": "<h2>about page</h2>", 
-        "user": 1, 
+        "user": 2, 
         "template": "pages/page.html", 
         "touch": "2014-09-04T03:24:44Z", 
         "order": 1000
@@ -27,7 +27,7 @@
         "publish": "2014-09-04T03:49:18Z", 
         "slug": "contact", 
         "content": "Contact us: foo@example.com", 
-        "user": 1, 
+        "user": 2, 
         "template": "pages/page.html", 
         "touch": "2014-09-04T03:49:18Z", 
         "order": 1000

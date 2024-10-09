@@ -1,27 +1,25 @@
 from django.conf import settings
 from django.utils import timezone
-
-from open_facebook import OpenFacebook
-
+from social_core.backends.facebook import FacebookOAuth2
 from apps.accounts.models import FacebookAdminToken
 
 
 def renew_facebook_admin_token():
     current_token = FacebookAdminToken.objects.last()
 
-    if current_token.obtained > (timezone.now() - timezone.timedelta(days=14)):
+    if current_token and current_token.obtained > (timezone.now() - timezone.timedelta(days=14)):
         return
 
-    # obtained two weeks ago, time to renew
-
+    # Renew the token as it was obtained more than 14 days ago
     params = {
         'grant_type': 'fb_exchange_token',
-        'client_id': settings.SOCIAL_AUTH_FACEBOOK_APP_KEY,
+        'client_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
         'client_secret': settings.SOCIAL_AUTH_FACEBOOK_SECRET,
         'fb_exchange_token': current_token.access_token
     }
 
-    graph = OpenFacebook()
-    resp = graph.get('oauth/access_token', **params)
+    backend = FacebookOAuth2()
+    response = backend.get_json('https://graph.facebook.com/oauth/access_token', params=params)
 
-    FacebookAdminToken(resp['access_token']).save()
+    # Save the new token
+    FacebookAdminToken(access_token=response['access_token']).save()

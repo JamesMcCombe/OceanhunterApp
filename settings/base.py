@@ -1,13 +1,14 @@
-import sys
-from path import path
-from os.path import dirname,abspath
-HERE = path(dirname(abspath(__file__)))
+import sys, os
+from pathlib import Path
+from os.path import dirname, abspath
+
+HERE = Path(dirname(abspath(__file__)))
 PROJ_ROOT = BASE_DIR = HERE.parent
 PROJ_NAME = PROJ_ROOT.name
-APPS_ROOT = PROJ_ROOT/'apps'
+APPS_ROOT = PROJ_ROOT / 'apps'
 
-sys.path.insert(0,PROJ_ROOT)
-sys.path.insert(0,APPS_ROOT)
+sys.path.insert(0, str(PROJ_ROOT))
+sys.path.insert(0, str(APPS_ROOT))
 
 # to generate nginx conf
 SERVER_NAME = 'example.com'
@@ -27,7 +28,7 @@ MANAGERS = (
 
 ALLOWED_HOSTS = ['*']
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -36,125 +37,84 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
     'annoying',
     'django_extensions',
     'sekizai',
-    'social.apps.django_app.default',
+    'social_django',
     'sorl.thumbnail',
     'adcode',
-    # 'raven.contrib.django.raven_compat',
     'debug_toolbar',
-
     'apps.accounts',
     'apps.main',
     'apps.pages',
-)
+]
 
-
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailAuthBackend',
-    'social.backends.facebook.Facebook2OAuth2',
-    'social.backends.facebook.Facebook2AppOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-)
+]
 
-
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
-)
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.request',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'sekizai.context_processors.sekizai',
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
-    'adcode.context_processors.current_placements',
-    'main.context_processors.facebook_app_id',
-    'main.context_processors.unread_invites',
-    'main.context_processors.statistics',
-    'main.context_processors.baseurl',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [PROJ_ROOT / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'sekizai.context_processors.sekizai',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+                'adcode.context_processors.current_placements',
+                'main.context_processors.facebook_app_id',
+                'main.context_processors.unread_invites',
+                'main.context_processors.statistics',
+                'main.context_processors.baseurl',
+            ],
+        },
+    },
+]
 
 SOCIAL_AUTH_PIPELINE = (
-    # Get the information we can about the user and return it in a simple
-    # format to create the user instance later. On some cases the details are
-    # already part of the auth response from the provider, but sometimes this
-    # could hit a provider API.
-    'social.pipeline.social_auth.social_details',
-
-    # Get the social uid from whichever service we're authing thru. The uid is
-    # the unique identifier of the given user in the provider.
-    'social.pipeline.social_auth.social_uid',
-
-    # Verifies that the current auth process is valid within the current
-    # project, this is were emails and domains whitelists are applied (if
-    # defined).
-    'social.pipeline.social_auth.auth_allowed',
-
-    # Checks if the current social-account is already associated in the site.
-    'social.pipeline.social_auth.social_user',
-
-    # Make up a username for this person, appends a random string at the end if
-    # there's any collision.
-    'social.pipeline.user.get_username',
-
-    # Send a validation email to the user to verify its email address.
-    # Disabled by default.
-    # 'social.pipeline.mail.mail_validation',
-
-    # Associates the current social details with another user account with
-    # a similar email address. Disabled by default.
-    'social.pipeline.social_auth.associate_by_email',
-
-    # Create a user account if we haven't found one yet.
-    'social.pipeline.user.create_user',
-
-    # Create the record that associated the social account with this user.
-    'social.pipeline.social_auth.associate_user',
-
-    # Populate the extra_data field in the social record with the values
-    # specified by settings (and the default ones like access_token, etc).
-    'social.pipeline.social_auth.load_extra_data',
-
-    # Update the user record with any changed info from the auth service.
-    'social.pipeline.user.user_details',
-
-    # Assign to existing invitation
-    'main.pipelines.assign_facebook_invitation',
-
-    # Save profile
-    'main.pipelines.save_profile',
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',  # This line is crucial if you want to auto-associate users by email
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
 )
 
-SOCIAL_AUTH_USER_MODEL = 'auth.User'
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['email', 'first_name', 'last_name', 'gender']
-SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY', '1492664544305345')
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET', '93a9494c3e3cfbe0e2a3ae952d51a2e6')
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']  # Get user email
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email'
+}
 
-SOCIAL_AUTH_FACEBOOK_KEY = '337337763378222'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'edfc6a666a8c32ca9a2c2d22d11a683b'
-
-SOCIAL_AUTH_FACEBOOK_APP_KEY = SOCIAL_AUTH_FACEBOOK_KEY 
-SOCIAL_AUTH_FACEBOOK_APP_SECRET = SOCIAL_AUTH_FACEBOOK_SECRET
-SOCIAL_AUTH_FACEBOOK_APP_NAMESPACE = 'kingofcrays'
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
-#SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_location', 'user_birthday']
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email']
 
 X_FRAME_OPTIONS = "ALLOW-FROM https://apps.facebook.com/nodeoceanhunter"
@@ -164,75 +124,49 @@ ROOT_URLCONF = 'urls'
 WSGI_APPLICATION = 'wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
-
-SITE_ID = 1
-
 TIME_ZONE = 'Pacific/Auckland'
 USE_TZ = True
-
 USE_I18N = True
 USE_L10N = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = (
-    PROJ_ROOT/"static",
-)
+STATICFILES_DIRS = [
+    PROJ_ROOT / 'static',
+]
 
-TEMPLATE_DIRS = (
-    PROJ_ROOT/"templates",
-)
-
-FIXTURE_DIRS = (
-    PROJ_ROOT/"fixtures",
-)
-
+FIXTURE_DIRS = [
+    PROJ_ROOT / 'fixtures',
+]
 
 SERVER_EMAIL = DEFAULT_FROM_EMAIL = 'Ocean Hunter <info@oceanhunter.node.co.nz>'
 
-
 ADCODE_PLACEHOLDER_TEMPLATE = '//placehold.it/{width}x{height}'
 
-# Set your DSN value
-RAVEN_CONFIG = {
-    'dsn': 'http://93e63e0ddc3043d683429b7594e1b386:b4f25024ab0746458ea3ee89f73eeb0e@sentry.node.co.nz/2',
-}
-
-THUMBNAIL_PADDING_COLOR = '#000000'
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/var/apps/log/oceanhunter/debug.log',
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True
-        },
-    },
-    'loggers': {
-        'oceanhunter': {
-            'handlers': ['file', 'mail_admins'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    }
-}
-
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': '/var/apps/log/oceanhunter/debug.log',
+#         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler',
+#             'include_html': True
+#         },
+#     },
+#     'loggers': {
+#         'oceanhunter': {
+#             'handlers': ['file', 'mail_admins'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#     }
+# }
 
 SITE_URL = 'http://kingofcrays.co.nz/'
-
 LOGIN_URL = '/go/'

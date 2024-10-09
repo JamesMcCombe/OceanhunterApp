@@ -1,28 +1,20 @@
-from path import path
-from os.path import abspath, dirname
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
-from annoying.decorators import render_to, ajax_request
 from django.contrib import messages
 from annoying.functions import get_object_or_None
 from apps.accounts.models import Invite
 from apps.accounts import forms as f
 from apps.pages.models import Page
+from annoying.decorators import ajax_request
 
-
-APP_ROOT = path(dirname(abspath(__file__)))
-APP_NAME = APP_ROOT.name
 
 
 def T(name, ext='html'):
-    return '{}/{}.{}'.format(APP_NAME, name, ext)
+    return f'accounts/{name}.{ext}'
 
 
-@render_to(T('signup'))
 def signup(request):
     F = f.SignupForm
     if request.method == 'GET':
@@ -34,18 +26,18 @@ def signup(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
             user = authenticate(email=email, password=password)
-            auth_login(request, user)
+            if user is not None:
+                auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             # save invite related to this user
             for invite in Invite.objects.filter(via='email', ref=email):
                 invite.invitee = user
                 invite.save()
             return redirect('home')
     rules = get_object_or_None(Page, slug='rules-conditions')
-    ctx = {'form': form, 'rules': rules}
-    return ctx
+    context = {'form': form, 'rules': rules}
+    return render(request, T('signup', 'html'), context)
 
 
-@render_to(T('login'))
 def login(request):
     F = f.LoginForm
     if request.method == 'GET':
@@ -57,14 +49,12 @@ def login(request):
             password = form.cleaned_data['password']
             user = authenticate(email=email, password=password)
             if user and user.is_active:
-                auth_login(request, user)
-                return redirect(request.POST['next'])
+                auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                return redirect(request.POST.get('next', 'home'))
             else:
-                messages.error(request, 'The username and password were incorrect.');
-    ctx = {'form': form}
-    ctx['public'] = 'public'
-    ctx['next'] = request.GET.get('next', 'home')
-    return ctx
+                messages.error(request, 'The username and password were incorrect.')
+    context = {'form': form, 'public': 'public', 'next': request.GET.get('next', 'home')}
+    return render(request, T('login', 'html'), context)
 
 
 @login_required
@@ -74,7 +64,6 @@ def logout(request):
 
 
 @login_required
-@render_to(T('extra_profile'))
 def extra_profile(request):
     u = request.user
     F = f.ExtraProfileForm
@@ -86,21 +75,15 @@ def extra_profile(request):
             form.save()
             return redirect('home')
     rules = get_object_or_None(Page, slug='rules-conditions')
-    ctx = {'form': form, 'rules': rules}
-    return ctx
+    context = {'form': form, 'rules': rules}
+    return render(request, T('extra_profile', 'html'), context)
 
 
 @ajax_request
 def fbuser(request):
-    # r = request.META['HTTP_REFERER']
-    # print 'HTTP_REFERER',r
-    #host = 'https://sonyaaa.node.co.nz'
-    # if not r.startswith(host):
-    # return {'ret': False,'msg': 'Invalid host'}
-
     data = request.GET
     if not data:
-        return {'ret': False, 'msg': 'No POST Data'}
+        return {'ret': False, 'msg': 'No GET Data'}
     username = data.get('id')
     if not username:
         return {'ret': False, 'msg': 'No id'}
@@ -117,7 +100,6 @@ def fbuser(request):
     u.verified = data.get('verified')
     u.save()
     u = authenticate(username=username, password=password)
-    if u is not None:
-        if u.is_active:
-            auth_login(request, u)
+    if u is not None and u.is_active:
+        auth_login(request, u, backend='django.contrib.auth.backends.ModelBackend')
     return {'ret': True, 'msg': 'ok!'}

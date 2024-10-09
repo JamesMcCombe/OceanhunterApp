@@ -1,6 +1,6 @@
-from django.conf.urls import patterns, url
+from django.urls import path
+from . import views
 
-urlpatterns = patterns('pages.views',
-    url(r'^(?P<slug>.+)$', 'page', name='page'),
-)
-
+urlpatterns = [
+    path('<slug:slug>/', views.page, name='page'),
+]
