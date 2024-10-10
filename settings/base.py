@@ -170,3 +170,6 @@ ADCODE_PLACEHOLDER_TEMPLATE = '//placehold.it/{width}x{height}'
 
 SITE_URL = 'http://kingofcrays.co.nz/'
 LOGIN_URL = '/go/'
+
+SITE_ID = 1
+

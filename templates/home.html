@@ -1,15 +1,9 @@
 {% extends 'base.html' %}
 {% load static sekizai_tags %}
 
-{% block nav %}
-  {# remove the nav #}
-{% endblock nav %}
-
 {% block header_h2 %}
-    {# <h3 style="font-size: smaller;">Summer Series</h3> #}
-    {# <h2>Spearfishing Competition</h2> #}
     <h2><img src="{% static 'img/summer-series-logo.png' %}" style="width: 20rem;"></h2>
-{% endblock %}
+{% endblock header_h2 %}
 
 {% block content %}
 
@@ -53,4 +47,4 @@
 </div>
 {% endaddtoblock %}
 
-{% endblock %}
+{% endblock content %}
