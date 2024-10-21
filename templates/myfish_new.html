@@ -2,15 +2,15 @@
 {% load static sekizai_tags %}
 
 {% block header %}
-  {# remove header #}
+  
 {% endblock header %}
 
 {% block footer %}
-  {# remove footer #}
+  
 {% endblock footer %}
 
 {% block invitation %}
-  {# remove invitation #}
+  
 {% endblock invitation %}
 
 {% block content %}
@@ -34,8 +34,8 @@
     <div class="row">
       <div class="columns small-12 medium-12">
         <div class="swiper-container">
-          {# <a class="arrow-left" href="#"></a> #}
-          {# <a class="arrow-right" href="#"></a> #}
+           <a class="arrow-left" href="#"></a> 
+           <a class="arrow-right" href="#"></a> 
           <div class="swiper-wrapper">
             {% for s in species %}
             <div class="swiper-slide" data-id="{{ s.id }}" data-k="{{ s.k }}" data-base="{{ s.base }}"  data-count-of-user="{{ s.count_of_user }}">
@@ -203,10 +203,10 @@
           <a href="{% url 'home' %}" class="button large expand secondary2 cancel">Cancel</a>
         </div>
         <div class="columns small-12 medium-6">
-          <button class="button large expand next" disabled>Next</button>
+          <button class="button large expand next">Next</button>
         </div>
       </div>
-      <div class="show-for-small-only"><button class="button large expand orange submit" disabled>Okay</button></div>
+      <div class="show-for-small-only"><button class="button large expand orange submit" >Okay</button></div>
     </div>
   </div>
 </section>

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import force_str  # force_text is deprecated, use force_str
 from . import models as m
 from apps.accounts import models as am
-from apps.main.models import Division
+from apps.main.models import Division, Species
 
 
 class TeamForm(forms.ModelForm):
@@ -27,7 +27,7 @@ class FishForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
-        self.fields['species'].queryset = self.request.user.profile.get_species()
+        self.fields['species'].queryset = Species.objects.filter(name='CrayFish')
 
 
 class CommentForm(forms.ModelForm):

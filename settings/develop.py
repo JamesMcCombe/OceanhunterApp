@@ -22,6 +22,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',  # Backend engine for PostgreSQL
+#         'NAME': 'django_crayfish',                    # Name of your PostgreSQL database
+#         'USER': 'django_user',                    # PostgreSQL username
+#         'PASSWORD': 'password123',               # PostgreSQL password
+#         'HOST': '3.106.245.171',                       # Database host, 'localhost' if running locally
+#         'PORT': '5432',                            # PostgreSQL default port
+#     }
+# }
+
 SOCIAL_AUTH_FACEBOOK_KEY = '1492664544305345'
 SOCIAL_AUTH_FACEBOOK_SECRET = '93a9494c3e3cfbe0e2a3ae952d51a2e6'
 
